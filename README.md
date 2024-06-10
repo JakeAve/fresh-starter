@@ -1,4 +1,7 @@
-# Fresh project
+# Passkey
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+Create application with traditional
+sign in, stored in Deno KV, and passkey. 
+
+
+
