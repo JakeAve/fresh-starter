@@ -5,7 +5,7 @@ import { PasswordStrength } from "../lib/passwordStrength.ts";
 
 interface PasswordStrengthIndicatorProps
   extends JSX.HTMLAttributes<HTMLInputElement> {
-    password: Signal<string>
+  password: Signal<string>;
 }
 
 const displayMessage = signal("");
@@ -50,31 +50,8 @@ export default function PasswordStrengthIndicator(
 
   return (
     <>
-      <PasswordInput
-        {...rest}
-        value={password}
-        onInput={updateInput}
-        class={displayMessage.value
-          ? rest.class + " border-red-500"
-          : rest.class}
-      />
-      <div class="flex gap-1">
-        {Array(strengthScore.value).fill(0).map((_, i, arr) => (
-          <div
-            key={i}
-            class={`w-1/5 h-2 ${
-              arr.length < 2
-                ? "bg-red-500"
-                : arr.length < 4
-                ? "bg-orange-500"
-                : "bg-green-500"
-            }`}
-          >
-          </div>
-        ))}
-      </div>
-      <p class="text-red-500 text-xs italic">{displayMessage.value}</p>
-      <ul class="mt-2">
+      <p class="text-sm">Helpful guidelines:</p>
+      <ul class="my-2">
         <li class="text-sm">
           {passwordStrength.value.hasMinLength ? "✅" : "❌"}{" "}
           Has at least 8 characters
@@ -95,6 +72,42 @@ export default function PasswordStrengthIndicator(
           Has at least 1 special character
         </li>
       </ul>
+      <PasswordInput
+        {...rest}
+        value={password}
+        onInput={updateInput}
+        class={displayMessage.value
+          ? rest.class + " border-red-500"
+          : rest.class}
+      />
+      <div class="flex gap-1 my-1">
+        {Array(5).fill(0).map((_, i) => {
+          let bgColor = "bg-gray-100";
+
+          if (strengthScore.value === 0) {
+            bgColor = "bg-red-200";
+          }
+
+          if (i < strengthScore.value) {
+            if (strengthScore.value < 3) {
+              bgColor = "bg-red-500";
+            } else if (strengthScore.value < 4) {
+              bgColor = "bg-orange-500";
+            } else {
+              bgColor = "bg-green-500";
+            }
+          }
+
+          return (
+            <div
+              key={i}
+              class={`w-1/5 h-2 ${bgColor}`}
+            >
+            </div>
+          );
+        })}
+      </div>
+      <p class="text-red-500 text-xs italic">{displayMessage.value}</p>
     </>
   );
 }
