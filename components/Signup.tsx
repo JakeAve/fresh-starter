@@ -1,4 +1,5 @@
 import PasswordPairInputs from "../islands/PasswordPairInputs.tsx";
+import HandleInput from "../islands/HandleInput.tsx";
 
 export function CreateUser() {
   return (
@@ -45,7 +46,7 @@ export function CreateUser() {
           >
             Handle
           </label>
-          @<input
+          <HandleInput
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="handle"
             type="text"
