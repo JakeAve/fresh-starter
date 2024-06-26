@@ -1,11 +1,11 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { getUserByEmail } from "../../../db/userSchema.ts";
 
 export const handler: Handlers = {
-  async POST(req: Request, _ctx: FreshContext) {
+  async POST(_req: Request, ctx: FreshContext) {
     try {
-      const json = await req.json();
-      const { email } = json;
+      // const json = await req.json();
+      const email = ctx.state.email as string;
       if (!email) {
         throw new Error("Email cannot be blank.");
       }

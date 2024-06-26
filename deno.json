@@ -7,7 +7,8 @@
     "start": "deno run -A --unstable-kv --watch=static/,routes/ dev.ts",
     "build": "deno run -A dev.ts build",
     "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "gen-key": "deno run -A scripts/genAES256GCMKey.ts"
   },
   "lint": {
     "rules": {

@@ -5,7 +5,8 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_500 from "./routes/_500.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_email_availability from "./routes/api/email-availability.ts";
+import * as $api_email_availability_middleware from "./routes/api/email-availability/_middleware.ts";
+import * as $api_email_availability_index from "./routes/api/email-availability/index.ts";
 import * as $api_handle_availability from "./routes/api/handle-availability.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_password_strength from "./routes/api/password-strength.ts";
@@ -25,7 +26,9 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_500.tsx": $_500,
     "./routes/_app.tsx": $_app,
-    "./routes/api/email-availability.ts": $api_email_availability,
+    "./routes/api/email-availability/_middleware.ts":
+      $api_email_availability_middleware,
+    "./routes/api/email-availability/index.ts": $api_email_availability_index,
     "./routes/api/handle-availability.ts": $api_handle_availability,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/password-strength.ts": $api_password_strength,

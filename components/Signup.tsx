@@ -1,13 +1,20 @@
 import PasswordPairInputs from "../islands/PasswordPairInputs.tsx";
 import HandleInput from "../islands/HandleInput.tsx";
 
-export function CreateUser() {
+interface Props {
+  timeBasedKey: string;
+}
+
+export function CreateUser(props: Props) {
+  const { timeBasedKey } = props;
+
   return (
     <div class="w-full max-w-xs">
       <form
         class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         method="post"
       >
+        <input name="api-key" type="hidden" value={timeBasedKey} />
         <div class="mb-4">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
