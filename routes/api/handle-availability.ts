@@ -1,5 +1,6 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
 import { getUserByHandle } from "../../db/userSchema.ts";
+import { validateHandle } from "../../lib/validators/validateHandle.ts";
 
 export const handler: Handlers = {
   async POST(req: Request, _ctx: FreshContext) {
@@ -8,6 +9,10 @@ export const handler: Handlers = {
       const { handle } = json;
       if (!handle) {
         throw new Error("Handle cannot be blank.");
+      }
+      const isValid = validateHandle(handle);
+      if (!isValid) {
+        throw new Error('Handle must only use letters, numbers and underscores(_). Must be between 3 and 30 characters long.')
       }
       const user = await getUserByHandle(handle);
       if (!user) {
