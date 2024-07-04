@@ -1,4 +1,4 @@
-import { CreateUser } from "$components/Signup.tsx";
+import { Signup } from "../../components/Signup.tsx";
 
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { addUser, getAllUsers } from "../../db/userSchema.ts";
@@ -50,7 +50,7 @@ export default function Home(props: PageProps<Props>) {
   return (
     <div class="grid place-items-center h-screen">
       {message && <span>{message}</span>}
-      <CreateUser timeBasedKey={timeBasedKey} />
+      <Signup timeBasedKey={timeBasedKey} />
     </div>
   );
 }

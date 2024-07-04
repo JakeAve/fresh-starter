@@ -1,11 +1,12 @@
 import PasswordPairInputs from "../islands/PasswordPairInputs.tsx";
 import HandleInput from "../islands/HandleInput.tsx";
+import EmailInput from "../islands/EmailInput.tsx";
 
 interface Props {
   timeBasedKey: string;
 }
 
-export function CreateUser(props: Props) {
+export function Signup(props: Props) {
   const { timeBasedKey } = props;
 
   return (
@@ -22,13 +23,14 @@ export function CreateUser(props: Props) {
           >
             Email
           </label>
-          <input
+          <EmailInput
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             name="email"
             type="email"
             placeholder="Email"
             autoComplete="email"
+            timeBasedKey={timeBasedKey}
           />
         </div>
         <div class="mb-4">
