@@ -1,5 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getKey } from "../../../lib/getKey.ts";
+import { getAESKey } from "../../../lib/getKey.ts";
 import { verifyTimeBasedKey } from "../../../lib/timeBasedKey.ts";
 
 export async function handler(
@@ -10,7 +10,7 @@ export async function handler(
     const json = await req.json();
     const { token } = json;
     ctx.state.email = json.email;
-    const key = await getKey();
+    const key = await getAESKey();
     await verifyTimeBasedKey(key, token);
     const resp = await ctx.next();
     return resp;

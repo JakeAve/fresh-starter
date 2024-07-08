@@ -1,7 +1,4 @@
-import {
-  assertAlmostEquals,
-  assertRejects,
-} from "$std/assert/mod.ts";
+import { assertAlmostEquals, assertRejects } from "$std/assert/mod.ts";
 import { decryptSeconds, genAESGCMKey } from "./cryptoHelpers.ts";
 import { secondsToDate } from "./secondsTimeStamp.ts";
 import { createTimeBasedKey, verifyTimeBasedKey } from "./timeBasedKey.ts";
@@ -51,10 +48,10 @@ Deno.test("verifyTimeBasedKey() expired", async () => {
 });
 
 Deno.test("verifyTimeBasedKey() invalid", async () => {
-    const key = await genAESGCMKey();
-  
-    assertRejects(
-      () => verifyTimeBasedKey(key, 'dolphin'),
-      "Invalid time based key",
-    );
-  });
+  const key = await genAESGCMKey();
+
+  assertRejects(
+    () => verifyTimeBasedKey(key, "dolphin"),
+    "Invalid time based key",
+  );
+});

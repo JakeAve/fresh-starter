@@ -36,10 +36,15 @@ export default function HandleInput(props: HandleInputProps) {
         <input
           {...props}
           onInput={updateInput}
-          class={`ps-6 ${isAvailable.value ? "" : "border-red-500"} ` + props.class}
+          class={`ps-6 ${isAvailable.value ? "" : "border-red-500"} ` +
+            props.class}
         />
       </div>
-      <p class={`text-sm my-2 ${isAvailable.value ? "text-black" : "text-red-500"}`}>
+      <p
+        class={`text-sm my-2 ${
+          isAvailable.value ? "text-black" : "text-red-500"
+        }`}
+      >
         {displayMessage.value}
       </p>
     </>

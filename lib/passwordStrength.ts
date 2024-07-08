@@ -29,7 +29,7 @@ export class WeakPasswordError extends Error {
   add(message: string) {
     this.willThrow = true;
     this.#failedAttrs.push(message);
-    this.message = this.#failedAttrs.join(", ")
+    this.message = this.#failedAttrs.join(", ");
   }
 }
 
@@ -77,7 +77,7 @@ export async function checkPasswordStrength(
   for (const { message, name, required, callback } of validations) {
     const result = await callback(newPassword);
     passwordStrength[name] = result;
-    
+
     if (required && !result) {
       weakError.add(message);
       weakError.responseBody = passwordStrength;

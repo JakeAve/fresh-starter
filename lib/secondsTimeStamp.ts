@@ -7,5 +7,5 @@ export function secondsToDate(n: number) {
 }
 
 export function areSecondsEqualToDate(s: number, d: Date) {
-    return dateToSeconds(d) === s;
+  return dateToSeconds(d) === s;
 }

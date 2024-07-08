@@ -1,7 +1,9 @@
-export function getKey() {
+import { base64ToUint8 } from "./cryptoHelpers.ts";
+
+export function getAESKey() {
   const base64Str = Deno.env.get("AES_256_GCM_KEY") as string;
-  const raw = Uint8Array.from(atob(base64Str), (c) => c.charCodeAt(0));
-  return crypto.subtle.importKey("raw", raw, "AES-GCM", true, [
+  const raw = base64ToUint8(base64Str);
+  return crypto.subtle.importKey("raw", raw, "AES-GCM", false, [
     "encrypt",
     "decrypt",
   ]);

@@ -1,6 +1,9 @@
 import { dateToSeconds } from "./secondsTimeStamp.ts";
 
-export function genRandomBytes(byteLength = 32) {
+const DEFAULT_SALT_BYTE_LENGTH = 32;
+const DEFAULT_PBKDF2_ITERATIONS = 999999;
+
+export function genRandomBytes(byteLength = DEFAULT_SALT_BYTE_LENGTH) {
   const arr = new Uint8Array(byteLength);
   return crypto.getRandomValues(arr);
 }
@@ -79,4 +82,79 @@ export function bytesToHexStr(bytes: Uint8Array) {
   return Array.from(bytes)
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
+}
+
+export function base64ToUint8(base64Str: string) {
+  return Uint8Array.from(atob(base64Str), (c) => c.charCodeAt(0));
+}
+
+export function bytesToBase64Str(bytes: Uint8Array) {
+  return btoa(String.fromCharCode(...bytes));
+}
+
+export async function generatePBKDF2Hash(
+  password: Uint8Array,
+  salt: Uint8Array,
+  iterations = DEFAULT_PBKDF2_ITERATIONS,
+) {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    password,
+    "PBKDF2",
+    false,
+    ["deriveBits"],
+  );
+
+  try {
+    return crypto.subtle.deriveBits(
+      { name: "PBKDF2", salt, iterations, hash: "SHA-256" },
+      key,
+      256,
+    );
+  } catch (err) {
+    console.log(err);
+    throw new Error("Could not hash");
+  }
+}
+
+export async function hashPassword(
+  password: string,
+  saltBytes = DEFAULT_SALT_BYTE_LENGTH,
+  iterations = DEFAULT_PBKDF2_ITERATIONS,
+) {
+  const salt = genRandomBytes(saltBytes);
+  const passwordBytes = new TextEncoder().encode(password);
+  const hash = await generatePBKDF2Hash(passwordBytes, salt, iterations);
+  const combined = new Uint8Array([...salt, ...new Uint8Array(hash)]);
+  return bytesToHexStr(combined);
+}
+
+export async function verifyPassword(
+  password: string,
+  storedHash: string,
+  saltBytes = DEFAULT_SALT_BYTE_LENGTH,
+  iterations = DEFAULT_PBKDF2_ITERATIONS,
+) {
+  try {
+    const passwordBytes = new TextEncoder().encode(password);
+    const saltAndPassword = hexStrToUint8(storedHash);
+    const salt = saltAndPassword.slice(0, saltBytes);
+    const hash = saltAndPassword.slice(saltBytes);
+    const comparedHash = await generatePBKDF2Hash(
+      passwordBytes,
+      salt,
+      iterations,
+    );
+
+    new Uint8Array(comparedHash).forEach((int, i) => {
+      if (int !== hash[i]) {
+        throw new Error("Hashes do not match");
+      }
+    });
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Could not verify password");
+  }
 }

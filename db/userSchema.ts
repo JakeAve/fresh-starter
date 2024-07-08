@@ -26,7 +26,7 @@ const kv = await Deno.openKv(env.KV_PATH);
 
 export async function addUser(userBody: UserBody) {
   const id = monotonicUlid();
-  
+
   userBody.email = userBody.email.toLocaleLowerCase();
   userBody.handle = userBody.handle.toLocaleLowerCase();
 

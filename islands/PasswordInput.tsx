@@ -29,10 +29,14 @@ const VisibilityIcon = () => (
 );
 
 export default function PasswordInput(props: PasswordInputProps) {
-    const isVisible = useSignal(false);
+  const isVisible = useSignal(false);
   return (
     <div class="relative">
-      <button class="absolute right-2 top-2" type="button" onClick={() => isVisible.value = !isVisible.value}>
+      <button
+        class="absolute right-2 top-2"
+        type="button"
+        onClick={() => isVisible.value = !isVisible.value}
+      >
         {isVisible.value ? <VisibilityIcon /> : <VisibilityOffIcon />}
       </button>
       <input {...props} type={isVisible.value ? "text" : "password"} />

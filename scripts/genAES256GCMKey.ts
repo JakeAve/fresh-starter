@@ -1,10 +1,10 @@
 import { green } from "$std/fmt/colors.ts";
-import { genAESGCMKey } from "../lib/cryptoHelpers.ts";
+import { bytesToBase64Str, genAESGCMKey } from "../lib/cryptoHelpers.ts";
 
 const key = await genAESGCMKey();
 
 const exportedKey = await crypto.subtle.exportKey("raw", key);
-const base64Str = btoa(String.fromCharCode(...new Uint8Array(exportedKey)));
+const base64Str = bytesToBase64Str(new Uint8Array(exportedKey));
 const variable = `AES_256_GCM_KEY=${base64Str}`;
 
 let contents = "";
@@ -20,7 +20,7 @@ if (contents) {
   if (regEx.test(contents)) {
     contents = contents.replace(regEx, variable);
   } else {
-    contents += '\n' + variable;
+    contents += "\n" + variable;
   }
 } else {
   contents = variable;
@@ -28,4 +28,4 @@ if (contents) {
 
 Deno.writeTextFileSync(".env", contents);
 
-console.log(green('Updated successfully 🎊'))
+console.log(green("Updated successfully 🎊"));

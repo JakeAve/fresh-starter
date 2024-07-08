@@ -7,5 +7,5 @@ export const validateEmail = (email: string) => {
   if (!isValid) {
     throw new Error(`Invalid email: ${email}`);
   }
-  return isValid
+  return isValid;
 };
