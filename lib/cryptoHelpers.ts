@@ -44,17 +44,11 @@ export async function encrypt(key: CryptoKey, payload: string | BufferSource) {
     payload,
   );
 
-  const hex = Array.from(new Uint8Array([...iv, ...new Uint8Array(encrypted)]))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-
-  return hex;
+  return bytesToHexStr(new Uint8Array([...iv, ...new Uint8Array(encrypted)]));
 }
 
 export function decrypt(key: CryptoKey, hex: string) {
-  const arr = new Uint8Array(
-    (hex.match(/.{1,2}/g) as RegExpMatchArray).map((h) => parseInt(h, 16)),
-  );
+  const arr = hexStrToUint8(hex);
   const iv = arr.slice(0, 12);
   const payload = arr.slice(12).buffer;
 
@@ -73,4 +67,16 @@ export function encryptSeconds(key: CryptoKey, date = new Date()) {
 export async function decryptSeconds(key: CryptoKey, hex: string) {
   const arr = await decrypt(key, hex);
   return _32BitsToInteger(new Uint8Array(arr));
+}
+
+export function hexStrToUint8(hex: string) {
+  return new Uint8Array(
+    (hex.match(/.{1,2}/g) as RegExpMatchArray).map((h) => parseInt(h, 16)),
+  );
+}
+
+export function bytesToHexStr(bytes: Uint8Array) {
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
 }

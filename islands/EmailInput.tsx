@@ -46,7 +46,7 @@ export default function EmailInput(props: EmailInputProps) {
           {...props}
           onChange={updateInput}
           onInput={(e) => {
-            if (didMakeInvalidSubmission) {
+            if (didMakeInvalidSubmission.value) {
               updateInput(e);
             }
           }}

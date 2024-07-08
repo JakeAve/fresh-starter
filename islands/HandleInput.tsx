@@ -6,7 +6,7 @@ interface HandleInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
 
 const isAvailable = signal(true);
 const handle = signal("");
-const displayMessage = signal("Handle cannot be blank.");
+const displayMessage = signal("");
 
 export default function HandleInput(props: HandleInputProps) {
   async function updateInput(

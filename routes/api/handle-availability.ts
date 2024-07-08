@@ -7,17 +7,16 @@ export const handler: Handlers = {
     try {
       const json = await req.json();
       const { handle } = json;
-      if (!handle) {
-        throw new Error("Handle cannot be blank.");
-      }
-      const isValid = validateHandle(handle);
-      if (!isValid) {
-        throw new Error('Handle must only use letters, numbers and underscores(_). Must be between 3 and 30 characters long.')
-      }
+
+      validateHandle(handle);
+
       const user = await getUserByHandle(handle);
       if (!user) {
         return new Response(
-          JSON.stringify({ response: "ok", message: `@${handle} is available.` }),
+          JSON.stringify({
+            response: "ok",
+            message: `@${handle} is available.`,
+          }),
         );
       }
       throw new Error(`@${handle} is already taken.`);

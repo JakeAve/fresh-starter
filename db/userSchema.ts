@@ -26,6 +26,10 @@ const kv = await Deno.openKv(env.KV_PATH);
 
 export async function addUser(userBody: UserBody) {
   const id = monotonicUlid();
+  
+  userBody.email = userBody.email.toLocaleLowerCase();
+  userBody.handle = userBody.handle.toLocaleLowerCase();
+
   const user: User = { ...userBody, id };
   const primaryKey = [...USERS_BY_ID, user.id];
   const byEmailKey = [...USERS_BY_EMAIL, user.email];
@@ -57,11 +61,13 @@ export async function getAllUsers() {
 }
 
 export async function getUserByEmail(email: string) {
+  email = email.toLocaleLowerCase();
   const res = await kv.get<User>([...USERS_BY_EMAIL, email]);
   return res.value;
 }
 
 export async function getUserByHandle(handle: string) {
+  handle = handle.toLocaleLowerCase();
   const res = await kv.get<User>([...USERS_BY_HANDLE, handle]);
   return res.value;
 }

@@ -6,14 +6,10 @@ export const handler: Handlers = {
   async POST(_req: Request, ctx: FreshContext) {
     try {
       const email = ctx.state.email as string;
-      if (!email) {
-        throw new Error("Email cannot be blank.");
-      }
-      const isValid = validateEmail(email);
-      if (!isValid) {
-        throw new Error(`Invalid email: ${email}`);
-      }
-      const user = await getUserByEmail(email);
+
+      validateEmail(email);
+
+      const user = await getUserByEmail(email.toLocaleLowerCase());
       if (!user) {
         return new Response(
           JSON.stringify({ response: "ok" }),

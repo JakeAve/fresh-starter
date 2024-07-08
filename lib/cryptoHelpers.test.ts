@@ -6,12 +6,14 @@ import {
 } from "$std/assert/mod.ts";
 import {
   _32BitsToInteger,
+  bytesToHexStr,
   decrypt,
   decryptSeconds,
   encrypt,
   encryptSeconds,
   genAESGCMKey,
   genRandomBytes,
+  hexStrToUint8,
   integerTo32Bits,
 } from "./cryptoHelpers.ts";
 
@@ -22,7 +24,7 @@ Deno.test("genRandomBytes() creates a random hex with default 256 bits", () => {
 });
 
 Deno.test("genAESGCMKey() key can encrypt", async () => {
-  const message = 'Alice is paranoid'
+  const message = "Alice is paranoid";
   const key = await genAESGCMKey();
   const iv = genRandomBytes(12);
   const encrypted = await crypto.subtle.encrypt(
@@ -63,10 +65,10 @@ Deno.test("_32BitsToInteger() works", () => {
   assertEquals(val3, 0);
 });
 
-Deno.test('encrypt() and decrypt() work', async () => {
+Deno.test("encrypt() and decrypt() work", async () => {
   const key = await genAESGCMKey();
 
-  const payload = 'Alice is paranoid';
+  const payload = "Alice is paranoid";
 
   const encrypted = await encrypt(key, payload);
 
@@ -75,7 +77,7 @@ Deno.test('encrypt() and decrypt() work', async () => {
   const decrypted = await decrypt(key, encrypted);
 
   assertEquals(new TextDecoder().decode(decrypted), payload);
-})
+});
 
 Deno.test("encryptTimestamp() and decryptTimestamp()", async () => {
   const key = await genAESGCMKey();
@@ -85,5 +87,92 @@ Deno.test("encryptTimestamp() and decryptTimestamp()", async () => {
 
   const seconds = await decryptSeconds(key, hexStr);
 
-  assertEquals(seconds, Math.floor(d.getTime() / 1000))
+  assertEquals(seconds, Math.floor(d.getTime() / 1000));
+});
+
+Deno.test("hexStrToUint8()", () => {
+  const hex =
+    "643a79be2b605494c96224f75f18d563daa98fc5a33d4596b68d5838a47852f9";
+
+  assertEquals(
+    hexStrToUint8(hex),
+    new Uint8Array([
+      100,
+      58,
+      121,
+      190,
+      43,
+      96,
+      84,
+      148,
+      201,
+      98,
+      36,
+      247,
+      95,
+      24,
+      213,
+      99,
+      218,
+      169,
+      143,
+      197,
+      163,
+      61,
+      69,
+      150,
+      182,
+      141,
+      88,
+      56,
+      164,
+      120,
+      82,
+      249,
+    ]),
+  );
+});
+
+Deno.test("bytesToHexStr()", () => {
+  const hex = bytesToHexStr(
+    new Uint8Array([
+      100,
+      58,
+      121,
+      190,
+      43,
+      96,
+      84,
+      148,
+      201,
+      98,
+      36,
+      247,
+      95,
+      24,
+      213,
+      99,
+      218,
+      169,
+      143,
+      197,
+      163,
+      61,
+      69,
+      150,
+      182,
+      141,
+      88,
+      56,
+      164,
+      120,
+      82,
+      249,
+    ]),
+  );
+
+  assertEquals(
+    hex,
+    "643a79be2b605494c96224f75f18d563daa98fc5a33d4596b68d5838a47852f9",
+  );
 });
