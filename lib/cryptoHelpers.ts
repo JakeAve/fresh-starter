@@ -126,7 +126,7 @@ export async function hashPassword(
   const passwordBytes = new TextEncoder().encode(password);
   const hash = await generatePBKDF2Hash(passwordBytes, salt, iterations);
   const combined = new Uint8Array([...salt, ...new Uint8Array(hash)]);
-  return bytesToHexStr(combined);
+  return bytesToBase64Str(combined);
 }
 
 export async function verifyPassword(
@@ -137,7 +137,7 @@ export async function verifyPassword(
 ) {
   try {
     const passwordBytes = new TextEncoder().encode(password);
-    const saltAndPassword = hexStrToUint8(storedHash);
+    const saltAndPassword = base64ToUint8(storedHash);
     const salt = saltAndPassword.slice(0, saltBytes);
     const hash = saltAndPassword.slice(saltBytes);
     const comparedHash = await generatePBKDF2Hash(
