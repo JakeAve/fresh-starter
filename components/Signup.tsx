@@ -6,7 +6,7 @@ interface Props {
   timeBasedKey: string;
 }
 
-export function Signup(props: Props) {
+export function SignUp(props: Props) {
   const { timeBasedKey } = props;
 
   return (
@@ -15,7 +15,7 @@ export function Signup(props: Props) {
         class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         method="post"
       >
-        <input name="api-key" type="hidden" value={timeBasedKey} />
+        <input name="api-key" type="hidden" readOnly required value={timeBasedKey} />
         <div class="mb-4">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
@@ -24,13 +24,14 @@ export function Signup(props: Props) {
             Email
           </label>
           <EmailInput
+            autoComplete="email"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             name="email"
-            type="email"
             placeholder="Email"
-            autoComplete="email"
+            required
             timeBasedKey={timeBasedKey}
+            type="email"
           />
         </div>
         <div class="mb-4">
@@ -43,9 +44,12 @@ export function Signup(props: Props) {
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
-            type="text"
+            maxLength={50}
+            minLength={2}
             name="name"
             placeholder="Name"
+            required
+            type="text"
           />
         </div>
         <div class="mb-4">
@@ -56,12 +60,15 @@ export function Signup(props: Props) {
             Handle
           </label>
           <HandleInput
+            autoComplete="off"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="handle"
-            type="text"
+            maxLength={30}
+            minLength={3}
             name="handle"
             placeholder="handle"
-            autoComplete="off"
+            required
+            type="text"
           />
         </div>
         <PasswordPairInputs />
@@ -80,9 +87,6 @@ export function Signup(props: Props) {
           </a>
         </div>
       </form>
-      <p class="text-center text-gray-500 text-xs">
-        &copy;2020 Acme Corp. All rights reserved.
-      </p>
     </div>
   );
 }

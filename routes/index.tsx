@@ -1,15 +1,22 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 
 export const handler: Handlers = {
-  async GET(_req, ctx) {
+  async GET(req, ctx) {
+
+    console.log(req.headers);
     const resp = await ctx.render();
-    resp.headers.set("X-Custom-Header", "Hello");
-    const headers = new Headers();
-    headers.set("location", "/login");
-    return new Response(null, {
-      status: 303,
-      headers,
-    });
+    if (req.headers.get('cookie')) {
+      console.log(req.headers.get('cookie'));
+      return resp;
+    } else {
+      resp.headers.set("X-Custom-Header", "Hello");
+      const headers = new Headers();
+      headers.set("location", "/login");
+      return new Response(null, {
+        status: 303,
+        headers,
+      });
+    }
   },
 };
 

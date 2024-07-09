@@ -1,9 +1,15 @@
-import { Signup } from "../../components/Signup.tsx";
-
+import { SignUp } from "../../components/Signup.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { addUser, getAllUsers } from "../../db/userSchema.ts";
+import { addUser, DuplicateError, getAllUsers } from "../../db/userSchema.ts";
 import { getAESKey } from "../../lib/getKey.ts";
-import { createTimeBasedKey } from "../../lib/timeBasedKey.ts";
+import {
+  createTimeBasedKey,
+  verifyTimeBasedKey,
+} from "../../lib/timeBasedKey.ts";
+import { checkPasswordStrength } from "../../lib/passwordStrength.ts";
+import { validateEmail } from "../../lib/validators/validateEmail.ts";
+import { validateHandle } from "../../lib/validators/validateHandle.ts";
+import { ValidationError } from "../../Errors/ValidationError.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -18,23 +24,42 @@ export const handler: Handlers = {
   },
   async POST(req, ctx) {
     const form = await req.formData();
-    const email = form.get("email")?.toString();
-    const name = form.get("name")?.toString();
-    const handle = form.get("handle")?.toString();
-    const password = form.get("password")?.toString();
-    const apiKey = form.get("api-key")?.toString();
+    const email = form.get("email")?.toString() as string;
+    const name = form.get("name")?.toString() as string;
+    const handle = form.get("handle")?.toString() as string;
+    const password = form.get("password")?.toString() as string;
+    const repeatPassword = form.get("repeat-password")?.toString() as string;
+    const apiKey = form.get("api-key")?.toString() as string;
 
-    if (!email || !name || !handle || !password) {
-      return ctx.render({ message: "bad stuff" });
-    }
     try {
+      const key = await getAESKey();
+
+      await Promise.all([
+        verifyTimeBasedKey(key, apiKey),
+        checkPasswordStrength(password),
+        validateEmail(email),
+        validateHandle(handle),
+        function () {
+          if (password !== repeatPassword) {
+            throw new ValidationError("Passwords must match.");
+          }
+        }(),
+      ]);
       await addUser({ email, name, handle, password });
     } catch (err) {
-      if (err instanceof TypeError) {
-        return ctx.render({ message: "User already exists" });
+      console.log(err);
+      if (err instanceof ValidationError || err instanceof DuplicateError) {
+        return ctx.render({ message: err.message });
       }
+      return ctx.render({ message: "Could not save user" });
     }
-    return ctx.render({ message: "User saved!" });
+
+    const headers = new Headers();
+    headers.set("location", "/login");
+    return new Response(null, {
+      status: 303,
+      headers,
+    });
   },
 };
 
@@ -50,7 +75,7 @@ export default function Home(props: PageProps<Props>) {
   return (
     <div class="grid place-items-center h-screen">
       {message && <span>{message}</span>}
-      <Signup timeBasedKey={timeBasedKey} />
+      <SignUp timeBasedKey={timeBasedKey} />
     </div>
   );
 }

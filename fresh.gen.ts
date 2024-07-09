@@ -8,7 +8,6 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_email_availability_middleware from "./routes/api/email-availability/_middleware.ts";
 import * as $api_email_availability_index from "./routes/api/email-availability/index.ts";
 import * as $api_handle_availability from "./routes/api/handle-availability.ts";
-import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_password_strength from "./routes/api/password-strength.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -31,7 +30,6 @@ const manifest = {
       $api_email_availability_middleware,
     "./routes/api/email-availability/index.ts": $api_email_availability_index,
     "./routes/api/handle-availability.ts": $api_handle_availability,
-    "./routes/api/joke.ts": $api_joke,
     "./routes/api/password-strength.ts": $api_password_strength,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,

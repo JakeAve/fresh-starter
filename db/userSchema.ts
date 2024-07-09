@@ -1,5 +1,7 @@
 import { monotonicUlid } from "$std/ulid/mod.ts";
 import { load } from "$std/dotenv/mod.ts";
+import { hashPassword, verifyPassword } from "../lib/cryptoHelpers.ts";
+import { AuthenticationError } from "../Errors/AuthenticationError.ts";
 
 const USERS_BY_ID: Deno.KvKey = ["users"];
 const USERS_BY_EMAIL: Deno.KvKey = ["user_emails"];
@@ -20,6 +22,12 @@ export interface UserBody {
   password: string;
 }
 
+export class DuplicateError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
 const env = await load();
 
 const kv = await Deno.openKv(env.KV_PATH);
@@ -29,6 +37,7 @@ export async function addUser(userBody: UserBody) {
 
   userBody.email = userBody.email.toLocaleLowerCase();
   userBody.handle = userBody.handle.toLocaleLowerCase();
+  userBody.password = await hashPassword(userBody.password);
 
   const user: User = { ...userBody, id };
   const primaryKey = [...USERS_BY_ID, user.id];
@@ -42,7 +51,7 @@ export async function addUser(userBody: UserBody) {
     .commit();
   if (!res.ok) {
     console.error("Cannot save");
-    throw new TypeError(`User already exists`);
+    throw new DuplicateError(`User already exists`);
   }
   console.log("saved res", res);
   return res;
@@ -73,8 +82,19 @@ export async function getUserByHandle(handle: string) {
 }
 
 export async function authenticate(email: string, password: string) {
-  const user = await getUserByEmail(email);
-  if (user && user.password === password) {
-    return user;
-  } else return false;
+  try {
+    const user = await getUserByEmail(email);
+    if (!user) {
+      throw new AuthenticationError();
+    }
+    const isVerified = await verifyPassword(password, user.password);
+
+    if (isVerified) {
+      return user;
+    }
+    throw new Error("Unknown error");
+  } catch (err) {
+    console.log(err);
+    throw new AuthenticationError();
+  }
 }

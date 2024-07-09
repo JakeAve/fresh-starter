@@ -11,8 +11,8 @@ export const handler: Handlers = {
   },
   async POST(req, ctx) {
     const form = await req.formData();
-    const email = form.get("email")?.toString();
-    const password = form.get("password")?.toString();
+    const email = form.get("email")?.toString() as string;
+    const password = form.get("password")?.toString() as string;
 
     if (!email || !password) {
       return ctx.render({ message: "Enter email and password" });
@@ -23,7 +23,8 @@ export const handler: Handlers = {
     if (didAuthenticate) {
       const headers = new Headers();
       console.log({ didAuthenticate });
-      headers.set("location", `/greet/${didAuthenticate.name}`);
+      headers.set("location", `/`);
+      headers.set('Set-Cookie', `user-cookie=${didAuthenticate.id}; SameSite=Strict; Secure; HttpOnly`);
       return new Response(null, {
         status: 303,
         headers,

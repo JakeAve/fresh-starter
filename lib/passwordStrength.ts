@@ -1,3 +1,5 @@
+import { ValidationError } from "../Errors/ValidationError.ts";
+
 export const hasLowercase = (str: string) => /[a-z]/.test(str);
 export const hasUppercase = (str: string) => /[A-Z]/.test(str);
 export const hasNumber = (str: string) => /\d/.test(str);
@@ -13,7 +15,7 @@ export interface PasswordStrength {
   isPreviousPassword?: boolean;
 }
 
-export class WeakPasswordError extends Error {
+export class WeakPasswordError extends ValidationError {
   name: string;
   willThrow: boolean;
   #failedAttrs: string[] = [];

@@ -1,7 +1,11 @@
 import { type Signal, signal } from "@preact/signals";
 import { JSX } from "preact/jsx-runtime";
 import PasswordInput from "./PasswordInput.tsx";
-import { PasswordStrength } from "../lib/passwordStrength.ts";
+import {
+  checkPasswordStrength,
+  PasswordStrength,
+  WeakPasswordError,
+} from "../lib/passwordStrength.ts";
 
 interface PasswordStrengthIndicatorProps
   extends JSX.HTMLAttributes<HTMLInputElement> {
@@ -31,21 +35,18 @@ export default function PasswordStrengthIndicator(
   async function updateInput(
     evt: JSX.TargetedInputEvent<HTMLInputElement>,
   ) {
-    password.value = evt.currentTarget.value;
-
-    const resp = await fetch("/api/password-strength", {
-      method: "POST",
-      body: JSON.stringify({ password: evt.currentTarget.value }),
-    });
-    const json = await resp.json();
-    if (!json.message) {
+    try {
+      password.value = evt.currentTarget.value;
+      const json = await checkPasswordStrength(password.value);
       strengthScore.value = calcScore(json);
       displayMessage.value = "";
-    } else {
+    } catch (err) {
       strengthScore.value = 0;
-      displayMessage.value = json.message;
+      if (err instanceof WeakPasswordError) {
+        const weakErr = err as WeakPasswordError;
+        displayMessage.value = weakErr.message;
+      }
     }
-    passwordStrength.value = json;
   }
 
   return (

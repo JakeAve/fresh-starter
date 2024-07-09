@@ -1,0 +1,8 @@
+POST http://localhost:8000/signup
+Content-Type: application/x-www-form-urlencoded
+
+name=jake
+&email=example@gmail.com
+&handle=Name
+&password=Pasword1!
+&repeat-password=Pasword1!

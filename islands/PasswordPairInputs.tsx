@@ -20,13 +20,16 @@ export default function PasswordPairInputs() {
           Password
         </label>
         <PasswordStrengthIndicator
+          autoComplete="new-password"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           id="password"
-          type="password"
+          maxLength={100}
+          minLength={8}
           name="password"
-          placeholder=""
           password={password}
-          autoComplete="new-password"
+          placeholder=""
+          required
+          type="password"
         />
       </div>
       <div class="mb-6">
@@ -37,17 +40,21 @@ export default function PasswordPairInputs() {
           Repeat Password
         </label>
         <PasswordInput
+          autoComplete="new-password"
           class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
             doPasswordsMatch.value ? "" : "border-red-500"
           }`}
           id="repeat-password"
-          type="password"
-          placeholder=""
           onInput={(evt) => {
             repeatPassword.value = evt.currentTarget.value;
           }}
+          minLength={8}
+          maxLength={100}
+          name="repeat-password"
+          placeholder=""
+          required
+          type="password"
           value={repeatPassword}
-          autoComplete="new-password"
         />
         <p class="text-red-500 text-xs italic">
           &nbsp;
