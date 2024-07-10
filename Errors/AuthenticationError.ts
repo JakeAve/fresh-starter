@@ -1,6 +1,7 @@
 export class AuthenticationError extends Error {
-    constructor(message = "Could not login.") {
-      super(message);
-    }
+  email: string;
+  constructor(email: string, message = "Could not login.") {
+    super(message);
+    this.email = email;
   }
-  
+}

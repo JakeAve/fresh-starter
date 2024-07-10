@@ -85,7 +85,7 @@ export async function authenticate(email: string, password: string) {
   try {
     const user = await getUserByEmail(email);
     if (!user) {
-      throw new AuthenticationError();
+      throw new AuthenticationError(email);
     }
     const isVerified = await verifyPassword(password, user.password);
 
@@ -95,6 +95,6 @@ export async function authenticate(email: string, password: string) {
     throw new Error("Unknown error");
   } catch (err) {
     console.log(err);
-    throw new AuthenticationError();
+    throw new AuthenticationError(email);
   }
 }

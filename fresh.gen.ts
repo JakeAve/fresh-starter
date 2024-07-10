@@ -5,9 +5,11 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_500 from "./routes/_500.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_email_availability_middleware from "./routes/api/email-availability/_middleware.ts";
 import * as $api_email_availability_index from "./routes/api/email-availability/index.ts";
 import * as $api_handle_availability from "./routes/api/handle-availability.ts";
+import * as $api_login from "./routes/api/login.ts";
 import * as $api_password_strength from "./routes/api/password-strength.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -16,6 +18,7 @@ import * as $signup_index from "./routes/signup/index.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $EmailInput from "./islands/EmailInput.tsx";
 import * as $HandleInput from "./islands/HandleInput.tsx";
+import * as $LoginForm from "./islands/LoginForm.tsx";
 import * as $PasswordInput from "./islands/PasswordInput.tsx";
 import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
@@ -26,10 +29,12 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_500.tsx": $_500,
     "./routes/_app.tsx": $_app,
+    "./routes/_middleware.ts": $_middleware,
     "./routes/api/email-availability/_middleware.ts":
       $api_email_availability_middleware,
     "./routes/api/email-availability/index.ts": $api_email_availability_index,
     "./routes/api/handle-availability.ts": $api_handle_availability,
+    "./routes/api/login.ts": $api_login,
     "./routes/api/password-strength.ts": $api_password_strength,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
@@ -40,6 +45,7 @@ const manifest = {
     "./islands/Counter.tsx": $Counter,
     "./islands/EmailInput.tsx": $EmailInput,
     "./islands/HandleInput.tsx": $HandleInput,
+    "./islands/LoginForm.tsx": $LoginForm,
     "./islands/PasswordInput.tsx": $PasswordInput,
     "./islands/PasswordPairInputs.tsx": $PasswordPairInputs,
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,

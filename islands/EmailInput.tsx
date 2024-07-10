@@ -54,13 +54,16 @@ export default function EmailInput(props: EmailInputProps) {
             props.class}
         />
       </div>
-      <p
-        class={`text-sm my-2 ${
-          isAvailable.value ? "text-black" : "text-red-500"
-        }`}
-      >
-        {displayMessage.value}
-      </p>
+      {(displayMessage.value && (
+        <p
+          class={`text-sm my-2 ${
+            isAvailable.value ? "text-black" : "text-red-500"
+          }`}
+        >
+          {displayMessage.value}
+        </p>
+      )) ||
+        <>&nbsp;</>}
     </>
   );
 }

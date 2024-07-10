@@ -32,6 +32,7 @@ export default function PasswordInput(props: PasswordInputProps) {
   const isVisible = useSignal(false);
   return (
     <div class="relative">
+      <input {...props} type={isVisible.value ? "text" : "password"} />
       <button
         class="absolute right-2 top-2"
         type="button"
@@ -39,7 +40,6 @@ export default function PasswordInput(props: PasswordInputProps) {
       >
         {isVisible.value ? <VisibilityIcon /> : <VisibilityOffIcon />}
       </button>
-      <input {...props} type={isVisible.value ? "text" : "password"} />
     </div>
   );
 }

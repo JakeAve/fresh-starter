@@ -1,15 +1,14 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { getCookies } from "$std/http/cookie.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-
-    console.log(req.headers);
     const resp = await ctx.render();
-    if (req.headers.get('cookie')) {
-      console.log(req.headers.get('cookie'));
+    const cookies = getCookies(req.headers);
+    const userToken = cookies["user-token"];
+    if (userToken) {
       return resp;
     } else {
-      resp.headers.set("X-Custom-Header", "Hello");
       const headers = new Headers();
       headers.set("location", "/login");
       return new Response(null, {

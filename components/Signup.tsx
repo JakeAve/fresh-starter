@@ -16,7 +16,7 @@ export function SignUp(props: Props) {
         method="post"
       >
         <input name="api-key" type="hidden" readOnly required value={timeBasedKey} />
-        <div class="mb-4">
+        <div class="mb-2">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="email"
@@ -34,7 +34,7 @@ export function SignUp(props: Props) {
             type="email"
           />
         </div>
-        <div class="mb-4">
+        <div class="mb-8">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="name"
@@ -52,7 +52,7 @@ export function SignUp(props: Props) {
             type="text"
           />
         </div>
-        <div class="mb-4">
+        <div class="mb-2">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="handle"

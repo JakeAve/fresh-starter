@@ -38,6 +38,7 @@ export default function PasswordStrengthIndicator(
     try {
       password.value = evt.currentTarget.value;
       const json = await checkPasswordStrength(password.value);
+      passwordStrength.value = json;
       strengthScore.value = calcScore(json);
       displayMessage.value = "";
     } catch (err) {
@@ -55,22 +56,22 @@ export default function PasswordStrengthIndicator(
       <ul class="my-2">
         <li class="text-sm">
           {passwordStrength.value.hasMinLength ? "✅" : "❌"}{" "}
-          Has at least 8 characters
+          Use at least 8 characters
         </li>
         <li class="text-sm mt-1">
           {passwordStrength.value.hasLowercase ? "✅" : "❌"}{" "}
-          Has at least 1 lowercase letter
+          Use at least 1 lowercase letter
         </li>
         <li class="text-sm mt-1">
           {passwordStrength.value.hasUppercase ? "✅" : "❌"}{" "}
-          Has at least 1 uppercase letter
+          Use at least 1 uppercase letter
         </li>
         <li class="text-sm mt-1">
           {passwordStrength.value.hasNumber ? "✅" : "❌"} Has at least 1 number
         </li>
         <li class="text-sm mt-1">
           {passwordStrength.value.hasSpecialChar ? "✅" : "❌"}{" "}
-          Has at least 1 special character
+          Use at least 1 special character
         </li>
       </ul>
       <PasswordInput

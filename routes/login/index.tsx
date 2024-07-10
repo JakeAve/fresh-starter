@@ -1,7 +1,8 @@
-import { Login } from "$components/Login.tsx";
-
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { authenticate } from "../../db/userSchema.ts";
+import { handler as loginHandler } from "../api/login.ts";
+import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
+import { setCookie } from "$std/http/cookie.ts";
+import LoginForm from "../../islands/LoginForm.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -10,40 +11,56 @@ export const handler: Handlers = {
     return resp;
   },
   async POST(req, ctx) {
-    const form = await req.formData();
-    const email = form.get("email")?.toString() as string;
-    const password = form.get("password")?.toString() as string;
+    try {
+      const login = await loginHandler.POST?.(req, ctx) as Response;
 
-    if (!email || !password) {
-      return ctx.render({ message: "Enter email and password" });
-    }
+      const loginResp = await login.json();
 
-    const didAuthenticate = await authenticate(email, password);
+      if (!login.ok) {
+        throw new AuthenticationError(loginResp.email, loginResp.message);
+      }
 
-    if (didAuthenticate) {
       const headers = new Headers();
-      console.log({ didAuthenticate });
-      headers.set("location", `/`);
-      headers.set('Set-Cookie', `user-cookie=${didAuthenticate.id}; SameSite=Strict; Secure; HttpOnly`);
+      const url = new URL(req.url);
+      setCookie(headers, {
+        name: "user-token",
+        value: loginResp.email,
+        maxAge: 3600,
+        domain: url.hostname,
+        path: "/",
+        secure: true,
+      });
+
+      headers.set("location", "/");
       return new Response(null, {
         status: 303,
         headers,
       });
+    } catch (err) {
+      console.log(err);
+      let email = "";
+      if (err instanceof AuthenticationError) {
+        email = err.email;
+      }
+      return ctx.render({ message: "Bad credentials.", email });
     }
-    return ctx.render({ message: "Bad credentials" });
   },
 };
 
 interface Props {
   message?: string;
+  email?: string;
 }
 
 export default function Home(props: PageProps<Props>) {
   const message = props.data?.message;
+  const email = props.data?.email;
+
   return (
-    <div class="grid place-items-center h-screen">
-      {message && <span>{message}</span>}
-      <Login />
-    </div>
+    <>
+      <div class="grid place-items-center h-screen relative">
+        <LoginForm email={email} message={message} />
+      </div>
+    </>
   );
 }
