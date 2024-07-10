@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
-import { authenticate } from "../../db/userSchema.ts";
+import { authenticate } from "../../lib/authentication.ts";
 
 export const handler: Handlers = {
     async POST(req, _ctx) {

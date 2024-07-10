@@ -1,6 +1,5 @@
 POST http://localhost:8000/login
 Content-Type: application/x-www-form-urlencoded
 
-name=jake
-&email=example@example.com
+email=example@example.com
 &password=Pasword1!

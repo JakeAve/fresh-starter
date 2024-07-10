@@ -1,7 +1,6 @@
 import { monotonicUlid } from "$std/ulid/mod.ts";
 import { load } from "$std/dotenv/mod.ts";
-import { hashPassword, verifyPassword } from "../lib/cryptoHelpers.ts";
-import { AuthenticationError } from "../Errors/AuthenticationError.ts";
+import { hashPassword } from "../lib/cryptoHelpers.ts";
 
 const USERS_BY_ID: Deno.KvKey = ["users"];
 const USERS_BY_EMAIL: Deno.KvKey = ["user_emails"];
@@ -79,22 +78,4 @@ export async function getUserByHandle(handle: string) {
   handle = handle.toLocaleLowerCase();
   const res = await kv.get<User>([...USERS_BY_HANDLE, handle]);
   return res.value;
-}
-
-export async function authenticate(email: string, password: string) {
-  try {
-    const user = await getUserByEmail(email);
-    if (!user) {
-      throw new AuthenticationError(email);
-    }
-    const isVerified = await verifyPassword(password, user.password);
-
-    if (isVerified) {
-      return user;
-    }
-    throw new Error("Unknown error");
-  } catch (err) {
-    console.log(err);
-    throw new AuthenticationError(email);
-  }
 }
