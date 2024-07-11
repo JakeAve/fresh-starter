@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import { setCookie } from "$std/http/cookie.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
-import { authenticate } from "../../lib/authentication.ts";
+import { authenticate, makeAuthHeaders } from "../../lib/authentication.ts";
+import { signJwt } from "../../lib/jwt.ts";
 
 export const handler: Handlers = {
     async POST(req, _ctx) {
@@ -32,17 +32,11 @@ export const handler: Handlers = {
                 throw new AuthenticationError(email);
             }
 
-            const headers = new Headers();
-            const url = new URL(req.url);
-            setCookie(headers, {
-                name: "user-token",
-                value: user.email,
-                maxAge: 3600,
-                domain: url.hostname,
-                path: "/",
-                secure: true,
-            });
-            return new Response(JSON.stringify({ response: "ok", email }), {
+            const token = await signJwt({ email });
+
+            const headers = makeAuthHeaders(req, new Headers(), token);
+
+            return new Response(JSON.stringify({ response: "ok", token }), {
                 headers,
             });
         } catch (err) {

@@ -3,6 +3,7 @@ import { handler as loginHandler } from "../api/login.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import LoginForm from "../../islands/LoginForm.tsx";
+import { makeAuthHeaders } from "../../lib/authentication.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -20,18 +21,9 @@ export const handler: Handlers = {
         throw new AuthenticationError(loginResp.email, loginResp.message);
       }
 
-      const headers = new Headers();
-      const url = new URL(req.url);
-      setCookie(headers, {
-        name: "user-token",
-        value: loginResp.email,
-        maxAge: 3600,
-        domain: url.hostname,
-        path: "/",
-        secure: true,
-      });
-
+      const headers = makeAuthHeaders(req, new Headers(), loginResp.token);
       headers.set("location", "/");
+
       return new Response(null, {
         status: 303,
         headers,

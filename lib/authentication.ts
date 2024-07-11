@@ -19,11 +19,15 @@ export async function authenticate(email: string, password: string) {
     }
 }
 
-export function getAuthenticatedHeaders(req: Request, headers: Headers) {
+export function makeAuthHeaders(
+    req: Request,
+    headers: Headers,
+    token: string,
+) {
     const url = new URL(req.url);
     setCookie(headers, {
         name: "user-token",
-        value: user.email,
+        value: token,
         maxAge: 3600,
         domain: url.hostname,
         path: "/",

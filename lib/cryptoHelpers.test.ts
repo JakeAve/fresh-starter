@@ -8,7 +8,9 @@ import {
 import {
   _32BitsToInteger,
   base64ToUint8,
+  base64UrlToUint8,
   bytesToBase64Str,
+  bytesToBase64Url,
   bytesToHexStr,
   decrypt,
   decryptSeconds,
@@ -16,11 +18,14 @@ import {
   encryptSeconds,
   genAESGCMKey,
   generatePBKDF2Hash,
+  genHMACKey,
   genRandomBytes,
   hashPassword,
   hexStrToUint8,
   integerTo32Bits,
+  signWithHMAC,
   verifyPassword,
+  verifyWithHMAC,
 } from "./cryptoHelpers.ts";
 
 Deno.test("genRandomBytes() creates a random hex with default 256 bits", () => {
@@ -29,7 +34,7 @@ Deno.test("genRandomBytes() creates a random hex with default 256 bits", () => {
   assertNotEquals(val, genRandomBytes(32));
 });
 
-Deno.test("genAESGCMKey() key can encrypt", async () => {
+Deno.test("genAESGCMKey() key can encrypt and decrypt", async () => {
   const message = "Alice is paranoid";
   const key = await genAESGCMKey();
   const iv = genRandomBytes(12);
@@ -39,6 +44,36 @@ Deno.test("genAESGCMKey() key can encrypt", async () => {
     new TextEncoder().encode(message),
   );
   assert(encrypted);
+
+  const decrypted = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv },
+    key,
+    encrypted,
+  );
+
+  assertEquals(new TextDecoder().decode(decrypted), message);
+});
+
+Deno.test("genHMACKey() key can sign and verify", async () => {
+  const message = "Bob is paranoid";
+  const messageBytes = new TextEncoder().encode(message);
+  const key = await genHMACKey();
+  const signature = await crypto.subtle.sign(
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    key,
+    messageBytes,
+  );
+
+  assert(signature);
+
+  const isVerified = await crypto.subtle.verify(
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    key,
+    signature,
+    messageBytes,
+  );
+
+  assert(isVerified);
 });
 
 Deno.test("integerTo32Bits() works", () => {
@@ -219,9 +254,27 @@ Deno.test("base64ToUint8()", () => {
   );
 });
 
+Deno.test("bytesToBase64Url() should convert Uint8Array to Base64Url string", () => {
+  const bytes = new Uint8Array([72, 101, 108, 108, 111]); // "Hello" in ASCII
+  const base64Url = bytesToBase64Url(bytes);
+  assertEquals(base64Url, "SGVsbG8");
+});
+
+Deno.test("base64UrlToUint8() should convert Base64Url string to Uint8Array", () => {
+  const base64UrlStr = "SGVsbG8";
+  const bytes = base64UrlToUint8(base64UrlStr);
+  assertEquals(bytes, new Uint8Array([72, 101, 108, 108, 111])); // "Hello" in ASCII
+});
+
+Deno.test("base64UrlToUint8() should throw error for invalid Base64Url string", () => {
+  assertThrows(() => {
+    base64UrlToUint8("Invalid_Base64Url");
+  }, Error, "Invalid Base64Url string");
+});
+
 Deno.test("hashPassword() is random every time", async () => {
   const hash = await hashPassword("foo");
-  console.log(hash, hash.length);
+
   assertEquals(hash.length, 88);
   assertNotEquals(
     hash,
@@ -262,4 +315,29 @@ Deno.test({
     assertEquals(hash.byteLength, 32);
   },
   sanitizeOps: false,
+});
+
+Deno.test("signWithHMAC() signs", async () => {
+  const key = await genHMACKey();
+
+  const message = "signing";
+  const signature = await signWithHMAC(key, new TextEncoder().encode(message));
+
+  assert(signature);
+});
+
+Deno.test("verifyWithHMAC() verifies", async () => {
+  const key = await genHMACKey();
+
+  const message = "signing";
+  const payload = new TextEncoder().encode(message);
+  const signature = await signWithHMAC(key, payload);
+
+  const isVerified = await verifyWithHMAC(
+    key,
+    new Uint8Array(signature),
+    payload,
+  );
+
+  assert(isVerified);
 });

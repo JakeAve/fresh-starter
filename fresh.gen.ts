@@ -15,7 +15,6 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
-import * as $Counter from "./islands/Counter.tsx";
 import * as $EmailInput from "./islands/EmailInput.tsx";
 import * as $HandleInput from "./islands/HandleInput.tsx";
 import * as $LoginForm from "./islands/LoginForm.tsx";
@@ -42,7 +41,6 @@ const manifest = {
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
     "./islands/EmailInput.tsx": $EmailInput,
     "./islands/HandleInput.tsx": $HandleInput,
     "./islands/LoginForm.tsx": $LoginForm,

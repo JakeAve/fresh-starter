@@ -15,6 +15,13 @@ export function genAESGCMKey() {
   ]);
 }
 
+export function genHMACKey() {
+  return crypto.subtle.generateKey({ name: "HMAC", hash: "SHA-256" }, true, [
+    "sign",
+    "verify",
+  ]);
+}
+
 export function integerTo32Bits(n: number) {
   if (n < 0 || n > 4294967295) {
     throw new Error("Must be between 0 and 4294967295");
@@ -92,6 +99,28 @@ export function bytesToBase64Str(bytes: Uint8Array) {
   return btoa(String.fromCharCode(...bytes));
 }
 
+export function bytesToBase64Url(bytes: Uint8Array): string {
+  return bytesToBase64Str(bytes)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+export function base64UrlToUint8(base64UrlStr: string): Uint8Array {
+  let base64Str = base64UrlStr.replace(/-/g, "+").replace(/_/g, "/");
+
+  const padding = base64Str.length % 4;
+  if (padding === 2) {
+    base64Str += "==";
+  } else if (padding === 3) {
+    base64Str += "=";
+  } else if (padding !== 0) {
+    throw new Error("Invalid Base64Url string");
+  }
+
+  return base64ToUint8(base64Str);
+}
+
 export async function generatePBKDF2Hash(
   password: Uint8Array,
   salt: Uint8Array,
@@ -157,4 +186,25 @@ export async function verifyPassword(
     console.log(err);
     throw new Error("Could not verify password");
   }
+}
+
+export function signWithHMAC(key: CryptoKey, payload: Uint8Array) {
+  return crypto.subtle.sign(
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    key,
+    payload,
+  );
+}
+
+export function verifyWithHMAC(
+  key: CryptoKey,
+  signature: Uint8Array,
+  payload: Uint8Array,
+) {
+  return crypto.subtle.verify(
+    { name: "HMAC", hash: { name: "SHA-256" } },
+    key,
+    signature,
+    payload,
+  );
 }
