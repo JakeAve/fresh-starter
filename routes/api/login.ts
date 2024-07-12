@@ -32,7 +32,7 @@ export const handler: Handlers = {
                 throw new AuthenticationError(email);
             }
 
-            const token = await signJwt({ email });
+            const token = await signJwt({ sub: email, iss: new URL(req.url).href, aud: 'api' });
 
             const headers = makeAuthHeaders(req, new Headers(), token);
 
