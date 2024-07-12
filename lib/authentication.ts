@@ -1,7 +1,8 @@
-import { deleteCookie, setCookie } from "$std/http/cookie.ts";
+import { deleteCookie, getCookies, setCookie } from "$std/http/cookie.ts";
 import { AuthenticationError } from "../Errors/AuthenticationError.ts";
 import { getUserByEmail } from "../db/userSchema.ts";
 import { verifyPassword } from "./cryptoHelpers.ts";
+import { verifyJwt } from "./jwt.ts";
 
 export const TOKEN_COOKIE_NAME = "user_token";
 
@@ -48,4 +49,12 @@ export function deleteAuthHeaders(
   deleteCookie(headers, TOKEN_COOKIE_NAME, { path: "/", domain: url.hostname });
 
   return headers;
+}
+
+export function validateAuthHeaders(
+  req: Request,
+) {
+  const token = getCookies(req.headers)[TOKEN_COOKIE_NAME];
+
+  return verifyJwt(token);
 }

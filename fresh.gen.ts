@@ -12,6 +12,8 @@ import * as $api_handle_availability from "./routes/api/handle-availability.ts";
 import * as $api_login from "./routes/api/login.ts";
 import * as $api_logout from "./routes/api/logout.ts";
 import * as $api_password_strength from "./routes/api/password-strength.ts";
+import * as $api_user_middleware from "./routes/api/user/_middleware.ts";
+import * as $api_user_index from "./routes/api/user/index.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
@@ -37,6 +39,8 @@ const manifest = {
     "./routes/api/login.ts": $api_login,
     "./routes/api/logout.ts": $api_logout,
     "./routes/api/password-strength.ts": $api_password_strength,
+    "./routes/api/user/_middleware.ts": $api_user_middleware,
+    "./routes/api/user/index.ts": $api_user_index,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,

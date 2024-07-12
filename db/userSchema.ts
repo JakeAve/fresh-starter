@@ -5,7 +5,6 @@ import { hashPassword } from "../lib/cryptoHelpers.ts";
 const USERS_BY_ID: Deno.KvKey = ["users"];
 const USERS_BY_EMAIL: Deno.KvKey = ["user_emails"];
 const USERS_BY_HANDLE: Deno.KvKey = ["user_handles"];
-
 export interface User {
   email: string;
   name: string;
@@ -14,12 +13,9 @@ export interface User {
   id: string;
 }
 
-export interface UserBody {
-  email: string;
-  name: string;
-  handle: string;
-  password: string;
-}
+export type SanitizedUser = Omit<User, "password" | "id">;
+
+export type UserBody = Omit<User, "id">;
 
 export class DuplicateError extends Error {
   constructor(message: string) {
