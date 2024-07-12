@@ -1,7 +1,9 @@
-import { setCookie } from "$std/http/cookie.ts";
+import { deleteCookie, setCookie } from "$std/http/cookie.ts";
 import { AuthenticationError } from "../Errors/AuthenticationError.ts";
 import { getUserByEmail } from "../db/userSchema.ts";
 import { verifyPassword } from "./cryptoHelpers.ts";
+
+export const TOKEN_COOKIE_NAME = "user_token";
 
 export async function authenticate(email: string, password: string) {
   try {
@@ -26,13 +28,24 @@ export function makeAuthHeaders(
 ) {
   const url = new URL(req.url);
   setCookie(headers, {
-    name: "user-token",
+    name: TOKEN_COOKIE_NAME,
     value: token,
     maxAge: 3600,
     domain: url.hostname,
     path: "/",
     secure: true,
   });
+
+  return headers;
+}
+
+export function deleteAuthHeaders(
+  req: Request,
+  headers: Headers,
+) {
+  const url = new URL(req.url);
+
+  deleteCookie(headers, TOKEN_COOKIE_NAME, { path: "/", domain: url.hostname });
 
   return headers;
 }

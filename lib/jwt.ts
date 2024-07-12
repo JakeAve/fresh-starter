@@ -1,3 +1,5 @@
+import { genRandomBytes } from "./cryptoHelpers.ts";
+import { bytesToBase64Str } from "./cryptoHelpers.ts";
 import {
   base64UrlToUint8,
   bytesToBase64Url,
@@ -32,7 +34,7 @@ export function createJWTPayload(payload: RawPayload): JWT {
     iat,
     exp,
     nbf,
-    jti: crypto.randomUUID(),
+    jti: bytesToBase64Str(genRandomBytes(12)),
   };
 }
 
@@ -48,11 +50,11 @@ export function checkJWTPayload(payload: JWT) {
   const { exp, nbf } = payload;
   const now = dateToSeconds(new Date());
 
-  if (nbf < now) {
+  if (nbf > now) {
     throw new JWTError(payload);
   }
 
-  if (exp > now) {
+  if (exp < now) {
     throw new JWTError(payload);
   }
 

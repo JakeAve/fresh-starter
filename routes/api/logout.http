@@ -1,0 +1,4 @@
+POST http://localhost:8000/api/logout
+
+# Cookie: user-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2FwaS9sb2dpbiIsImF1ZCI6ImFwaSIsImlhdCI6MTcyMDgwMTM5NiwiZXhwIjoxNzIwODA0OTk2LCJuYmYiOjE3MjA4MDEzOTYsImp0aSI6ImQxNjUwMjlkLWU0M2MtNDE1Yy04MTgxLWVkYzJiNmI1YWM0MyJ9.MnF8AvW8QSodyD7wSvykjKJ9amy_N2wqDYPfhWACHnc; Secure; Max-Age=3600; Domain=localhost; Path=/
+

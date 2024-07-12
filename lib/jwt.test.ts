@@ -59,5 +59,5 @@ Deno.test("verifyJWT() verifies", async () => {
   assertEquals(payload.sub, "example@example.com");
   assertEquals(payload.aud, "api");
   assertEquals(payload.iss, "issuer");
-  assertEquals(payload.jti.length, 36);
+  assertEquals(payload.jti.length, 16);
 });
