@@ -1,7 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { handler as loginHandler } from "../api/login.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
-import { setCookie } from "$std/http/cookie.ts";
 import LoginForm from "../../islands/LoginForm.tsx";
 import { makeAuthHeaders } from "../../lib/authentication.ts";
 

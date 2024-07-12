@@ -267,9 +267,13 @@ Deno.test("base64UrlToUint8() should convert Base64Url string to Uint8Array", ()
 });
 
 Deno.test("base64UrlToUint8() should throw error for invalid Base64Url string", () => {
-  assertThrows(() => {
-    base64UrlToUint8("Invalid_Base64Url");
-  }, Error, "Invalid Base64Url string");
+  assertThrows(
+    () => {
+      base64UrlToUint8("Invalid_Base64Url");
+    },
+    Error,
+    "Invalid Base64Url string",
+  );
 });
 
 Deno.test("hashPassword() is random every time", async () => {

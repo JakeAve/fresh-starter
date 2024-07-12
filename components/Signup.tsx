@@ -15,7 +15,13 @@ export function SignUp(props: Props) {
         class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         method="post"
       >
-        <input name="api-key" type="hidden" readOnly required value={timeBasedKey} />
+        <input
+          name="api-key"
+          type="hidden"
+          readOnly
+          required
+          value={timeBasedKey}
+        />
         <div class="mb-2">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
