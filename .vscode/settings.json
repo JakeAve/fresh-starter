@@ -14,13 +14,13 @@
   "[javascript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
-  "css.customData": [
-    ".vscode/tailwind.json"
-  ],
+  "css.customData": [".vscode/tailwind.json"],
   "cSpell.words": [
     "AESGCM",
+    "HMACSHA",
     "preact",
     "tailwindcss",
-    "versionstamp"
+    "versionstamp",
+    "simplewebauthn"
   ]
 }
