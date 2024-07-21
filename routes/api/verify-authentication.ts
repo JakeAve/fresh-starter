@@ -54,7 +54,7 @@ export const handler: Handlers = {
         throw new Error("User not verified");
       }
 
-      await addCount(user.id, passkey.id);
+    //   await addCount(user.id, passkey.id);
 
       const token = await signJwt({
         sub: user.email,
