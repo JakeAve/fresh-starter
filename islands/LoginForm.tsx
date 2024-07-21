@@ -25,6 +25,8 @@ export default function LoginForm(props: LoginProps) {
       sessionId: string;
     };
 
+    options.userVerification = "required";
+
     if (!options) {
       alert("Error getting passkey");
       return;
