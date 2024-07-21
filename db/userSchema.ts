@@ -48,7 +48,6 @@ export async function addUser(userBody: UserBody) {
     console.error("Cannot save");
     throw new DuplicateError(`User already exists`);
   }
-  console.log("saved res", res);
   return res;
 }
 

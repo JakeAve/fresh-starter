@@ -1,0 +1,39 @@
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
+import { SanitizedUser, User } from "../../db/userSchema.ts";
+import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
+
+export const handler: Handlers = {
+  async GET(_req, ctx) {
+    const rawUser = ctx.state.rawUser as User;
+    const user = ctx.state.user as SanitizedUser;
+
+    const passkeys = await getPasskeysByUserId(rawUser.id);
+
+    return ctx.render({ user, passkeys });
+  },
+};
+
+interface Props {
+  user: SanitizedUser;
+  passkeys: Passkey[];
+}
+
+export default function Home(props: PageProps<Props>) {
+  const { user, passkeys } = props.data;
+
+  return (
+    <div class="grid place-items-center h-screen">
+      <h1>Account</h1>
+      <h2>Welcome, {user.name}</h2>
+      <h2>Passkeys</h2>
+      <ul>
+        {passkeys.map((k, i) => <li key={i}>{k.nickname}</li>)}
+      </ul>
+      <RegisterPasskey />
+      <form method="post" action="/api/logout">
+        <button>Logout</button>
+      </form>
+    </div>
+  );
+}

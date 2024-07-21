@@ -1,18 +1,26 @@
 import {
+  generateAuthenticationOptions,
   generateRegistrationOptions,
-  // verifyRegistrationResponse,
+  verifyAuthenticationResponse,
+  verifyRegistrationResponse,
 } from "@simplewebauthn/server";
+import {
+  AuthenticationResponseJSON,
+  RegistrationResponseJSON,
+} from "@simplewebauthn/types";
+import { Passkey } from "../db/passkeySchema.ts";
+import { Challenge } from "../db/passkeyChallengeSchema.ts";
 
 const rpName = "DOC-5";
 
 const rpID = "localhost";
 
-// const origin = `http://${rpID}:8000`;
+const origin = `http://${rpID}:8000`;
 
 export function genRegistrationOptions(
   userName: string,
   userDisplayName: string,
-  _existingKeys: unknown[],
+  _existingKeys: Passkey[],
 ) {
   return generateRegistrationOptions({
     rpName,
@@ -21,13 +29,51 @@ export function genRegistrationOptions(
     userDisplayName,
     attestationType: "none",
     // excludeCredentials: existingKeys.map((key) => ({
-    //     id: key?.id,
-    //     transports: key?.transports,
+    //     id: key.id,
+    //     transports: key.transports,
     // })),
     authenticatorSelection: {
       residentKey: "preferred",
-      userVerification: "preferred",
+      userVerification: "required",
       authenticatorAttachment: "platform",
+    },
+  });
+}
+
+export function verifyResponse(
+  body: RegistrationResponseJSON,
+  challenge: string,
+) {
+  return verifyRegistrationResponse({
+    response: body,
+    expectedChallenge: challenge,
+    expectedOrigin: origin,
+    expectedRPID: rpID,
+  });
+}
+
+export function genAuthOptions() {
+  return generateAuthenticationOptions({
+    rpID,
+    allowCredentials: [],
+  });
+}
+
+export function verifyAuthResponse(
+  payloadResponse: AuthenticationResponseJSON,
+  challengeOptions: Challenge,
+  passkey: Passkey,
+) {
+  return verifyAuthenticationResponse({
+    response: payloadResponse,
+    expectedChallenge: challengeOptions.challenge,
+    expectedOrigin: origin,
+    expectedRPID: rpID,
+    authenticator: {
+      credentialID: passkey.id,
+      credentialPublicKey: passkey.publicKey,
+      counter: passkey.counter,
+      transports: passkey.transports,
     },
   });
 }

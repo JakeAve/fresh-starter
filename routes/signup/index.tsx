@@ -1,6 +1,6 @@
 import { SignUp } from "../../components/Signup.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { addUser, DuplicateError, getAllUsers } from "../../db/userSchema.ts";
+import { addUser, DuplicateError } from "../../db/userSchema.ts";
 import { getAESKey } from "../../lib/getKey.ts";
 import {
   createTimeBasedKey,
@@ -17,9 +17,6 @@ export const handler: Handlers = {
     const timeBasedKey = await createTimeBasedKey(key, 3600);
     const resp = await ctx.render({ timeBasedKey });
     resp.headers.set("X-Custom-Header", "Hello");
-    const foo = await getAllUsers();
-
-    console.log("All users", foo);
     return resp;
   },
   async POST(req, ctx) {

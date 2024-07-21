@@ -20,8 +20,9 @@
   "imports": {
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
-    "@simplewebauthn/browser": "https://deno.land/x/simplewebauthn@v10.0.0/deno/browser.ts",
+    "@simplewebauthn/browser": "https://esm.sh/@simplewebauthn/browser@10.0.0",
     "@simplewebauthn/server": "https://deno.land/x/simplewebauthn@v10.0.0/deno/server.ts",
+    "@simplewebauthn/types": "https://deno.land/x/simplewebauthn@v10.0.0/deno/types.ts",
     "$components/": "./components/",
     "$fresh/": "https://deno.land/x/fresh@1.6.8/",
     "$std/": "https://deno.land/std@0.216.0/",

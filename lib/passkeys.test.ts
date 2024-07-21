@@ -7,5 +7,4 @@ Deno.test("genRegistrationOptions()", async () => {
   assertEquals(options.rp, { name: "DOC-5", id: "localhost" });
   assertEquals(options.user.name, "jo");
   assertEquals(options.user.displayName, "jo@gmail.com");
-  console.log(options);
 });

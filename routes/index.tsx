@@ -28,6 +28,7 @@ export default function Home(_props: PageProps<Props>) {
   return (
     <div class="grid place-items-center h-screen">
       <h1>Home</h1>
+      <a href="/account">Go to account</a>
       <form method="post" action="/api/logout">
         <button>Logout</button>
       </form>

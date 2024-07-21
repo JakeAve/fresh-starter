@@ -19,8 +19,9 @@
     "AESGCM",
     "HMACSHA",
     "preact",
+    "simplewebauthn",
     "tailwindcss",
     "versionstamp",
-    "simplewebauthn"
+    "webauthn"
   ]
 }

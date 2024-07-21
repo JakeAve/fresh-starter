@@ -266,6 +266,48 @@ Deno.test("base64UrlToUint8() should convert Base64Url string to Uint8Array", ()
   assertEquals(bytes, new Uint8Array([72, 101, 108, 108, 111])); // "Hello" in ASCII
 });
 
+Deno.test("base64UrlToUint8() converts challenge", () => {
+  const base64UrlStr = "QOZhzVgLD7PjRJP1qXvEKGU-jItOPGlJog9elrTwCqM";
+  const bytes = base64UrlToUint8(base64UrlStr);
+  assertEquals(
+    bytes,
+    new Uint8Array([
+      64,
+      230,
+      97,
+      205,
+      88,
+      11,
+      15,
+      179,
+      227,
+      68,
+      147,
+      245,
+      169,
+      123,
+      196,
+      40,
+      101,
+      62,
+      140,
+      139,
+      78,
+      60,
+      105,
+      73,
+      162,
+      15,
+      94,
+      150,
+      180,
+      240,
+      10,
+      163,
+    ]),
+  );
+});
+
 Deno.test("base64UrlToUint8() should throw error for invalid Base64Url string", () => {
   assertThrows(
     () => {

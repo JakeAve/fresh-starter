@@ -107,18 +107,25 @@ export function bytesToBase64Url(bytes: Uint8Array): string {
 }
 
 export function base64UrlToUint8(base64UrlStr: string): Uint8Array {
-  let base64Str = base64UrlStr.replace(/-/g, "+").replace(/_/g, "/");
+  const base64Str = base64UrlStr.replace(/-/g, "+").replace(/_/g, "/");
 
-  const padding = base64Str.length % 4;
-  if (padding === 2) {
-    base64Str += "==";
-  } else if (padding === 3) {
-    base64Str += "=";
-  } else if (padding !== 0) {
-    throw new Error("Invalid Base64Url string");
+  const binStr = atob(base64Str);
+  const bin = new Uint8Array(binStr.length);
+
+  for (let i = 0; i < binStr.length; i++) {
+    bin[i] = binStr.charCodeAt(i);
   }
 
-  return base64ToUint8(base64Str);
+  // const padding = base64Str.length % 4;
+  // if (padding === 2) {
+  //   base64Str += "==";
+  // } else if (padding === 3) {
+  //   base64Str += "=";
+  // } else if (padding !== 0) {
+  //   throw new Error("Invalid Base64Url string");
+  // }
+
+  return bin;
 }
 
 export async function generatePBKDF2Hash(
@@ -141,7 +148,7 @@ export async function generatePBKDF2Hash(
       256,
     );
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error("Could not hash");
   }
 }
@@ -183,7 +190,7 @@ export async function verifyPassword(
 
     return true;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error("Could not verify password");
   }
 }

@@ -2,7 +2,10 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { handler as loginHandler } from "../api/login.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
 import LoginForm from "../../islands/LoginForm.tsx";
-import { makeAuthHeaders } from "../../lib/authentication.ts";
+import {
+  makeAuthHeaders,
+  validateAuthHeaders,
+} from "../../lib/authentication.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -12,15 +15,26 @@ export const handler: Handlers = {
   },
   async POST(req, ctx) {
     try {
-      const login = await loginHandler.POST?.(req, ctx) as Response;
-
-      const loginResp = await login.json();
-
-      if (!login.ok) {
-        throw new AuthenticationError(loginResp.email, loginResp.message);
+      let isAlreadyVerified: boolean | undefined;
+      const headers = new Headers();
+      try {
+        await validateAuthHeaders(req);
+        isAlreadyVerified = true;
+      } catch {
+        isAlreadyVerified = false;
       }
 
-      const headers = makeAuthHeaders(req, new Headers(), loginResp.token);
+      if (!isAlreadyVerified) {
+        const login = await loginHandler.POST?.(req, ctx) as Response;
+
+        const loginResp = await login.json();
+
+        if (!login.ok) {
+          throw new AuthenticationError(loginResp.email, loginResp.message);
+        }
+
+        makeAuthHeaders(req, headers, loginResp.token);
+      }
       headers.set("location", "/");
 
       return new Response(null, {
@@ -28,7 +42,7 @@ export const handler: Handlers = {
         headers,
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       let email = "";
       if (err instanceof AuthenticationError) {
         email = err.email;

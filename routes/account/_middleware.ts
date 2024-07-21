@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getUserByEmail, SanitizedUser, User } from "../../../db/userSchema.ts";
-import { validateAuthHeaders } from "../../../lib/authentication.ts";
+import { getUserByEmail, SanitizedUser, User } from "../../db/userSchema.ts";
+import { validateAuthHeaders } from "../../lib/authentication.ts";
 
 export async function handler(
   req: Request,
@@ -22,9 +22,11 @@ export async function handler(
     return ctx.next();
   } catch (err) {
     console.error(err);
-    return new Response(
-      JSON.stringify({ message: "Access Denied." }),
-      { status: 401 },
-    );
+    const headers = new Headers();
+    headers.set("location", "/login");
+    return new Response(null, {
+      status: 303,
+      headers,
+    });
   }
 }
