@@ -2,7 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import { getChallengesByUserId } from "../../db/passkeyChallengeSchema.ts";
 import { verifyAuthResponse } from "../../lib/passkeys.ts";
 import { AuthenticationResponseJSON } from "@simplewebauthn/types";
-import { addCount, getPasskeyById } from "../../db/passkeySchema.ts";
+import { /* addCount, */ getPasskeyById } from "../../db/passkeySchema.ts";
 import { getUserById } from "../../db/userSchema.ts";
 import { VerifiedAuthenticationResponse } from "@simplewebauthn/server";
 import { signJwt } from "../../lib/jwt.ts";
@@ -54,7 +54,7 @@ export const handler: Handlers = {
         throw new Error("User not verified");
       }
 
-    //   await addCount(user.id, passkey.id);
+    //   await addCount(user.id, passkey.id); // TODO: MacOs multi-device keys don't work with this
 
       const token = await signJwt({
         sub: user.email,
