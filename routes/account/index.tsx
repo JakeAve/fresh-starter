@@ -1,4 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { Button } from "$components/Button.tsx";
 import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
 import { SanitizedUser, User } from "../../db/userSchema.ts";
 import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
@@ -32,7 +33,7 @@ export default function Home(props: PageProps<Props>) {
       </ul>
       <RegisterPasskey />
       <form method="post" action="/api/logout">
-        <button>Logout</button>
+        <Button>Logout</Button>
       </form>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
+import { Button } from "$components/Button.tsx";
 import { TOKEN_COOKIE_NAME } from "../lib/authentication.ts";
 
 export const handler: Handlers = {
@@ -30,7 +31,7 @@ export default function Home(_props: PageProps<Props>) {
       <h1>Home</h1>
       <a href="/account">Go to account</a>
       <form method="post" action="/api/logout">
-        <button>Logout</button>
+        <Button>Logout</Button>
       </form>
     </div>
   );

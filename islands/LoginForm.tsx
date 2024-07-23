@@ -3,6 +3,7 @@ import { PublicKeyCredentialRequestOptionsJSON } from "@simplewebauthn/types";
 import PasswordInput from "./PasswordInput.tsx";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { signal } from "@preact/signals";
+import { Button } from "$components/Button.tsx";
 
 const PasskeyIcon = () => (
   <svg
@@ -80,6 +81,9 @@ export default function LoginForm(props: LoginProps) {
 
     options.userVerification = "required";
 
+    // @ts-ignore just let it go
+    options.mediation = "required";
+
     if (!options) {
       alert("Error getting passkey");
       return;
@@ -117,14 +121,14 @@ export default function LoginForm(props: LoginProps) {
     <div class="w-full max-w-xs">
       <div class="shadow-md rounded px-8 py-6 mb-4">
         <form class="flex justify-center" method="post" id="login-with-passkey">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
+          <Button
+            class="flex items-center"
             type="button"
             onClick={authenticateWithPasskey}
           >
             <PasskeyIcon />
             Login with Passkey
-          </button>
+          </Button>
           <input
             type="hidden"
             id="login-token"
@@ -148,7 +152,7 @@ export default function LoginForm(props: LoginProps) {
               name="email"
               value={email || ""}
               required
-              autocomplete="username webauthn"
+              autocomplete="username"
             />
           </div>
           <div class="mb-2">
@@ -175,13 +179,7 @@ export default function LoginForm(props: LoginProps) {
             </p>
           </div>
           <div class="flex items-center flex-col gap-4">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              id="login-submit"
-            >
-              Login with Password
-            </button>
+            <Button type="submit" id="login-submit">Login with Password</Button>
             <a
               class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
               href="#"

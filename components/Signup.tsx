@@ -1,6 +1,7 @@
 import PasswordPairInputs from "../islands/PasswordPairInputs.tsx";
 import HandleInput from "../islands/HandleInput.tsx";
 import EmailInput from "../islands/EmailInput.tsx";
+import { Button } from "$components/Button.tsx";
 
 interface Props {
   timeBasedKey: string;
@@ -79,12 +80,9 @@ export function SignUp(props: Props) {
         </div>
         <PasswordPairInputs />
         <div class="flex items-center flex-col gap-4">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
+          <Button type="submit">
             Sign Up
-          </button>
+          </Button>
           <a
             class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
             href="/"
