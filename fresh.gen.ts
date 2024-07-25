@@ -17,6 +17,8 @@ import * as $api_logout from "./routes/api/logout.ts";
 import * as $api_password_strength from "./routes/api/password-strength.ts";
 import * as $api_user_middleware from "./routes/api/user/_middleware.ts";
 import * as $api_user_index from "./routes/api/user/index.ts";
+import * as $api_user_passkey_delete from "./routes/api/user/passkey/delete.ts";
+import * as $api_user_passkey_edit from "./routes/api/user/passkey/edit.ts";
 import * as $api_user_passkey_register_request from "./routes/api/user/passkey/register-request.ts";
 import * as $api_user_passkey_verify_registration from "./routes/api/user/passkey/verify-registration.ts";
 import * as $api_verify_authentication from "./routes/api/verify-authentication.ts";
@@ -27,6 +29,7 @@ import * as $signup_index from "./routes/signup/index.tsx";
 import * as $EmailInput from "./islands/EmailInput.tsx";
 import * as $HandleInput from "./islands/HandleInput.tsx";
 import * as $LoginForm from "./islands/LoginForm.tsx";
+import * as $PasskeyEditDelete from "./islands/PasskeyEditDelete.tsx";
 import * as $PasswordInput from "./islands/PasswordInput.tsx";
 import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
@@ -52,6 +55,8 @@ const manifest = {
     "./routes/api/password-strength.ts": $api_password_strength,
     "./routes/api/user/_middleware.ts": $api_user_middleware,
     "./routes/api/user/index.ts": $api_user_index,
+    "./routes/api/user/passkey/delete.ts": $api_user_passkey_delete,
+    "./routes/api/user/passkey/edit.ts": $api_user_passkey_edit,
     "./routes/api/user/passkey/register-request.ts":
       $api_user_passkey_register_request,
     "./routes/api/user/passkey/verify-registration.ts":
@@ -66,6 +71,7 @@ const manifest = {
     "./islands/EmailInput.tsx": $EmailInput,
     "./islands/HandleInput.tsx": $HandleInput,
     "./islands/LoginForm.tsx": $LoginForm,
+    "./islands/PasskeyEditDelete.tsx": $PasskeyEditDelete,
     "./islands/PasswordInput.tsx": $PasswordInput,
     "./islands/PasswordPairInputs.tsx": $PasswordPairInputs,
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,

@@ -4,6 +4,7 @@ import {
   CredentialDeviceType,
 } from "@simplewebauthn/types";
 import { load } from "$std/dotenv/mod.ts";
+import { DataError } from "../Errors/DataError.ts";
 
 const env = await load();
 
@@ -66,7 +67,7 @@ export async function getPasskeysByUserId(userId: string) {
   }
 }
 
-export async function getUserPasskeyByUserIdAndKeyId(
+export async function getPasskeyByUserIdAndKeyId(
   userId: string,
   passkeyId: string,
 ) {
@@ -76,6 +77,22 @@ export async function getUserPasskeyByUserIdAndKeyId(
     passkeyId,
   ]);
   return res.value;
+}
+
+export async function deletePassKeyByUserIdAndKeyId(
+  userId: string,
+  passkeyId: string,
+) {
+  const byId = [...PASSKEYS_BY_ID, passkeyId];
+  const byUserId = [...PASSKEYS_BY_USER_ID, userId, passkeyId];
+
+  const result = await kv.atomic()
+    .delete(byId)
+    .delete(byUserId)
+    .commit();
+  if (!result.ok) {
+    throw new DataError(`Error deleting key ${passkeyId}`);
+  }
 }
 
 export async function addCount(userId: string, passkeyId: string) {

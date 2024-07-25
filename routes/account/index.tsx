@@ -3,6 +3,7 @@ import { Button } from "$components/Button.tsx";
 import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
 import { SanitizedUser, User } from "../../db/userSchema.ts";
 import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
+import { PasskeyEditDelete } from "../../islands/PasskeyEditDelete.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -28,8 +29,10 @@ export default function Home(props: PageProps<Props>) {
       <h1>Account</h1>
       <h2>Welcome, {user.name}</h2>
       <h2>Passkeys</h2>
-      <ul>
-        {passkeys.map((k, i) => <li key={i}>{k.nickname}</li>)}
+      <ul class="flex flex-col gap-2">
+        {passkeys.map((k, i) => (
+          <PasskeyEditDelete key={i} id={k.id} nickname={k.nickname} />
+        ))}
       </ul>
       <RegisterPasskey />
       <form method="post" action="/api/logout">

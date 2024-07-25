@@ -2,6 +2,7 @@ import { startRegistration } from "@simplewebauthn/browser";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { RegistrationResponseJSON } from "@simplewebauthn/types";
 import { Button } from "$components/Button.tsx";
+import { PasskeyIcon } from "$components/PasskeyIcon.tsx";
 
 export default function RegisterPasskey() {
   if (!IS_BROWSER) return <button disabled>Add New Passkey</button>;
@@ -50,7 +51,9 @@ export default function RegisterPasskey() {
 
   return (
     <>
-      <Button onClick={register}>Create New Passkey</Button>
+      <Button class="flex items-center" onClick={register}>
+        <PasskeyIcon />Create New Passkey
+      </Button>
     </>
   );
 }
