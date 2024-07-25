@@ -1,4 +1,4 @@
-import { DeleteIcon } from "$components/deleteIcon.tsx";
+import { DeleteIcon } from "$components/DeleteIcon.tsx";
 import { Button } from "$components/Button.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
