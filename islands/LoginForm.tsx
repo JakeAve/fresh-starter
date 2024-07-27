@@ -27,8 +27,6 @@ export default function LoginForm(props: LoginProps) {
       sessionId: string;
     };
 
-    options.userVerification = "required";
-
     // @ts-ignore just let it go
     options.mediation = "required";
 

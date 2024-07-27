@@ -33,6 +33,7 @@ import * as $PasskeyEditDelete from "./islands/PasskeyEditDelete.tsx";
 import * as $PasswordInput from "./islands/PasswordInput.tsx";
 import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
+import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -75,6 +76,7 @@ const manifest = {
     "./islands/PasswordInput.tsx": $PasswordInput,
     "./islands/PasswordPairInputs.tsx": $PasswordPairInputs,
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,
+    "./islands/Redirect.tsx": $Redirect,
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
   },
   baseUrl: import.meta.url,
