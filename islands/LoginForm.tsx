@@ -49,6 +49,13 @@ export default function LoginForm(props: LoginProps) {
       body: JSON.stringify({ verifyPayload, sessionId }),
     });
 
+    if (!verificationResp.ok) {
+      alert(
+        "Verification failed. Make sure your biometric device (fingerprint reader / face id) is available. You can try signing in with your password instead.",
+      );
+      return;
+    }
+
     const verification = await verificationResp.json() as { token: string };
 
     if (verificationResp.ok) {
