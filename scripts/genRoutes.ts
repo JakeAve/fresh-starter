@@ -1,7 +1,4 @@
 // deno-lint-ignore no-explicit-any
-const routes: any = {};
-
-// deno-lint-ignore no-explicit-any
 async function getRoutes(routes: any, dirPath: string, routePath: string) {
     for await (const dirEntry of Deno.readDir(dirPath)) {
         const { name: fullName, isFile, isDirectory } = dirEntry;
@@ -19,49 +16,54 @@ async function getRoutes(routes: any, dirPath: string, routePath: string) {
         const name = ext && ext[0] ? fullName.replace(ext[0], "") : fullName;
 
         if (isFile) {
-            // if (name.startsWith("[") && name.endsWith("]")) {
-            //     const paramName = name.slice(1, -1);
-            //     routes[name] = `${routePath}/:${paramName}`;
-            // } else {
             routes[name] = name === "index"
                 ? routePath || "/"
                 : `${routePath}/${name}`;
-            // }
         }
         if (isDirectory) {
             // deno-lint-ignore no-explicit-any
-            routes[name] = {} as any;
+            const dirRoutes = {} as any;
             await getRoutes(
-                routes[name],
+                dirRoutes,
                 `${dirPath}/${name}`,
                 `${routePath}/${name}`,
             );
+            if (name.startsWith("[") && name.endsWith("]")) {
+                dirRoutes.__place_holder = ")";
+            }
+            routes[name] = dirRoutes;
         }
     }
 
     return routes;
 }
 
-const foo = await getRoutes(routes, "./routes", "");
+function customReplacer(_key: string, value: string) {
+    if (
+        typeof value === "string" && value.includes("[") && value.includes("]")
+    ) {
+        const funcBody = value.replace(/\[([^\]]+)\]/g, "${$1}");
 
-console.log(foo);
+        // these brackets help identify replacing later
+        return `\`${funcBody}\``;
+    }
+    return value;
+}
 
 // deno-lint-ignore no-explicit-any
-function customReplacer(_key: string, value: any) {
-    if (typeof value === 'string' && value.includes('[') && value.includes(']')) {
-        const args = (value.match(/\[([^\]]+)\]/g) as RegExpMatchArray).map(arg => arg.replace(/\[([^\]]+)\]/g, '$1: string'));
-        const funcArgs = args.join(', ');
-        const funcBody = value.replace(/\[([^\]]+)\]/g, '${$1}');
-        return `(${funcArgs}) => \`${funcBody}\``;
-      }
-      return value;
-  }
+const routes: any = {};
 
-const bar = JSON.stringify(foo, customReplacer, 4);
+const routeObj = await getRoutes(routes, "./routes", "");
 
-console.log(bar);
+const routeJSON = JSON.stringify(routeObj, customReplacer, 4);
 
-const data = `export default ${bar.replace(/"\(/g, '(').replace(/\`"/g, '`')}`
+const withFunctions = routeJSON
+    .replace(/"\[(.*)\]":/g, "$1: ($1: string) => (")
+    .replace(/"__place_holder": "\)"[\s\S]*?}/gm, "})")
+    .replace(/\(\s*"\`/g, "`")
+    .replace(/"`/g, "`")
+    .replace(/`\"/g, "`");
 
+const tsData = `export default ${withFunctions}`;
 
-Deno.writeTextFileSync('./routes2.ts', data);
+Deno.writeTextFileSync("./routes.ts", tsData);
