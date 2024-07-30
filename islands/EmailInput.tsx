@@ -1,5 +1,6 @@
 import { signal } from "@preact/signals";
 import { JSX } from "preact/jsx-runtime";
+import routes from "../routes.ts";
 
 interface EmailInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
   timeBasedKey: string;
@@ -18,8 +19,8 @@ export default function EmailInput(props: EmailInputProps) {
   ) {
     email.value = evt.currentTarget.value;
 
-    const resp = await fetch("/api/email-availability", {
-      method: "POST",
+    const resp = await fetch(routes.api.validate.email.index, {
+      method: "post",
       body: JSON.stringify({
         email: evt.currentTarget.value,
         token: timeBasedKey,

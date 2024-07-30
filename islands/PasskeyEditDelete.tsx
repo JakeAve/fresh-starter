@@ -1,6 +1,7 @@
 import { DeleteIcon } from "$components/DeleteIcon.tsx";
 import { Button } from "$components/Button.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import routes from "../routes.ts";
 
 interface Props {
     nickname: string;
@@ -17,7 +18,7 @@ export function PasskeyEditDelete(props: Props) {
             "You will no longer be able to sign in with this passkey. Would you like to proceed?",
         );
         if (confirmation) {
-            const resp = await fetch("/api/user/passkey/delete", {
+            const resp = await fetch(routes.api.user.passkey.delete, {
                 method: "post",
                 body: JSON.stringify({ passkeyId: id }),
             });

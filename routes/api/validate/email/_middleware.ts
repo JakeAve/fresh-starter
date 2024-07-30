@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getAESKey } from "../../../lib/getKey.ts";
-import { verifyTimeBasedKey } from "../../../lib/timeBasedKey.ts";
+import { getAESKey } from "../../../../lib/getKey.ts";
+import { verifyTimeBasedKey } from "../../../../lib/timeBasedKey.ts";
 
 export async function handler(
   req: Request,

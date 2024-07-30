@@ -2,7 +2,7 @@ import { FreshContext, Handlers } from "$fresh/server.ts";
 import {
   checkPasswordStrength,
   WeakPasswordError,
-} from "../../lib/passwordStrength.ts";
+} from "../../../lib/passwordStrength.ts";
 
 export const handler: Handlers = {
   async POST(req: Request, _ctx: FreshContext) {

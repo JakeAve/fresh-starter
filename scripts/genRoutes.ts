@@ -43,27 +43,60 @@ function customReplacer(_key: string, value: string) {
         typeof value === "string" && value.includes("[") && value.includes("]")
     ) {
         const funcBody = value.replace(/\[([^\]]+)\]/g, "${$1}");
-
-        // these brackets help identify replacing later
+        // ticks help identify these sections later
         return `\`${funcBody}\``;
     }
     return value;
 }
 
-// deno-lint-ignore no-explicit-any
-const routes: any = {};
+interface FreshRoutesConfig {
+    outputFile?: string;
+}
 
-const routeObj = await getRoutes(routes, "./routes", "");
+class FreshRoutesError extends Error {
+    constructor(message: string) {
+        super(message);
+    }
+}
 
-const routeJSON = JSON.stringify(routeObj, customReplacer, 4);
+async function createRoutes(config: FreshRoutesConfig = {}) {
+    const { outputFile = "./fresh.routes.ts" } = config;
 
-const withFunctions = routeJSON
-    .replace(/"\[(.*)\]":/g, "$1: ($1: string) => (")
-    .replace(/"__place_holder": "\)"[\s\S]*?}/gm, "})")
-    .replace(/\(\s*"\`/g, "`")
-    .replace(/"`/g, "`")
-    .replace(/`\"/g, "`");
+    let lang: ".js" | ".ts" | undefined;
 
-const tsData = `export default ${withFunctions}`;
+    try {
+        lang = (outputFile.match(/\.(js|ts)$/) as RegExpMatchArray)[0] as
+            | ".js"
+            | ".ts";
+    } catch (err) {
+        console.error(err);
+        throw new FreshRoutesError(
+            `Invalid outputFile: ${outputFile}. Must be .js or .ts`,
+        );
+    }
 
-Deno.writeTextFileSync("./routes.ts", tsData);
+    const langConfig = lang as ".js" | ".ts";
+
+    // deno-lint-ignore no-explicit-any
+    const routes: any = {};
+
+    const routeObj = await getRoutes(routes, "./routes", "");
+
+    const routeJSON = JSON.stringify(routeObj, customReplacer, 4);
+
+    const withFunctions = routeJSON
+        .replace(
+            /"\[(.*)\]":/g,
+            `$1: ($1${langConfig === ".ts" ? ": string" : ""}) => (`,
+        )
+        .replace(/"__place_holder": "\)"[\s\S]*?}/gm, "})")
+        .replace(/\(\s*"\`/g, "`")
+        .replace(/"`/g, "`")
+        .replace(/`\"/g, "`");
+
+    const tsData = `export default ${withFunctions}`;
+
+    Deno.writeTextFileSync(outputFile, tsData);
+}
+
+createRoutes({outputFile: 'routes.ts'})

@@ -5,6 +5,7 @@ import { startAuthentication } from "@simplewebauthn/browser";
 import { signal } from "@preact/signals";
 import { Button } from "$components/Button.tsx";
 import { PasskeyIcon } from "$components/PasskeyIcon.tsx";
+import routes from "../routes.ts";
 
 interface LoginProps {
   email?: string;
@@ -18,7 +19,7 @@ export default function LoginForm(props: LoginProps) {
   if (!IS_BROWSER) return <div></div>;
 
   async function authenticateWithPasskey() {
-    const optionsResp = await fetch("/api/generate-authentication-options", {
+    const optionsResp = await fetch(routes.api.auth["generate-authentication-options"], {
       method: "post",
     });
 
@@ -44,7 +45,7 @@ export default function LoginForm(props: LoginProps) {
       alert("could not assess response");
     }
 
-    const verificationResp = await fetch("/api/verify-authentication", {
+    const verificationResp = await fetch(routes.api.auth["verify-authentication"], {
       method: "post",
       body: JSON.stringify({ verifyPayload, sessionId }),
     });

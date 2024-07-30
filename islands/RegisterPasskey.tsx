@@ -3,12 +3,13 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { RegistrationResponseJSON } from "@simplewebauthn/types";
 import { Button } from "$components/Button.tsx";
 import { PasskeyIcon } from "$components/PasskeyIcon.tsx";
+import routes from "../routes.ts";
 
 export default function RegisterPasskey() {
   if (!IS_BROWSER) return <button disabled>Add New Passkey</button>;
 
   async function register() {
-    const regReq = await fetch("/api/user/passkey/register-request", {
+    const regReq = await fetch(routes.api.user.passkey["register-request"], {
       method: "post",
     });
 
@@ -29,7 +30,7 @@ export default function RegisterPasskey() {
     }
 
     const verificationResp = await fetch(
-      "/api/user/passkey/verify-registration",
+      routes.api.user.passkey["verify-registration"],
       {
         method: "post",
         headers: {

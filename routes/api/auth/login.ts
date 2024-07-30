@@ -1,8 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
-import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
-import { authenticate, makeAuthHeaders } from "../../lib/authentication.ts";
-import { signJwt, verifyJwt } from "../../lib/jwt.ts";
+import { AuthenticationError } from "../../../Errors/AuthenticationError.ts";
+import { getUserByEmail } from "../../../db/userSchema.ts";
+import { authenticate, makeAuthHeaders } from "../../../lib/authentication.ts";
+import { signJwt, verifyJwt } from "../../../lib/jwt.ts";
 
 export const handler: Handlers = {
   async POST(req, _ctx) {

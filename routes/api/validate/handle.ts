@@ -1,6 +1,6 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { getUserByHandle } from "../../db/userSchema.ts";
-import { validateHandle } from "../../lib/validators/validateHandle.ts";
+import { getUserByHandle } from "../../../db/userSchema.ts";
+import { validateHandle } from "../../../lib/validators/validateHandle.ts";
 
 export const handler: Handlers = {
   async POST(req: Request, _ctx: FreshContext) {

@@ -1,5 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import { deleteAuthHeaders } from "../../lib/authentication.ts";
+import { deleteAuthHeaders } from "../../../lib/authentication.ts";
 
 export const handler: Handlers = {
   POST(req, _ctx) {

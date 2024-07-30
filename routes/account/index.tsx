@@ -4,6 +4,7 @@ import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
 import { SanitizedUser, User } from "../../db/userSchema.ts";
 import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
 import { PasskeyEditDelete } from "../../islands/PasskeyEditDelete.tsx";
+import routes from "../../routes.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -35,7 +36,7 @@ export default function Home(props: PageProps<Props>) {
         ))}
       </ul>
       <RegisterPasskey />
-      <form method="post" action="/api/logout">
+      <form method="post" action={routes.api.auth.logout}>
         <Button>Logout</Button>
       </form>
     </div>

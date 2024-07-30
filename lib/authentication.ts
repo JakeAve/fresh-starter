@@ -34,7 +34,7 @@ export function makeAuthHeaders(
     maxAge: 3600,
     domain: url.hostname,
     path: "/",
-    secure: true,
+    // secure: true,
   });
 
   return headers;

@@ -8,20 +8,20 @@ import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $account_middleware from "./routes/account/_middleware.ts";
 import * as $account_index from "./routes/account/index.tsx";
-import * as $api_email_availability_middleware from "./routes/api/email-availability/_middleware.ts";
-import * as $api_email_availability_index from "./routes/api/email-availability/index.ts";
-import * as $api_generate_authentication_options from "./routes/api/generate-authentication-options.ts";
-import * as $api_handle_availability from "./routes/api/handle-availability.ts";
-import * as $api_login from "./routes/api/login.ts";
-import * as $api_logout from "./routes/api/logout.ts";
-import * as $api_password_strength from "./routes/api/password-strength.ts";
+import * as $api_auth_generate_authentication_options from "./routes/api/auth/generate-authentication-options.ts";
+import * as $api_auth_login from "./routes/api/auth/login.ts";
+import * as $api_auth_logout from "./routes/api/auth/logout.ts";
+import * as $api_auth_verify_authentication from "./routes/api/auth/verify-authentication.ts";
 import * as $api_user_middleware from "./routes/api/user/_middleware.ts";
 import * as $api_user_index from "./routes/api/user/index.ts";
 import * as $api_user_passkey_delete from "./routes/api/user/passkey/delete.ts";
 import * as $api_user_passkey_edit from "./routes/api/user/passkey/edit.ts";
 import * as $api_user_passkey_register_request from "./routes/api/user/passkey/register-request.ts";
 import * as $api_user_passkey_verify_registration from "./routes/api/user/passkey/verify-registration.ts";
-import * as $api_verify_authentication from "./routes/api/verify-authentication.ts";
+import * as $api_validate_email_middleware from "./routes/api/validate/email/_middleware.ts";
+import * as $api_validate_email_index from "./routes/api/validate/email/index.ts";
+import * as $api_validate_handle from "./routes/api/validate/handle.ts";
+import * as $api_validate_password from "./routes/api/validate/password.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
@@ -45,15 +45,12 @@ const manifest = {
     "./routes/_middleware.ts": $_middleware,
     "./routes/account/_middleware.ts": $account_middleware,
     "./routes/account/index.tsx": $account_index,
-    "./routes/api/email-availability/_middleware.ts":
-      $api_email_availability_middleware,
-    "./routes/api/email-availability/index.ts": $api_email_availability_index,
-    "./routes/api/generate-authentication-options.ts":
-      $api_generate_authentication_options,
-    "./routes/api/handle-availability.ts": $api_handle_availability,
-    "./routes/api/login.ts": $api_login,
-    "./routes/api/logout.ts": $api_logout,
-    "./routes/api/password-strength.ts": $api_password_strength,
+    "./routes/api/auth/generate-authentication-options.ts":
+      $api_auth_generate_authentication_options,
+    "./routes/api/auth/login.ts": $api_auth_login,
+    "./routes/api/auth/logout.ts": $api_auth_logout,
+    "./routes/api/auth/verify-authentication.ts":
+      $api_auth_verify_authentication,
     "./routes/api/user/_middleware.ts": $api_user_middleware,
     "./routes/api/user/index.ts": $api_user_index,
     "./routes/api/user/passkey/delete.ts": $api_user_passkey_delete,
@@ -62,7 +59,11 @@ const manifest = {
       $api_user_passkey_register_request,
     "./routes/api/user/passkey/verify-registration.ts":
       $api_user_passkey_verify_registration,
-    "./routes/api/verify-authentication.ts": $api_verify_authentication,
+    "./routes/api/validate/email/_middleware.ts":
+      $api_validate_email_middleware,
+    "./routes/api/validate/email/index.ts": $api_validate_email_index,
+    "./routes/api/validate/handle.ts": $api_validate_handle,
+    "./routes/api/validate/password.ts": $api_validate_password,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,

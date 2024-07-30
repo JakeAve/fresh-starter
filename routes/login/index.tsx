@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { handler as loginHandler } from "../api/login.ts";
+import { handler as loginHandler } from "../api/auth/login.ts";
 import { AuthenticationError } from "../../Errors/AuthenticationError.ts";
 import LoginForm from "../../islands/LoginForm.tsx";
 import {

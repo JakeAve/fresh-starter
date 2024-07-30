@@ -1,5 +1,6 @@
 import { signal } from "@preact/signals";
 import { JSX } from "preact/jsx-runtime";
+import routes from "../routes.ts";
 
 interface HandleInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
 }
@@ -14,8 +15,8 @@ export default function HandleInput(props: HandleInputProps) {
   ) {
     handle.value = evt.currentTarget.value;
 
-    const resp = await fetch("/api/handle-availability", {
-      method: "POST",
+    const resp = await fetch(routes.api.validate.handle, {
+      method: "post",
       body: JSON.stringify({ handle: evt.currentTarget.value }),
     });
     if (resp.ok) {
