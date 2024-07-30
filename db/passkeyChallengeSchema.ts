@@ -35,8 +35,8 @@ export async function addChallenge(
 
   const res = await kv.atomic()
     .check({ key: byId, versionstamp: null })
-    .set(byId, challenge, { expireIn: 3600000 })
-    .set(byUserId, challenge, { expireIn: 3600000 })
+    .set(byId, challenge, { expireIn: 300000 })
+    .set(byUserId, challenge, { expireIn: 300000 })
     .commit();
 
   if (!res.ok) {
