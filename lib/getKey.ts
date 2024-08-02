@@ -11,8 +11,23 @@ export function getAESKey() {
   ]);
 }
 
-export function getHMACKey() {
-  const base64Str = Deno.env.get("HMAC_SHA_256_KEY") as string;
+export function getAccessTokenKey() {
+  const base64Str = Deno.env.get("ACCESS_TOKEN_KEY") as string;
+  const raw = base64ToUint8(base64Str);
+  return crypto.subtle.importKey(
+    "raw",
+    raw,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    [
+      "sign",
+      "verify",
+    ],
+  );
+}
+
+export function getRefreshTokenKey() {
+  const base64Str = Deno.env.get("REFRESH_TOKEN_KEY") as string;
   const raw = base64ToUint8(base64Str);
   return crypto.subtle.importKey(
     "raw",

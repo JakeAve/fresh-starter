@@ -56,15 +56,23 @@ export const handler: Handlers = {
 
     //   await addCount(user.id, passkey.id); // TODO: MacOs multi-device keys don't work with this
 
-      const token = await signJwt({
-        sub: user.email,
-        iss: new URL(req.url).href,
-        aud: "api",
-      });
+    const accessToken = await signJwt({
+      sub: user.email,
+      iss: new URL(req.url).href,
+      aud: "api",
+      expiresIn: 1000 * 60 * 15,
+    });
 
-      const headers = makeAuthHeaders(req, new Headers(), token);
+    const refreshToken = await signJwt({
+      sub: user.email,
+      iss: new URL(req.url).href,
+      aud: "api",
+      expiresIn: 1000 * 60 * 60 * 24 * 30,
+    });
 
-      return new Response(JSON.stringify({ token }), { headers });
+      const headers = makeAuthHeaders(req, new Headers(), accessToken, refreshToken);
+
+      return new Response(JSON.stringify({ accessToken }), { headers });
     } catch (err) {
       console.error(err);
       return new Response(

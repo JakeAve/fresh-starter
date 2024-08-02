@@ -1,7 +1,7 @@
-POST http://localhost:8000/api/email-availability
+POST http://localhost:8000/api/validate/email
 Content-Type: application/json
 
 {
     "email": "unused@gmail.com",
-    "token": "f076449c425092307d276782bc7da311801e101d255a67a48260cfe9c34529f4"
+    "token": "686f9571492ef74c945c2fbf05339bf5ddda68dd0e8661c43be572eb50cc79f3"
 }

@@ -5,7 +5,24 @@ const key = await genHMACKey();
 
 const exportedKey = await crypto.subtle.exportKey("raw", key);
 const base64Str = bytesToBase64Str(new Uint8Array(exportedKey));
-const variable = `HMAC_SHA_256_KEY=${base64Str}`;
+
+console.log("Key created:");
+console.log(base64Str);
+
+const keyType = prompt(
+  "Would you like to update the ACCESS token or REFRESH token? Type access, refresh or no.",
+);
+
+if (
+  !keyType || (keyType && keyType.toLocaleLowerCase() !== "access" &&
+    keyType.toLocaleLowerCase() !== "refresh")
+) {
+  Deno.exit();
+}
+
+const variable = keyType?.toLocaleLowerCase() === "access"
+  ? `ACCESS_TOKEN_KEY=${base64Str}`
+  : `REFRESH_TOKEN_KEY=${base64Str}`;
 
 let contents = "";
 
@@ -16,7 +33,9 @@ try {
 }
 
 if (contents) {
-  const regEx = /HMAC_SHA_256_KEY=?.*/;
+  const regEx = keyType?.toLocaleLowerCase() === "access"
+    ? /ACCESS_TOKEN_KEY=?.*/
+    : /REFRESH_TOKEN_KEY=?.*/;
   if (regEx.test(contents)) {
     contents = contents.replace(regEx, variable);
   } else {

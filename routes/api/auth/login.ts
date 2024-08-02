@@ -46,15 +46,28 @@ export const handler: Handlers = {
         throw new AuthenticationError(email);
       }
 
-      const token = await signJwt({
+      const accessToken = await signJwt({
         sub: email,
         iss: new URL(req.url).href,
         aud: "api",
+        expiresIn: 1000 * 60 * 15,
       });
 
-      const headers = makeAuthHeaders(req, new Headers(), token);
+      const refreshToken = await signJwt({
+        sub: email,
+        iss: new URL(req.url).href,
+        aud: "api",
+        expiresIn: 1000 * 60 * 60 * 24 * 30,
+      });
 
-      return new Response(JSON.stringify({ response: "ok", token }), {
+      const headers = makeAuthHeaders(
+        req,
+        new Headers(),
+        accessToken,
+        refreshToken,
+      );
+
+      return new Response(JSON.stringify({ response: "ok", accessToken, refreshToken }), {
         headers,
       });
     } catch (err) {

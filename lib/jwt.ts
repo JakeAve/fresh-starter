@@ -6,10 +6,10 @@ import {
   signWithHMAC,
   verifyWithHMAC,
 } from "./cryptoHelpers.ts";
-import { getHMACKey } from "./getKey.ts";
+import { getAccessTokenKey } from "./getKey.ts";
 import { dateToSeconds } from "./secondsTimeStamp.ts";
 
-const key = await getHMACKey();
+const key = await getAccessTokenKey();
 
 interface JWT {
   aud: string;
@@ -24,13 +24,13 @@ interface JWT {
 
 export function createJWTPayload(payload: RawPayload): JWT {
   const now = new Date();
-
   const iat = dateToSeconds(now);
-  const exp = iat + 3600;
+  const { expiresIn, ...rest } = payload;
+  const exp = iat + expiresIn;
   const nbf = iat;
 
   return {
-    ...payload,
+    ...rest,
     iat,
     exp,
     nbf,
@@ -65,6 +65,7 @@ interface RawPayload {
   sub: string;
   aud: string;
   iss: string;
+  expiresIn: number;
   [key: string]: string | number;
 }
 

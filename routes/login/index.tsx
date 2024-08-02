@@ -40,7 +40,7 @@ export const handler: Handlers = {
           throw new AuthenticationError(loginResp.email, loginResp.message);
         }
 
-        makeAuthHeaders(req, headers, loginResp.token);
+        makeAuthHeaders(req, headers, loginResp.accessToken, loginResp.refreshToken);
       }
 
       return resp;

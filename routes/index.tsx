@@ -1,14 +1,14 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
 import { Button } from "$components/Button.tsx";
-import { TOKEN_COOKIE_NAME } from "../lib/authentication.ts";
+import { ACCESS_TOKEN_COOKIE_NAME } from "../lib/authentication.ts";
 import routes from "../routes.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
     const resp = await ctx.render();
     const cookies = getCookies(req.headers);
-    const userToken = cookies[TOKEN_COOKIE_NAME];
+    const userToken = cookies[ACCESS_TOKEN_COOKIE_NAME];
     if (userToken) {
       return resp;
     } else {
