@@ -2,7 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import { AuthenticationError } from "../../../Errors/AuthenticationError.ts";
 import { getUserByEmail } from "../../../db/userSchema.ts";
 import { authenticate, makeAuthHeaders } from "../../../lib/authentication.ts";
-import { signJwt, verifyJwt } from "../../../lib/jwt.ts";
+import { verifyJwt } from "../../../lib/jwt.ts";
 
 export const handler: Handlers = {
   async POST(req, _ctx) {
@@ -46,30 +46,22 @@ export const handler: Handlers = {
         throw new AuthenticationError(email);
       }
 
-      const accessToken = await signJwt({
-        sub: email,
-        iss: new URL(req.url).href,
-        aud: "api",
-        expiresIn: 1000 * 60 * 15,
-      });
-
-      const refreshToken = await signJwt({
-        sub: email,
-        iss: new URL(req.url).href,
-        aud: "api",
-        expiresIn: 1000 * 60 * 60 * 24 * 30,
-      });
-
-      const headers = makeAuthHeaders(
+      const { headers, accessToken, refreshToken } = await makeAuthHeaders(
         req,
         new Headers(),
-        accessToken,
-        refreshToken,
+        user.email,
+        {
+          updateRefreshToken: true,
+          refreshTokenVersion: user.refreshTokenVersion || 1,
+        },
       );
 
-      return new Response(JSON.stringify({ response: "ok", accessToken, refreshToken }), {
-        headers,
-      });
+      return new Response(
+        JSON.stringify({ response: "ok", email, accessToken, refreshToken }),
+        {
+          headers,
+        },
+      );
     } catch (err) {
       console.error(err);
       return new Response(

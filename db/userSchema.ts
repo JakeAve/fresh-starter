@@ -11,11 +11,12 @@ export interface User {
   handle: string;
   password: string;
   id: string;
+  refreshTokenVersion: number;
 }
 
 export type SanitizedUser = Omit<User, "password" | "id">;
 
-export type UserBody = Omit<User, "id">;
+export type UserBody = Omit<User, "id" | "refreshTokenVersion">;
 
 export class DuplicateError extends Error {
   constructor(message: string) {
@@ -34,7 +35,7 @@ export async function addUser(userBody: UserBody) {
   userBody.handle = userBody.handle.toLocaleLowerCase();
   userBody.password = await hashPassword(userBody.password);
 
-  const user: User = { ...userBody, id };
+  const user: User = { ...userBody, id, refreshTokenVersion: 1 };
   const primaryKey = [...USERS_BY_ID, user.id];
   const byEmailKey = [...USERS_BY_EMAIL, user.email];
   const byHandleKey = [...USERS_BY_HANDLE, user.handle];
@@ -73,4 +74,59 @@ export async function getUserByHandle(handle: string) {
   handle = handle.toLocaleLowerCase();
   const res = await kv.get<User>([...USERS_BY_HANDLE, handle]);
   return res.value;
+}
+
+export async function incrementRefreshTokenVersion(email: string) {
+  const user = await getUserByEmail(email);
+  if (!user) {
+    throw new Error(`Cannot get user: ${email}`);
+  }
+
+  const newVersion = user.refreshTokenVersion
+    ? user.refreshTokenVersion + 1
+    : 1;
+
+  return updateUserByEmail(email, { refreshTokenVersion: newVersion });
+}
+
+export async function updateUserByEmail(
+  email: string,
+  updatedUser: Partial<User>,
+) {
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    throw new Error(`Cannot get user: ${email}`);
+  }
+
+  const keys = [
+    "email",
+    "name",
+    "handle",
+    "password",
+    "refreshTokenVersion",
+  ] as Array<keyof User>;
+
+  for (const key in updatedUser) {
+    const k = key as keyof Partial<User>;
+    if (keys.includes(k)) {
+      // @ts-ignore I'm sure there's a way to fix this
+      user[k] = updatedUser[k];
+    }
+  }
+
+  const primaryKey = [...USERS_BY_ID, user.id];
+  const byEmailKey = [...USERS_BY_EMAIL, user.email];
+  const byHandleKey = [...USERS_BY_HANDLE, user.handle];
+
+  const res = await kv.atomic().set(primaryKey, user).set(byEmailKey, user).set(
+    byHandleKey,
+    user,
+  ).commit();
+
+  if (!res.ok) {
+    console.error(`Cannot update ${email}`);
+  }
+
+  return res;
 }

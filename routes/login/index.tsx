@@ -7,6 +7,7 @@ import {
   validateAuthHeaders,
 } from "../../lib/authentication.ts";
 import Redirect from "../../islands/Redirect.tsx";
+import { getUserByEmail } from "../../db/userSchema.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -40,7 +41,16 @@ export const handler: Handlers = {
           throw new AuthenticationError(loginResp.email, loginResp.message);
         }
 
-        makeAuthHeaders(req, headers, loginResp.accessToken, loginResp.refreshToken);
+        const user = await getUserByEmail(loginResp.email);
+
+        if (!user) {
+          throw new Error(`No user: ${loginResp.email}`);
+        }
+
+        await makeAuthHeaders(req, headers, user.email, {
+          updateRefreshToken: true,
+          refreshTokenVersion: user.refreshTokenVersion || 1,
+        });
       }
 
       return resp;
@@ -73,7 +83,7 @@ export default function Home(props: PageProps<Props>) {
   return (
     <>
       <div class="grid place-items-center h-screen relative">
-        <LoginForm email={email} message={message} />
+        {!isAuthenticated && <LoginForm email={email} message={message} />}
         {isAuthenticated && <Redirect to="/" timeout={0} />}
       </div>
     </>

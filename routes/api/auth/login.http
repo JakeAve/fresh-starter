@@ -1,4 +1,4 @@
-POST http://localhost:8000/api/login
+POST http://localhost:8000/api/auth/login
 Content-Type: application/x-www-form-urlencoded
 
 email=example@example.com

@@ -44,10 +44,10 @@ export const handler: Handlers = {
       ]);
       await addUser({ email, name, handle, password });
     } catch (err) {
-      console.log(err);
       if (err instanceof ValidationError || err instanceof DuplicateError) {
         return ctx.render({ message: err.message });
       }
+      console.error(err);
       return ctx.render({ message: "Could not save user" });
     }
 

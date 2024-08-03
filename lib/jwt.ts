@@ -11,7 +11,7 @@ import { dateToSeconds } from "./secondsTimeStamp.ts";
 
 const key = await getAccessTokenKey();
 
-interface JWT {
+export interface JWT {
   aud: string;
   exp: number;
   iat: number;
@@ -38,7 +38,7 @@ export function createJWTPayload(payload: RawPayload): JWT {
   };
 }
 
-class JWTError extends Error {
+export class JWTError extends Error {
   payload: JWT;
   constructor(payload: JWT, message = "Invalid JWT") {
     super(message);

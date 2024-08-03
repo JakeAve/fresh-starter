@@ -1,5 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getUserByEmail, SanitizedUser, User } from "../../db/userSchema.ts";
+import { makeAuthHeaders } from "../../lib/authentication.ts";
 import { validateAuthHeaders } from "../../lib/authentication.ts";
 
 export async function handler(
@@ -8,6 +9,7 @@ export async function handler(
 ) {
   try {
     const { sub: email } = await validateAuthHeaders(req);
+
     const rawUser = await getUserByEmail(email) as Partial<User>;
 
     ctx.state.rawUser = { ...rawUser };
@@ -19,7 +21,11 @@ export async function handler(
 
     ctx.state.user = user;
 
-    return ctx.next();
+    const resp = await ctx.next();
+    
+    await makeAuthHeaders(req, resp.headers, email);
+
+    return resp;
   } catch (err) {
     console.error(err);
     const headers = new Headers();

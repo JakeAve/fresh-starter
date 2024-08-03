@@ -5,7 +5,6 @@ import { AuthenticationResponseJSON } from "@simplewebauthn/types";
 import { /* addCount, */ getPasskeyById } from "../../../db/passkeySchema.ts";
 import { getUserById } from "../../../db/userSchema.ts";
 import { VerifiedAuthenticationResponse } from "@simplewebauthn/server";
-import { signJwt } from "../../../lib/jwt.ts";
 import { makeAuthHeaders } from "../../../lib/authentication.ts";
 
 export const handler: Handlers = {
@@ -54,25 +53,21 @@ export const handler: Handlers = {
         throw new Error("User not verified");
       }
 
-    //   await addCount(user.id, passkey.id); // TODO: MacOs multi-device keys don't work with this
+      //   await addCount(user.id, passkey.id); // TODO: MacOs multi-device keys don't work with this
 
-    const accessToken = await signJwt({
-      sub: user.email,
-      iss: new URL(req.url).href,
-      aud: "api",
-      expiresIn: 1000 * 60 * 15,
-    });
+      const { headers, accessToken, refreshToken } = await makeAuthHeaders(
+        req,
+        new Headers(),
+        user.email,
+        {
+          updateRefreshToken: true,
+          refreshTokenVersion: user.refreshTokenVersion || 1,
+        },
+      );
 
-    const refreshToken = await signJwt({
-      sub: user.email,
-      iss: new URL(req.url).href,
-      aud: "api",
-      expiresIn: 1000 * 60 * 60 * 24 * 30,
-    });
-
-      const headers = makeAuthHeaders(req, new Headers(), accessToken, refreshToken);
-
-      return new Response(JSON.stringify({ accessToken }), { headers });
+      return new Response(JSON.stringify({ accessToken, refreshToken }), {
+        headers,
+      });
     } catch (err) {
       console.error(err);
       return new Response(
