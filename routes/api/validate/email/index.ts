@@ -5,6 +5,12 @@ import { validateEmail } from "../../../../lib/validators/validateEmail.ts";
 export const handler: Handlers = {
   async POST(_req: Request, ctx: FreshContext) {
     try {
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, Math.floor(Math.random() * 750));
+      });
+
       const email = ctx.state.email as string;
 
       validateEmail(email);

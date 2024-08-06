@@ -14,7 +14,7 @@ import { ValidationError } from "../../Errors/ValidationError.ts";
 export const handler: Handlers = {
   async GET(_req, ctx) {
     const key = await getAESKey();
-    const timeBasedKey = await createTimeBasedKey(key, 3600);
+    const timeBasedKey = await createTimeBasedKey(key, 120);
     const resp = await ctx.render({ timeBasedKey });
     resp.headers.set("X-Custom-Header", "Hello");
     return resp;

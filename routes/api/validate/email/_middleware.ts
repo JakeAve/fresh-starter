@@ -12,8 +12,7 @@ export async function handler(
     ctx.state.email = json.email;
     const key = await getAESKey();
     await verifyTimeBasedKey(key, token);
-    const resp = await ctx.next();
-    return resp;
+    return ctx.next();
   } catch (err) {
     if (err) {
       return new Response(JSON.stringify({ message: err.message }), {
