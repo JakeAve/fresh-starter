@@ -3,6 +3,9 @@ import { AuthenticationError } from "../Errors/AuthenticationError.ts";
 import { getUserByEmail, incrementRefreshTokenVersion } from "../db/userSchema.ts";
 import { verifyPassword } from "./cryptoHelpers.ts";
 import { JWT, JWTError, signJwt, verifyJwt } from "./jwt.ts";
+import { load } from "$std/dotenv/mod.ts";
+
+const env = await load();
 
 export const ACCESS_TOKEN_COOKIE_NAME = "user_token";
 export const REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
@@ -67,7 +70,7 @@ export async function makeAuthHeaders(
     maxAge: 3600,
     domain: url.hostname,
     path: "/",
-    // secure: true,
+    secure: env.APP_ENVIRONMENT === 'production' ? true : false,
   });
 
   if (updateRefreshToken && refreshToken) {
@@ -77,7 +80,7 @@ export async function makeAuthHeaders(
       maxAge: 1000 * 60 * 60 * 24 * 30,
       domain: url.hostname,
       path: "/",
-      // secure: true,
+      secure: env.APP_ENVIRONMENT === 'production' ? true : false,
     });
   }
 
