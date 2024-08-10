@@ -22,7 +22,7 @@ export interface JWT {
   [key: string]: string | number;
 }
 
-export function createJWTPayload(payload: RawPayload): JWT {
+export function createJWTPayload(payload: JWTOptions): JWT {
   const now = new Date();
   const iat = dateToSeconds(now);
   const { expiresIn, ...rest } = payload;
@@ -61,7 +61,7 @@ export function checkJWTPayload(payload: JWT) {
   return true;
 }
 
-interface RawPayload {
+interface JWTOptions {
   sub: string;
   aud: string;
   iss: string;
@@ -69,7 +69,7 @@ interface RawPayload {
   [key: string]: string | number;
 }
 
-export async function signJwt(rawPayload: RawPayload) {
+export async function signJwt(jwtOptions: JWTOptions) {
   const encoder = new TextEncoder();
 
   const header = JSON.stringify({
@@ -77,7 +77,7 @@ export async function signJwt(rawPayload: RawPayload) {
     "typ": "JWT",
   });
 
-  const jwtPayload = createJWTPayload(rawPayload);
+  const jwtPayload = createJWTPayload(jwtOptions);
   const payload = JSON.stringify(jwtPayload);
 
   const base64Header = bytesToBase64Url(encoder.encode(header));
@@ -133,4 +133,28 @@ export async function verifyJwt(token: string) {
     console.error(err);
     throw new JWTError(payload);
   }
+}
+
+export async function readJwt(token: string) {
+  let payload: JWT = {
+    aud: "",
+    exp: 0,
+    iat: 0,
+    iss: "",
+    jti: "",
+    nbf: 0,
+    sub: "",
+  };
+  let isValid = false;
+  try {
+    payload = await verifyJwt(token);
+    isValid = true;
+  } catch (err) {
+    isValid = false;
+    if (err instanceof JWTError) {
+      payload = err.payload;
+    } else throw err;
+  }
+
+  return { isValid, payload };
 }

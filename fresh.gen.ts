@@ -5,9 +5,11 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_500 from "./routes/_500.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $_layout from "./routes/_layout.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $account_middleware from "./routes/account/_middleware.ts";
 import * as $account_index from "./routes/account/index.tsx";
+import * as $api_middleware from "./routes/api/_middleware.ts";
 import * as $api_auth_generate_authentication_options from "./routes/api/auth/generate-authentication-options.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
@@ -35,6 +37,7 @@ import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
 import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
+import * as $UserButton from "./islands/UserButton.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -42,9 +45,11 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_500.tsx": $_500,
     "./routes/_app.tsx": $_app,
+    "./routes/_layout.tsx": $_layout,
     "./routes/_middleware.ts": $_middleware,
     "./routes/account/_middleware.ts": $account_middleware,
     "./routes/account/index.tsx": $account_index,
+    "./routes/api/_middleware.ts": $api_middleware,
     "./routes/api/auth/generate-authentication-options.ts":
       $api_auth_generate_authentication_options,
     "./routes/api/auth/login.ts": $api_auth_login,
@@ -79,6 +84,7 @@ const manifest = {
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,
     "./islands/Redirect.tsx": $Redirect,
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
+    "./islands/UserButton.tsx": $UserButton,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

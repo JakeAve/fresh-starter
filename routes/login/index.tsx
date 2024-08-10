@@ -10,9 +10,17 @@ import Redirect from "../../islands/Redirect.tsx";
 import { getUserByEmail } from "../../db/userSchema.ts";
 
 export const handler: Handlers = {
-  async GET(_req, ctx) {
-    const resp = await ctx.render();
-    resp.headers.set("X-Custom-Header", "Hello");
+  async GET(req, ctx) {
+    let isAlreadyVerified: boolean | undefined;
+
+    try {
+      await validateAuthHeaders(req);
+      isAlreadyVerified = true;
+    } catch {
+      isAlreadyVerified = false;
+    }
+
+    const resp = await ctx.render({ isAuthenticated: isAlreadyVerified });
     return resp;
   },
   async POST(req, ctx) {

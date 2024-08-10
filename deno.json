@@ -12,11 +12,7 @@
     "gen-hmac-key": "deno run -A scripts/genHMACSHA256Key.ts",
     "routes": "deno run --allow-read=./routes --allow-write=./routes.ts scripts/genRoutes.ts && deno fmt routes.ts"
   },
-  "lint": {
-    "rules": {
-      "tags": ["fresh", "recommended"]
-    }
-  },
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
   "imports": {
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1",
