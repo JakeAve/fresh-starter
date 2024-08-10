@@ -21,7 +21,7 @@ export default function UserButton(props: Props) {
     if (!isAuthenticatedSignal.value) {
         return (
             <Button
-                href="/login"
+                href={routes.login.index}
                 class="bg-white focus:bg-gray-100 text-blue-500 py-1 px-2"
             >
                 Login
