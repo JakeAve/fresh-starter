@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.user-button-checkbox + .user-menu {
+    display: none;
+}
+
+.user-button-checkbox:checked + .user-menu {
+    display: inherit;
+}

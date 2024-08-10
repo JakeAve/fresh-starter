@@ -3,18 +3,22 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { signal } from "@preact/signals";
 import { SanitizedUser } from "../db/userSchema.ts";
 import routes from "../routes.ts";
+import { useEffect } from "preact/hooks";
 
 interface Props {
     isAuthenticated: boolean;
     user?: SanitizedUser;
 }
 
-const userData = signal<SanitizedUser | null>(null);
+const userName = signal<string | undefined>(undefined);
 
 export default function UserButton(props: Props) {
     const { isAuthenticated, user } = props;
 
-    if (!isAuthenticated) {
+    const isAuthenticatedSignal = signal<boolean>(isAuthenticated);
+    userName.value = user?.handle;
+
+    if (!isAuthenticatedSignal.value) {
         return (
             <Button
                 href="/login"
@@ -26,27 +30,55 @@ export default function UserButton(props: Props) {
     }
 
     async function loadUser() {
-        if (!user && !userData.value) {
+        if (!userName.value) {
             const resp = await fetch(routes.api.user.index);
             const json = await resp.json();
-            userData.value = json;
-        } else {
-            userData.value = user as SanitizedUser;
+            userName.value = json.handle;
         }
     }
 
-    
+    async function logout() {
+        const resp = await fetch(routes.api.auth.logout, {
+            method: "post",
+        });
+        if (resp.ok) {
+            isAuthenticatedSignal.value = false;
+            location.href = routes.login.index;
+        }
+    }
 
     if (IS_BROWSER) {
-        if (userData.value) {
-            console.log(userData.value)
-        }
+        useEffect(() => {
+            if (!userName.value) {
+                fetch(routes.api.user.index).then((resp) => resp.json()).then(
+                    (json) => {
+                        userName.value = json.handle;
+                    },
+                );
+            }
+        }, [userName]);
     }
 
     return (
-        <div onPointerOver={loadUser} onPointerDown={loadUser}>
-            <button></button>
-            <button>Logout</button>
+        <div class="user-button relative" onPointerOver={loadUser}>
+            <label for="user-menu" class="text-white cursor-pointer">
+                {userName}
+            </label>
+            <input
+                id="user-menu"
+                type="checkbox"
+                class="user-button-checkbox opacity-0"
+            />
+            <ul class="user-menu absolute top-full end-0 bg-blue-500 py-1 px-2">
+                <li class="py-1">
+                    <a class="text-white" href={routes.account.index}>
+                        Account
+                    </a>
+                </li>
+                <li class="py-1">
+                    <button class="text-white" onClick={logout}>Logout</button>
+                </li>
+            </ul>
         </div>
     );
 }
