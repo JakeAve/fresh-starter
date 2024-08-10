@@ -1,5 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { validateAuthHeaders } from "../lib/authentication.ts";
+import { makeAuthHeaders, validateAuthHeaders } from "../lib/authentication.ts";
 
 export async function handler(
   req: Request,
@@ -9,19 +9,19 @@ export async function handler(
     return ctx.next();
   }
 
-  let isAuthenticated = false;
-  let email: null | string = null;
-
   try {
     const { sub } = await validateAuthHeaders(req);
-    email = sub;
-    isAuthenticated = true;
+    ctx.state.isAuthenticated = true;
+    ctx.state.email = sub;
   } catch {
-    //
+    ctx.state.isAuthenticated = false;
   }
 
-  ctx.state.isAuthenticated = isAuthenticated;
-  ctx.state.email = email;
+  const resp = await ctx.next();
 
-  return ctx.next();
+  if (ctx.state.isAuthenticated && ctx.state.email) {
+    await makeAuthHeaders(req, resp.headers, ctx.state.email as string);
+  }
+
+  return resp;
 }

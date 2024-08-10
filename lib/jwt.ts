@@ -129,8 +129,7 @@ export async function verifyJwt(token: string) {
     checkJWTPayload(payload);
 
     return payload;
-  } catch (err) {
-    console.error(err);
+  } catch {
     throw new JWTError(payload);
   }
 }

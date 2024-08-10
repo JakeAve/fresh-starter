@@ -1,13 +1,17 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getUserByEmail, SanitizedUser, User } from "../../../db/userSchema.ts";
-import { validateAuthHeaders } from "../../../lib/authentication.ts";
 
 export async function handler(
-  req: Request,
+  _req: Request,
   ctx: FreshContext,
 ) {
   try {
-    const { sub: email } = await validateAuthHeaders(req);
+    if (!ctx.state.isAuthenticated) {
+      throw new Error("Not authenticated");
+    }
+
+    const email = ctx.state.email as string;
+
     const rawUser = await getUserByEmail(email) as Partial<User>;
 
     ctx.state.rawUser = { ...rawUser };

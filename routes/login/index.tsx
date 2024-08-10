@@ -19,7 +19,6 @@ export const handler: Handlers = {
     } catch {
       isAlreadyVerified = false;
     }
-
     const resp = await ctx.render({ isAuthenticated: isAlreadyVerified });
     return resp;
   },
