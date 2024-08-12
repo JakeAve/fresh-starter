@@ -9,11 +9,14 @@ interface Props {
 }
 
 const displayMessage = signal('');
+const currentHandle = signal('');
 
 export default function UpdateHandleForm(props: Props) {
     const { user } = props;
-    
-    const currentHandle = signal(user.handle);
+
+    if (!currentHandle.value) {
+        currentHandle.value = user.handle;
+    }
 
     async function updateHandle(e: SubmitEvent) {
         e.preventDefault();
@@ -28,7 +31,9 @@ export default function UpdateHandleForm(props: Props) {
         if (!resp.ok) {
             displayMessage.value = json.message;
         } else {
-            location.reload();
+            currentHandle.value = handle as string;
+            displayMessage.value = `Handle updated to @${handle}`
+            form.reset();
         }
     }
     return (
@@ -57,6 +62,7 @@ export default function UpdateHandleForm(props: Props) {
           name="handle"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
+          displayMessage={displayMessage.value}
         />
         <Button type="submit">Update</Button>
       </form>

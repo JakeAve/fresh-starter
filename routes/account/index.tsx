@@ -34,8 +34,8 @@ export default function Home(props: PageProps<Props>) {
 
   return (
     <div class="h-screen">
-      <h1 class="text-2xl p-8 col-span-2">Account</h1>
-      <div class="flex gap-4">
+      <h1 class="text-2xl p-8">Account</h1>
+      <div class="grid grid-cols-4 gap-4 py-4 px-8">
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Passkeys</h2>
           <ul class="flex flex-col gap-2 p-2">
@@ -48,17 +48,17 @@ export default function Home(props: PageProps<Props>) {
           </div>
         </div>
         <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Change Password</h2>
+          <h2 class="text-lg">Update Password</h2>
           <UpdatePasswordForm />
         </div>
         {
           /* <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Change Email</h2>
+          <h2 class="text-lg">Update Email</h2>
           <UpdateEmailForm user={user} timeBasedKey={timeBasedKey} />
         </div> */
         }
         <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Change Handle</h2>
+          <h2 class="text-lg">Update Handle</h2>
           <UpdateHandleForm user={user} />
         </div>
       </div>
