@@ -3,6 +3,7 @@ import { JSX } from "preact/jsx-runtime";
 import routes from "../routes.ts";
 
 interface HandleInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
+  displayMessage?: string;
 }
 
 const isAvailable = signal(true);
@@ -10,6 +11,12 @@ const handle = signal("");
 const displayMessage = signal("");
 
 export default function HandleInput(props: HandleInputProps) {
+  const { displayMessage: propsDisplayMessage } = props;
+
+  if (propsDisplayMessage) {
+    displayMessage.value = propsDisplayMessage;
+  }
+
   async function updateInput(
     evt: JSX.TargetedInputEvent<HTMLInputElement>,
   ) {

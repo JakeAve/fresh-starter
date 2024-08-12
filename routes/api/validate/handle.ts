@@ -1,5 +1,6 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
 import { getUserByHandle } from "../../../db/userSchema.ts";
+import { ConflictError } from "../../../Errors/ConflictError.ts";
 import { validateHandle } from "../../../lib/validators/validateHandle.ts";
 
 export const handler: Handlers = {
@@ -19,10 +20,10 @@ export const handler: Handlers = {
           }),
         );
       }
-      throw new Error(`@${handle} is already taken.`);
+      throw new ConflictError(`@${handle} is already taken.`);
     } catch (err) {
       return new Response(JSON.stringify({ message: err.message }), {
-        status: 409,
+        status: err instanceof ConflictError ? 409 : 400,
       });
     }
   },

@@ -4,6 +4,7 @@ import routes from "../routes.ts";
 
 interface EmailInputProps extends JSX.HTMLAttributes<HTMLInputElement> {
   timeBasedKey: string;
+  displayMessage?: string;
 }
 
 const isAvailable = signal(true);
@@ -12,7 +13,11 @@ const displayMessage = signal("");
 const didMakeInvalidSubmission = signal(false);
 
 export default function EmailInput(props: EmailInputProps) {
-  const { timeBasedKey } = props;
+  const { timeBasedKey, displayMessage: propsDisplayMessage } = props;
+
+  if (propsDisplayMessage) {
+    displayMessage.value = propsDisplayMessage;
+  }
 
   async function updateInput(
     evt: JSX.TargetedInputEvent<HTMLInputElement>,

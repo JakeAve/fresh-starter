@@ -15,11 +15,14 @@ import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_auth_verify_authentication from "./routes/api/auth/verify-authentication.ts";
 import * as $api_user_middleware from "./routes/api/user/_middleware.ts";
+import * as $api_user_email from "./routes/api/user/email.ts";
+import * as $api_user_handle from "./routes/api/user/handle.ts";
 import * as $api_user_index from "./routes/api/user/index.ts";
 import * as $api_user_passkey_delete from "./routes/api/user/passkey/delete.ts";
 import * as $api_user_passkey_edit from "./routes/api/user/passkey/edit.ts";
 import * as $api_user_passkey_register_request from "./routes/api/user/passkey/register-request.ts";
 import * as $api_user_passkey_verify_registration from "./routes/api/user/passkey/verify-registration.ts";
+import * as $api_user_password from "./routes/api/user/password.ts";
 import * as $api_validate_email_middleware from "./routes/api/validate/email/_middleware.ts";
 import * as $api_validate_email_index from "./routes/api/validate/email/index.ts";
 import * as $api_validate_handle from "./routes/api/validate/handle.ts";
@@ -37,6 +40,8 @@ import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
 import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
+import * as $UpdateEmailForm from "./islands/UpdateEmailForm.tsx";
+import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
 import * as $UserButton from "./islands/UserButton.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -57,6 +62,8 @@ const manifest = {
     "./routes/api/auth/verify-authentication.ts":
       $api_auth_verify_authentication,
     "./routes/api/user/_middleware.ts": $api_user_middleware,
+    "./routes/api/user/email.ts": $api_user_email,
+    "./routes/api/user/handle.ts": $api_user_handle,
     "./routes/api/user/index.ts": $api_user_index,
     "./routes/api/user/passkey/delete.ts": $api_user_passkey_delete,
     "./routes/api/user/passkey/edit.ts": $api_user_passkey_edit,
@@ -64,6 +71,7 @@ const manifest = {
       $api_user_passkey_register_request,
     "./routes/api/user/passkey/verify-registration.ts":
       $api_user_passkey_verify_registration,
+    "./routes/api/user/password.ts": $api_user_password,
     "./routes/api/validate/email/_middleware.ts":
       $api_validate_email_middleware,
     "./routes/api/validate/email/index.ts": $api_validate_email_index,
@@ -84,6 +92,8 @@ const manifest = {
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,
     "./islands/Redirect.tsx": $Redirect,
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
+    "./islands/UpdateEmailForm.tsx": $UpdateEmailForm,
+    "./islands/UpdateHandleForm.tsx": $UpdateHandleForm,
     "./islands/UserButton.tsx": $UserButton,
   },
   baseUrl: import.meta.url,

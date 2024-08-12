@@ -41,6 +41,6 @@ export async function verifyTimeBasedKey(key: CryptoKey, timeBasedKey: string) {
     if (err instanceof ExpiredTimeBasedKey) {
       throw err;
     }
-    throw new InvalidTimeBasedKey("Invalid time based key");
+    throw new InvalidTimeBasedKey("Invalid");
   }
 }

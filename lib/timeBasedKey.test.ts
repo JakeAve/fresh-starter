@@ -52,6 +52,6 @@ Deno.test("verifyTimeBasedKey() invalid", async () => {
 
   assertRejects(
     () => verifyTimeBasedKey(key, "dolphin"),
-    "Invalid time based key",
+    "Invalid",
   );
 });

@@ -146,7 +146,7 @@ export default function LoginForm(props: LoginProps) {
         <div class="flex items-center flex-col">
           <a
             class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="/signup"
+            href={routes.signup.index}
           >
             Create Account
           </a>

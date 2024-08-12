@@ -107,6 +107,8 @@ export async function updateUserByEmail(
     "refreshTokenVersion",
   ] as Array<keyof User>;
 
+  const oldUser = {...user}
+
   for (const key in updatedUser) {
     const k = key as keyof Partial<User>;
     if (keys.includes(k)) {
@@ -127,6 +129,16 @@ export async function updateUserByEmail(
   if (!res.ok) {
     console.error(`Cannot update ${email}`);
   }
+
+  let deleteTransaction = kv.atomic();
+  if (oldUser.email !== user.email) {
+    deleteTransaction = deleteTransaction.delete([...USERS_BY_EMAIL, oldUser.email])
+  }
+  if (oldUser.handle !== user.handle) {
+    deleteTransaction = deleteTransaction.delete([...USERS_BY_HANDLE, oldUser.handle])
+  }
+
+  await deleteTransaction.commit();
 
   return res;
 }
