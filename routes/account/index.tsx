@@ -1,15 +1,13 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { Button } from "$components/Button.tsx";
 import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
 import { SanitizedUser, User } from "../../db/userSchema.ts";
 import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
 import { PasskeyEditDelete } from "../../islands/PasskeyEditDelete.tsx";
-import PasswordPairInputs from "../../islands/PasswordPairInputs.tsx";
-import PasswordInput from "../../islands/PasswordInput.tsx";
 import { getAESKey } from "../../lib/getKey.ts";
 import { createTimeBasedKey } from "../../lib/timeBasedKey.ts";
 // import UpdateEmailForm from "../../islands/UpdateEmailForm.tsx";
 import UpdateHandleForm from "../../islands/UpdateHandleForm.tsx";
+import UpdatePasswordForm from "../../islands/UpdatePasswordForm.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -32,7 +30,7 @@ interface Props {
 }
 
 export default function Home(props: PageProps<Props>) {
-  const { user, passkeys /*, timeBasedKey */} = props.data;
+  const { user, passkeys /*, timeBasedKey */ } = props.data;
 
   return (
     <div class="h-screen">
@@ -51,28 +49,7 @@ export default function Home(props: PageProps<Props>) {
         </div>
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Change Password</h2>
-          <form class="flex flex-col">
-            <div class="mb-8">
-              <label
-                for="current-password"
-                class="block text-gray-700 text-sm font-bold mb-2"
-              >
-                Current Password
-              </label>
-              <PasswordInput
-                class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
-                id="password"
-                type="password"
-                name="current-password"
-                minLength={8}
-                maxLength={100}
-                required
-                autoComplete="current-password"
-              />
-            </div>
-            <PasswordPairInputs />
-            <Button type="submit">Update</Button>
-          </form>
+          <UpdatePasswordForm />
         </div>
         {
           /* <div class="shadow-md rounded px-8 py-6">

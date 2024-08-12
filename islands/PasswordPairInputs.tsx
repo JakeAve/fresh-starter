@@ -2,6 +2,10 @@ import { computed, signal } from "@preact/signals";
 import PasswordStrengthIndicator from "./PasswordStrengthIndicator.tsx";
 import PasswordInput from "./PasswordInput.tsx";
 
+interface Props {
+  disabled?: boolean;
+}
+
 const password = signal("");
 const repeatPassword = signal("");
 
@@ -9,7 +13,8 @@ const doPasswordsMatch = computed(() =>
   password.value === repeatPassword.value
 );
 
-export default function PasswordPairInputs() {
+export default function PasswordPairInputs(props: Props) {
+  const { disabled = false } = props;
   return (
     <>
       <div class="mb-6">
@@ -30,6 +35,7 @@ export default function PasswordPairInputs() {
           placeholder=""
           required
           type="password"
+          disabled={disabled}
         />
       </div>
       <div class="mb-6">
@@ -55,6 +61,7 @@ export default function PasswordPairInputs() {
           required
           type="password"
           value={repeatPassword}
+          disabled={disabled}
         />
         <p class="text-red-500 text-xs italic">
           &nbsp;

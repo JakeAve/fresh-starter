@@ -42,6 +42,7 @@ import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
 import * as $UpdateEmailForm from "./islands/UpdateEmailForm.tsx";
 import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
+import * as $UpdatePasswordForm from "./islands/UpdatePasswordForm.tsx";
 import * as $UserButton from "./islands/UserButton.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -94,6 +95,7 @@ const manifest = {
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
     "./islands/UpdateEmailForm.tsx": $UpdateEmailForm,
     "./islands/UpdateHandleForm.tsx": $UpdateHandleForm,
+    "./islands/UpdatePasswordForm.tsx": $UpdatePasswordForm,
     "./islands/UserButton.tsx": $UserButton,
   },
   baseUrl: import.meta.url,
