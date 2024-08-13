@@ -215,3 +215,10 @@ export function verifyWithHMAC(
     payload,
   );
 }
+
+export function genDigitOTP(length = 6) {
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  const otp = Array.from(array, (byte) => byte % 10).join("");
+  return otp.slice(0, length);
+}

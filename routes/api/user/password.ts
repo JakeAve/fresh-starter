@@ -26,7 +26,7 @@ export const handler: Handlers = {
 
             if (password !== repeatPassword) {
                 throw new ValidationError(
-                    "New password and repeat password does not match",
+                    "New password and repeat password do not match",
                 );
             }
 

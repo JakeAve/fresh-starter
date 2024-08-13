@@ -19,9 +19,12 @@ export default function LoginForm(props: LoginProps) {
   if (!IS_BROWSER) return <div></div>;
 
   async function authenticateWithPasskey() {
-    const optionsResp = await fetch(routes.api.auth["generate-authentication-options"], {
-      method: "post",
-    });
+    const optionsResp = await fetch(
+      routes.api.auth["generate-authentication-options"],
+      {
+        method: "post",
+      },
+    );
 
     const { options, sessionId } = await optionsResp.json() as {
       options: PublicKeyCredentialRequestOptionsJSON;
@@ -45,10 +48,13 @@ export default function LoginForm(props: LoginProps) {
       alert("could not assess response");
     }
 
-    const verificationResp = await fetch(routes.api.auth["verify-authentication"], {
-      method: "post",
-      body: JSON.stringify({ verifyPayload, sessionId }),
-    });
+    const verificationResp = await fetch(
+      routes.api.auth["verify-authentication"],
+      {
+        method: "post",
+        body: JSON.stringify({ verifyPayload, sessionId }),
+      },
+    );
 
     if (!verificationResp.ok) {
       alert(
@@ -136,7 +142,7 @@ export default function LoginForm(props: LoginProps) {
             <Button type="submit" id="login-submit">Login with Password</Button>
             <a
               class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              href="#"
+              href={routes["forgot-password"].index + "#" + (email || "")}
             >
               Forgot Password?
             </a>

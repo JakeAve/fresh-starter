@@ -1,6 +1,7 @@
 import {
   assert,
   assertEquals,
+  assertGreater,
   assertNotEquals,
   assertRejects,
   assertThrows,
@@ -17,6 +18,7 @@ import {
   encrypt,
   encryptSeconds,
   genAESGCMKey,
+  genDigitOTP,
   generatePBKDF2Hash,
   genHMACKey,
   genRandomBytes,
@@ -386,4 +388,30 @@ Deno.test("verifyWithHMAC() verifies", async () => {
   );
 
   assert(isVerified);
+});
+
+Deno.test("generateDigitOTP() can support different lengths", () => {
+  const val = genDigitOTP();
+  assertEquals(val.length, 6);
+  const val1 = genDigitOTP(8);
+  assertEquals(val1.length, 8);
+  const val2 = genDigitOTP(4);
+  assertEquals(val2.length, 4);
+  const val3 = genDigitOTP(12);
+  assertEquals(val3.length, 12);
+});
+
+Deno.test("generateDigitOTP() do not equal each other", () => {
+  const val1 = genDigitOTP(6);
+  const val2 = genDigitOTP(6);
+  assertNotEquals(val1, val2);
+});
+
+Deno.test("generateDigitOTP() has low repeats", () => {
+  const set = new Set();
+  for (let i = 0; i < 9999; i++) {
+    set.add(genDigitOTP());
+  }
+
+  assertGreater(set.size, 9900);
 });

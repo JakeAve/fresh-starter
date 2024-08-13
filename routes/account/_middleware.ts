@@ -1,5 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getUserByEmail, SanitizedUser, User } from "../../db/userSchema.ts";
+import routes from "../../routes.ts";
 
 export async function handler(
   _req: Request,
@@ -27,7 +28,7 @@ export async function handler(
   } catch (err) {
     console.error(err);
     const headers = new Headers();
-    headers.set("location", "/login");
+    headers.set("location", routes.login.index);
     return new Response(null, {
       status: 303,
       headers,
