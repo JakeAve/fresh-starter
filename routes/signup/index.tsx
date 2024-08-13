@@ -10,6 +10,7 @@ import { checkPasswordStrength } from "../../lib/passwordStrength.ts";
 import { validateEmail } from "../../lib/validators/validateEmail.ts";
 import { validateHandle } from "../../lib/validators/validateHandle.ts";
 import { ValidationError } from "../../Errors/ValidationError.ts";
+import { validateName } from "../../lib/validators/validateName.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -36,6 +37,7 @@ export const handler: Handlers = {
         checkPasswordStrength(password),
         validateEmail(email),
         validateHandle(handle),
+        validateName(name),
         function () {
           if (password !== repeatPassword) {
             throw new ValidationError("Passwords must match.");

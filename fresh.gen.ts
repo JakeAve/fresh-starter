@@ -18,6 +18,7 @@ import * as $api_user_middleware from "./routes/api/user/_middleware.ts";
 import * as $api_user_email from "./routes/api/user/email.ts";
 import * as $api_user_handle from "./routes/api/user/handle.ts";
 import * as $api_user_index from "./routes/api/user/index.ts";
+import * as $api_user_name from "./routes/api/user/name.ts";
 import * as $api_user_passkey_delete from "./routes/api/user/passkey/delete.ts";
 import * as $api_user_passkey_edit from "./routes/api/user/passkey/edit.ts";
 import * as $api_user_passkey_register_request from "./routes/api/user/passkey/register-request.ts";
@@ -26,6 +27,7 @@ import * as $api_user_password from "./routes/api/user/password.ts";
 import * as $api_validate_email_middleware from "./routes/api/validate/email/_middleware.ts";
 import * as $api_validate_email_index from "./routes/api/validate/email/index.ts";
 import * as $api_validate_handle from "./routes/api/validate/handle.ts";
+import * as $api_validate_name from "./routes/api/validate/name.ts";
 import * as $api_validate_password from "./routes/api/validate/password.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -34,6 +36,7 @@ import * as $signup_index from "./routes/signup/index.tsx";
 import * as $EmailInput from "./islands/EmailInput.tsx";
 import * as $HandleInput from "./islands/HandleInput.tsx";
 import * as $LoginForm from "./islands/LoginForm.tsx";
+import * as $NameInput from "./islands/NameInput.tsx";
 import * as $PasskeyEditDelete from "./islands/PasskeyEditDelete.tsx";
 import * as $PasswordInput from "./islands/PasswordInput.tsx";
 import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
@@ -42,6 +45,7 @@ import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
 import * as $UpdateEmailForm from "./islands/UpdateEmailForm.tsx";
 import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
+import * as $UpdateNameForm from "./islands/UpdateNameForm.tsx";
 import * as $UpdatePasswordForm from "./islands/UpdatePasswordForm.tsx";
 import * as $UserButton from "./islands/UserButton.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -66,6 +70,7 @@ const manifest = {
     "./routes/api/user/email.ts": $api_user_email,
     "./routes/api/user/handle.ts": $api_user_handle,
     "./routes/api/user/index.ts": $api_user_index,
+    "./routes/api/user/name.ts": $api_user_name,
     "./routes/api/user/passkey/delete.ts": $api_user_passkey_delete,
     "./routes/api/user/passkey/edit.ts": $api_user_passkey_edit,
     "./routes/api/user/passkey/register-request.ts":
@@ -77,6 +82,7 @@ const manifest = {
       $api_validate_email_middleware,
     "./routes/api/validate/email/index.ts": $api_validate_email_index,
     "./routes/api/validate/handle.ts": $api_validate_handle,
+    "./routes/api/validate/name.ts": $api_validate_name,
     "./routes/api/validate/password.ts": $api_validate_password,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
@@ -87,6 +93,7 @@ const manifest = {
     "./islands/EmailInput.tsx": $EmailInput,
     "./islands/HandleInput.tsx": $HandleInput,
     "./islands/LoginForm.tsx": $LoginForm,
+    "./islands/NameInput.tsx": $NameInput,
     "./islands/PasskeyEditDelete.tsx": $PasskeyEditDelete,
     "./islands/PasswordInput.tsx": $PasswordInput,
     "./islands/PasswordPairInputs.tsx": $PasswordPairInputs,
@@ -95,6 +102,7 @@ const manifest = {
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
     "./islands/UpdateEmailForm.tsx": $UpdateEmailForm,
     "./islands/UpdateHandleForm.tsx": $UpdateHandleForm,
+    "./islands/UpdateNameForm.tsx": $UpdateNameForm,
     "./islands/UpdatePasswordForm.tsx": $UpdatePasswordForm,
     "./islands/UserButton.tsx": $UserButton,
   },

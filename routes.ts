@@ -9,6 +9,7 @@ export default {
   "api": {
     "validate": {
       "password": "/api/validate/password",
+      "name": "/api/validate/name",
       "handle": "/api/validate/handle",
       "email": {
         "index": "/api/validate/email",
@@ -23,6 +24,7 @@ export default {
     },
     "user": {
       "password": "/api/user/password",
+      "name": "/api/user/name",
       "passkey": {
         "register-request": "/api/user/passkey/register-request",
         "edit": "/api/user/passkey/edit",

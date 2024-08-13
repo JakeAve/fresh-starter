@@ -2,6 +2,7 @@ import PasswordPairInputs from "../islands/PasswordPairInputs.tsx";
 import HandleInput from "../islands/HandleInput.tsx";
 import EmailInput from "../islands/EmailInput.tsx";
 import { Button } from "$components/Button.tsx";
+import NameInput from "../islands/NameInput.tsx";
 
 interface Props {
   timeBasedKey: string;
@@ -41,18 +42,18 @@ export function SignUp(props: Props) {
             type="email"
           />
         </div>
-        <div class="mb-8">
+        <div class="mb-2">
           <label
             class="block text-gray-700 text-sm font-bold mb-2"
             for="name"
           >
             Name
           </label>
-          <input
+          <NameInput
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             maxLength={50}
-            minLength={2}
+            minLength={1}
             name="name"
             placeholder="Name"
             required

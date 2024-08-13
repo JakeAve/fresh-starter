@@ -8,6 +8,7 @@ import { createTimeBasedKey } from "../../lib/timeBasedKey.ts";
 // import UpdateEmailForm from "../../islands/UpdateEmailForm.tsx";
 import UpdateHandleForm from "../../islands/UpdateHandleForm.tsx";
 import UpdatePasswordForm from "../../islands/UpdatePasswordForm.tsx";
+import UpdateNameForm from "../../islands/UpdateNameForm.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -36,6 +37,10 @@ export default function Home(props: PageProps<Props>) {
     <div class="h-screen">
       <h1 class="text-2xl p-8">Account</h1>
       <div class="grid grid-cols-4 gap-4 py-4 px-8">
+      <div class="shadow-md rounded px-8 py-6">
+        <h2>Update Name</h2>
+        <UpdateNameForm user={user} />
+        </div>
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Passkeys</h2>
           <ul class="flex flex-col gap-2 p-2">
