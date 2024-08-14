@@ -85,17 +85,22 @@ export default function Home(props: PageProps<Props>) {
         return <Error404 />;
     }
     return (
-        <div class="shadow-md rounded px-8 py-6">
-            <p>
-                Enter and confirm a new password. You will be redirected to
-                login with your new password. If you fail to reset your password
-                in a few minutes, you will need to request a new reset code.
-            </p>
-            <form class="flex flex-col" method="post">
-                <PasswordPairInputs />
-                <Button>Reset Password</Button>
-                {message && <p class="text-red-500 mt-2 text-center">{message}</p>}
-            </form>
+        <div class="grid place-items-center h-screen">
+            <div class="shadow-md rounded px-8 py-6">
+                <p>
+                    Enter and confirm a new password. You will be redirected to
+                    login with your new password. If you fail to reset your
+                    password in a few minutes, you will need to request a new
+                    reset code.
+                </p>
+                <form class="flex flex-col" method="post">
+                    <PasswordPairInputs />
+                    <Button>Reset Password</Button>
+                    {message && (
+                        <p class="text-red-500 mt-2 text-center">{message}</p>
+                    )}
+                </form>
+            </div>
         </div>
     );
 }

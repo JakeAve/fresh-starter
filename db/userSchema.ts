@@ -12,11 +12,12 @@ export interface User {
   password: string;
   id: string;
   refreshTokenVersion: number;
+  isEmailVerified: boolean;
 }
 
 export type SanitizedUser = Omit<User, "password" | "id">;
 
-export type UserBody = Omit<User, "id" | "refreshTokenVersion">;
+export type UserBody = Omit<User, "id" | "refreshTokenVersion" | "isVerified">;
 
 export class DuplicateError extends Error {
   constructor(message: string) {
@@ -35,7 +36,7 @@ export async function addUser(userBody: UserBody) {
   userBody.handle = userBody.handle.toLocaleLowerCase();
   userBody.password = await hashPassword(userBody.password);
 
-  const user: User = { ...userBody, id, refreshTokenVersion: 1 };
+  const user: User = { ...userBody, id, refreshTokenVersion: 1, isEmailVerified: false };
   const primaryKey = [...USERS_BY_ID, user.id];
   const byEmailKey = [...USERS_BY_EMAIL, user.email];
   const byHandleKey = [...USERS_BY_HANDLE, user.handle];
