@@ -26,7 +26,6 @@ export default function ResetPasswordForm(props: Props) {
 
         setTimeout(() => {
             if (resetCodeRef.current?.value) {
-                location.hash = "";
                 mainFormRef.current?.submit();
             }
         });
@@ -35,16 +34,16 @@ export default function ResetPasswordForm(props: Props) {
     return (
         <div class="shadow-md rounded px-8 py-6">
             <p class="mb-2">
-                Enter the code we sent to your email. Your code will expire in
-                15 minutes.
+                Enter the code we sent to your email. Your code will expire
+                in 3 days.
             </p>
             <form
                 class="mb-2 flex justify-center"
                 method="post"
-                action={routes["forgot-password"].index}
+                href={routes["forgot-password"].index}
             >
                 <Button>Resend Email</Button>
-                <input name="email" hidden value={email} />
+                <input hidden value={email} />
             </form>
             <form
                 ref={mainFormRef}
@@ -68,9 +67,7 @@ export default function ResetPasswordForm(props: Props) {
                     required
                     class="text-center shadow appearance-none border rounded mb-4 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-                <Button onClick={() => isSubmitting.value = true}>
-                    Confirm Code
-                </Button>
+                <Button onClick={() => isSubmitting.value = true}>Confirm Code</Button>
             </form>
         </div>
     );

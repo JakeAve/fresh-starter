@@ -21,7 +21,7 @@ export const handler: Handlers = {
         const resp = await ctx.render({ email });
         return resp;
     },
-    async POST(req: Request, _ctx: FreshContext) {
+    async POST(req: Request, ctx: FreshContext) {
         try {
             await randomTimeout(1000);
 
@@ -69,7 +69,7 @@ export const handler: Handlers = {
             return redirect;
         } catch (err) {
             if (err instanceof PasswordResetError) {
-                return new Response(JSON.stringify({ message: err.message }));
+                return ctx.render({ message: err.message });
             }
             return internalServerErrorResponse(err);
         }
@@ -77,13 +77,19 @@ export const handler: Handlers = {
 };
 
 interface Props {
-    foo: unknown;
+    message?: string;
+    email?: string;
 }
 
-export default function Home(_props: PageProps<Props>) {
+export default function Home(props: PageProps<Props>) {
+    const message = props.data?.message;
+    const email = props.data?.email;
     return (
         <div class="grid place-items-center h-screen relative">
-            <VerifyPasswordResetForm />
+            <div>
+                <p>{message}</p>
+                <VerifyPasswordResetForm email={email} />
+            </div>
         </div>
     );
 }

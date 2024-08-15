@@ -36,6 +36,7 @@ import * as $login_index from "./routes/login/index.tsx";
 import * as $reset_password_middleware from "./routes/reset-password/_middleware.ts";
 import * as $reset_password_index from "./routes/reset-password/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
+import * as $verify_email_index from "./routes/verify-email/index.tsx";
 import * as $verify_password_reset_index from "./routes/verify-password-reset/index.tsx";
 import * as $EmailInput from "./islands/EmailInput.tsx";
 import * as $ForgotPasswordForm from "./islands/ForgotPasswordForm.tsx";
@@ -54,6 +55,7 @@ import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
 import * as $UpdateNameForm from "./islands/UpdateNameForm.tsx";
 import * as $UpdatePasswordForm from "./islands/UpdatePasswordForm.tsx";
 import * as $UserButton from "./islands/UserButton.tsx";
+import * as $VerifyEmailForm from "./islands/VerifyEmailForm.tsx";
 import * as $VerifyPasswordResetCodeForm from "./islands/VerifyPasswordResetCodeForm.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -98,6 +100,7 @@ const manifest = {
     "./routes/reset-password/_middleware.ts": $reset_password_middleware,
     "./routes/reset-password/index.tsx": $reset_password_index,
     "./routes/signup/index.tsx": $signup_index,
+    "./routes/verify-email/index.tsx": $verify_email_index,
     "./routes/verify-password-reset/index.tsx": $verify_password_reset_index,
   },
   islands: {
@@ -118,6 +121,7 @@ const manifest = {
     "./islands/UpdateNameForm.tsx": $UpdateNameForm,
     "./islands/UpdatePasswordForm.tsx": $UpdatePasswordForm,
     "./islands/UserButton.tsx": $UserButton,
+    "./islands/VerifyEmailForm.tsx": $VerifyEmailForm,
     "./islands/VerifyPasswordResetCodeForm.tsx": $VerifyPasswordResetCodeForm,
   },
   baseUrl: import.meta.url,

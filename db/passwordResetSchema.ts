@@ -36,7 +36,7 @@ const TTL = 1000 * 60 * 15;
 
 export async function addResetRequest(
     userId: string,
-) {
+): Promise<PasswordResetRequest> {
     const user = await getUserById(userId);
 
     if (!user) {
@@ -65,7 +65,7 @@ export async function addResetRequest(
         throw new Error(`Could not save challenge`);
     }
 
-    return res;
+    return passwordResetRequest;
 }
 
 export async function verifyOTP(userId: string, otp: string) {
@@ -98,6 +98,9 @@ export async function verifyOTP(userId: string, otp: string) {
         return resetRequest;
     } catch (err) {
         console.error(err);
+        if (err.message.includes('attempts')) {
+            throw new PasswordResetError('Max attempts reached. You will need to send a new reset code to your email.')
+        }
         throw new PasswordResetError("Could not verify OTP");
     }
 }

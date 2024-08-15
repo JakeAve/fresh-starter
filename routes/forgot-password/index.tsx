@@ -4,6 +4,7 @@ import { randomTimeout } from "../../lib/utils/randomTimeout.ts";
 import ForgotPasswordForm from "../../islands/ForgotPasswordForm.tsx";
 import routes from "../../routes.ts";
 import { addResetRequest } from "../../db/passwordResetSchema.ts";
+import { sendResetPassword } from "../../email/client.ts";
 
 export const handler: Handlers = {
     async GET(_req: Request, ctx: FreshContext) {
@@ -18,8 +19,11 @@ export const handler: Handlers = {
 
         const form = await req.formData();
         const email = form.get("email")?.toString() as string;
-        
-        headers.set("location", routes["verify-password-reset"].index + `?email=${email || ""}`);
+
+        headers.set(
+            "location",
+            routes["verify-password-reset"].index + `?email=${email || ""}`,
+        );
         const redirect = new Response(null, {
             status: 303,
             headers,
@@ -34,8 +38,21 @@ export const handler: Handlers = {
         if (!user) {
             return redirect;
         }
-       
-        await addResetRequest(user.id);
+
+        const { otp } = await addResetRequest(user.id);
+
+        const url = new URL(req.url);
+
+        const link =
+            `${url.protocol}//${url.host}${routes["verify-password-reset"].index}?email=${email}#${otp}`;
+
+        await sendResetPassword(user.email, {
+            USER: user.name,
+            CODE: otp,
+            YEAR: new Date().getFullYear().toString(),
+            COMPANY: "Company",
+            LINK: link,
+        });
 
         return redirect;
     },

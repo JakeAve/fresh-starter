@@ -1,6 +1,11 @@
 import { SignUp } from "../../components/Signup.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { addUser, DuplicateError } from "../../db/userSchema.ts";
+import {
+  addUser,
+  DuplicateError,
+  getUserByEmail,
+  User,
+} from "../../db/userSchema.ts";
 import { getAESKey } from "../../lib/getKey.ts";
 import {
   createTimeBasedKey,
@@ -11,6 +16,9 @@ import { validateEmail } from "../../lib/validators/validateEmail.ts";
 import { validateHandle } from "../../lib/validators/validateHandle.ts";
 import { ValidationError } from "../../Errors/ValidationError.ts";
 import { validateName } from "../../lib/validators/validateName.ts";
+import routes from "../../routes.ts";
+import { addEmailVerification } from "../../db/verifyEmailSchema.ts";
+import { sendVerifyEmail } from "../../email/client.ts";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -29,6 +37,8 @@ export const handler: Handlers = {
     const repeatPassword = form.get("repeat-password")?.toString() as string;
     const apiKey = form.get("api-key")?.toString() as string;
 
+    let user: null | User = null;
+
     try {
       const key = await getAESKey();
 
@@ -45,6 +55,7 @@ export const handler: Handlers = {
         }(),
       ]);
       await addUser({ email, name, handle, password });
+      user = await getUserByEmail(email);
     } catch (err) {
       if (err instanceof ValidationError || err instanceof DuplicateError) {
         return ctx.render({ message: err.message });
@@ -53,8 +64,27 @@ export const handler: Handlers = {
       return ctx.render({ message: "Could not save user" });
     }
 
+    const savedUser = user as User;
+
+    const verification = await addEmailVerification({
+      userEmail: email,
+      userId: savedUser.id,
+    });
+
+    const url = new URL(req.url);
+
+    const link =
+      `${url.protocol}//${url.host}${routes["verify-password-reset"].index}?email=${savedUser.email}&otc=${verification.otc}`;
+
+    await sendVerifyEmail(verification.userEmail, {
+      YEAR: new Date().getFullYear().toString(),
+      COMPANY: "Company",
+      USER: savedUser.name,
+      LINK: link,
+    });
+
     const headers = new Headers();
-    headers.set("location", "/login");
+    headers.set("location", routes.login.index);
     return new Response(null, {
       status: 303,
       headers,

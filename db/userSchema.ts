@@ -17,7 +17,7 @@ export interface User {
 
 export type SanitizedUser = Omit<User, "password" | "id">;
 
-export type UserBody = Omit<User, "id" | "refreshTokenVersion" | "isVerified">;
+export type UserBody = Omit<User, "id" | "refreshTokenVersion" | "isEmailVerified">;
 
 export class DuplicateError extends Error {
   constructor(message: string) {
@@ -106,6 +106,7 @@ export async function updateUserByEmail(
     "handle",
     "password",
     "refreshTokenVersion",
+    "isEmailVerified"
   ] as Array<keyof User>;
 
   const oldUser = {...user}

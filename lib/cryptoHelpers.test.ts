@@ -115,7 +115,7 @@ Deno.test("encrypt() and decrypt() work", async () => {
 
   const encrypted = await encrypt(key, payload);
 
-  assertNotEquals(payload, encrypted);
+  assertNotEquals(payload, new TextDecoder().decode(encrypted));
 
   const decrypted = await decrypt(key, encrypted);
 

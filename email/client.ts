@@ -28,10 +28,12 @@ export async function prepareEmail(
         html = html.replace(regex, options[key]);
     }
 
-    const unusedVariable = html.match(/\{\{.*\}\}/g)
+    const unusedVariable = html.match(/\{\{.*\}\}/g);
 
     if (unusedVariable) {
-        throw new Error(`Unaccounted for variable(s) ${unusedVariable.join(',')}`)
+        throw new Error(
+            `Unaccounted for variable(s) ${unusedVariable.join(",")}`,
+        );
     }
 
     return {
@@ -42,26 +44,28 @@ export async function prepareEmail(
 }
 
 async function sendEmail({ emailAddress, subject, html }: Email) {
-    const client = new SMTPClient({
-        connection: {
-            hostname: "mailslurp.mx",
-            port: parseInt(env.SMTP_PASSWORD),
-            tls: true,
-            auth: {
-                username: env.SMTP_USERNAME,
-                password: env.SMTP_PASSWORD,
+    if (env.EMAILER_STATUS === "on") {
+        const client = new SMTPClient({
+            connection: {
+                hostname: "mailslurp.mx",
+                port: parseInt(env.SMTP_PASSWORD),
+                tls: true,
+                auth: {
+                    username: env.SMTP_USERNAME,
+                    password: env.SMTP_PASSWORD,
+                },
             },
-        },
-    });
-
-    await client.send({
-        from: env.SMTP_EMAIL_ADDRESS,
-        to: emailAddress,
-        subject,
-        html,
-    });
-
-    await client.close();
+        });
+        await client.send({
+            from: env.SMTP_EMAIL_ADDRESS,
+            to: emailAddress,
+            subject,
+            html,
+        });
+        await client.close();
+    } else {
+        Deno.writeTextFileSync(`./emails/${new Date().toISOString().replace(/\:|\./g, '-')}-${subject}.html`, html);
+    }
 }
 
 export async function sendVerifyEmail(
@@ -74,7 +78,7 @@ export async function sendVerifyEmail(
 
 export async function sendResetPassword(
     emailAddress: string,
-    variables: { USER: string; YEAR: string; CODE: string; LINK: string },
+    variables: { USER: string; YEAR: string; CODE: string; LINK: string, COMPANY: string },
 ) {
     const email = await prepareEmail(emailAddress, "reset-password", variables);
     await sendEmail(email);

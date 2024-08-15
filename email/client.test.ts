@@ -2,7 +2,12 @@ import {
     assertEquals,
     assertRejects,
 } from "$std/assert/mod.ts";
+import { load } from "$std/dotenv/mod.ts";
 import { prepareEmail } from "./client.ts";
+
+const env = await load();
+
+env.EMAILER_STATUS = 'off'
 
 Deno.test("prepareEmail() for verify email", async () => {
     const result = await prepareEmail("jo@jo.com", "verify-email", {

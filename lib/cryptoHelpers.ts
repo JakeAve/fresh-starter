@@ -41,7 +41,10 @@ export function _32BitsToInteger(bytes: Uint8Array) {
   return view.getUint32(0, true);
 }
 
-export async function encrypt(key: CryptoKey, payload: string | BufferSource) {
+export async function encrypt(
+  key: CryptoKey,
+  payload: string | BufferSource,
+): Promise<Uint8Array> {
   const iv = genRandomBytes(12);
 
   if (typeof payload === "string") {
@@ -54,13 +57,15 @@ export async function encrypt(key: CryptoKey, payload: string | BufferSource) {
     payload,
   );
 
-  return bytesToHexStr(new Uint8Array([...iv, ...new Uint8Array(encrypted)]));
+  return new Uint8Array([...iv, ...new Uint8Array(encrypted)]);
 }
 
-export function decrypt(key: CryptoKey, hex: string) {
-  const arr = hexStrToUint8(hex);
-  const iv = arr.slice(0, 12);
-  const payload = arr.slice(12).buffer;
+export function decrypt(
+  key: CryptoKey,
+  data: Uint8Array,
+): Promise<ArrayBuffer> {
+  const iv = data.slice(0, 12);
+  const payload = data.slice(12).buffer;
 
   return crypto.subtle.decrypt(
     { name: "AES-GCM", iv },
@@ -69,13 +74,21 @@ export function decrypt(key: CryptoKey, hex: string) {
   );
 }
 
-export function encryptSeconds(key: CryptoKey, date = new Date()) {
+export async function encryptSeconds(
+  key: CryptoKey,
+  date = new Date(),
+): Promise<string> {
   const timestamp = integerTo32Bits(dateToSeconds(date));
-  return encrypt(key, timestamp);
+  const data = await encrypt(key, timestamp);
+  return bytesToHexStr(data);
 }
 
-export async function decryptSeconds(key: CryptoKey, hex: string) {
-  const arr = await decrypt(key, hex);
+export async function decryptSeconds(
+  key: CryptoKey,
+  hex: string,
+): Promise<number> {
+  const data = hexStrToUint8(hex);
+  const arr = await decrypt(key, data);
   return _32BitsToInteger(new Uint8Array(arr));
 }
 
