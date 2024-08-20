@@ -1,6 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
 import {
-  deletePassKeyByUserIdAndKeyId,
   getPasskeyByUserIdAndKeyId,
 } from "../../../../db/passkeySchema.ts";
 import { User } from "../../../../db/userSchema.ts";
@@ -20,8 +19,6 @@ export const handler: Handlers = {
       const json = await req.json();
 
       const nickname = json.nickname;
-
-     
 
       return new Response(
         JSON.stringify({

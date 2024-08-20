@@ -6,6 +6,9 @@ export default {
   "signup": {
     "index": "/signup",
   },
+  "verify-email": {
+    "index": "/verify-email",
+  },
   "forgot-password": {
     "index": "/forgot-password",
   },
@@ -26,14 +29,14 @@ export default {
       "login": "/api/auth/login",
       "generate-authentication-options":
         "/api/auth/generate-authentication-options",
-      "verify-password-reset-code": "/api/auth/verify-password-reset-code",
       "logout": "/api/auth/logout",
     },
     "user": {
       "password": "/api/user/password",
       "name": "/api/user/name",
       "passkey": {
-        "register-request": "/api/user/passkey/register-request",
+        "generate-registration-options":
+          "/api/user/passkey/generate-registration-options",
         "edit": "/api/user/passkey/edit",
         "verify-registration": "/api/user/passkey/verify-registration",
         "delete": "/api/user/passkey/delete",

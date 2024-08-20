@@ -21,7 +21,7 @@ import * as $api_user_index from "./routes/api/user/index.ts";
 import * as $api_user_name from "./routes/api/user/name.ts";
 import * as $api_user_passkey_delete from "./routes/api/user/passkey/delete.ts";
 import * as $api_user_passkey_edit from "./routes/api/user/passkey/edit.ts";
-import * as $api_user_passkey_register_request from "./routes/api/user/passkey/register-request.ts";
+import * as $api_user_passkey_generate_registration_options from "./routes/api/user/passkey/generate-registration-options.ts";
 import * as $api_user_passkey_verify_registration from "./routes/api/user/passkey/verify-registration.ts";
 import * as $api_user_password from "./routes/api/user/password.ts";
 import * as $api_validate_email_middleware from "./routes/api/validate/email/_middleware.ts";
@@ -82,8 +82,8 @@ const manifest = {
     "./routes/api/user/name.ts": $api_user_name,
     "./routes/api/user/passkey/delete.ts": $api_user_passkey_delete,
     "./routes/api/user/passkey/edit.ts": $api_user_passkey_edit,
-    "./routes/api/user/passkey/register-request.ts":
-      $api_user_passkey_register_request,
+    "./routes/api/user/passkey/generate-registration-options.ts":
+      $api_user_passkey_generate_registration_options,
     "./routes/api/user/passkey/verify-registration.ts":
       $api_user_passkey_verify_registration,
     "./routes/api/user/password.ts": $api_user_password,
