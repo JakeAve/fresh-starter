@@ -93,7 +93,7 @@ export async function incrementRefreshTokenVersion(email: string) {
 export async function updateUserByEmail(
   email: string,
   updatedUser: Partial<User>,
-) {
+): Promise<User> {
   const user = await getUserByEmail(email);
 
   if (!user) {
@@ -142,5 +142,5 @@ export async function updateUserByEmail(
 
   await deleteTransaction.commit();
 
-  return res;
+  return user;
 }
