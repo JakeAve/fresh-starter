@@ -54,7 +54,7 @@ export const handler: Handlers = {
         const url = new URL(req.url);
 
         const link = `${url.protocol}//${url.host}${
-            routes["verify-password-reset"].index
+            routes["verify-email"].index
         }?email=${newEmail}&otc=${verification.otc}`;
 
         await sendVerifyEmail(newEmail, {
