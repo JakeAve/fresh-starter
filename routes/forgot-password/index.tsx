@@ -7,69 +7,70 @@ import { addResetRequest } from "../../db/passwordResetSchema.ts";
 import { sendResetPassword } from "../../email/client.ts";
 
 export const handler: Handlers = {
-    async GET(_req: Request, ctx: FreshContext) {
-        const email = ctx.state.email;
+  async GET(_req: Request, ctx: FreshContext) {
+    const email = ctx.state.email;
 
-        const resp = await ctx.render({ email });
-        return resp;
-    },
-    async POST(req: Request, _ctx: FreshContext) {
-        await randomTimeout(1000);
-        const headers = new Headers();
+    const resp = await ctx.render({ email });
+    return resp;
+  },
+  async POST(req: Request, _ctx: FreshContext) {
+    await randomTimeout(1000);
+    const headers = new Headers();
 
-        const form = await req.formData();
-        const email = form.get("email")?.toString() as string;
+    const form = await req.formData();
+    const email = form.get("email")?.toString() as string;
 
-        headers.set(
-            "location",
-            routes["verify-password-reset"].index + `?email=${email || ""}`,
-        );
-        const redirect = new Response(null, {
-            status: 303,
-            headers,
-        });
+    headers.set(
+      "location",
+      routes["verify-password-reset"].index + `?email=${email || ""}`,
+    );
+    const redirect = new Response(null, {
+      status: 303,
+      headers,
+    });
 
-        if (!email) {
-            return redirect;
-        }
+    if (!email) {
+      return redirect;
+    }
 
-        const user = await getUserByEmail(email);
+    const user = await getUserByEmail(email);
 
-        if (!user) {
-            return redirect;
-        }
+    if (!user) {
+      return redirect;
+    }
 
-        const { otp } = await addResetRequest(user.id);
+    const { otp } = await addResetRequest(user.id);
 
-        const url = new URL(req.url);
+    const url = new URL(req.url);
 
-        const link =
-            `${url.protocol}//${url.host}${routes["verify-password-reset"].index}?email=${email}#${otp}`;
+    const link = `${url.protocol}//${url.host}${
+      routes["verify-password-reset"].index
+    }?email=${email}#${otp}`;
 
-        await sendResetPassword(user.email, {
-            USER: user.name,
-            CODE: otp,
-            YEAR: new Date().getFullYear().toString(),
-            COMPANY: "Company",
-            LINK: link,
-        });
+    await sendResetPassword(user.email, {
+      USER: user.name,
+      CODE: otp,
+      YEAR: new Date().getFullYear().toString(),
+      COMPANY: "Company",
+      LINK: link,
+    });
 
-        return redirect;
-    },
+    return redirect;
+  },
 };
 
 interface Props {
-    message?: string;
-    email?: string;
-    isAuthenticated?: boolean;
+  message?: string;
+  email?: string;
+  isAuthenticated?: boolean;
 }
 
 export default function Home(props: PageProps<Props>) {
-    const email = props.data?.email;
+  const email = props.data?.email;
 
-    return (
-        <div class="grid place-items-center h-screen relative">
-            <ForgotPasswordForm email={email} />
-        </div>
-    );
+  return (
+    <div class="grid place-items-center h-screen relative">
+      <ForgotPasswordForm email={email} />
+    </div>
+  );
 }

@@ -90,17 +90,18 @@ Deno.test("readJwt() reads valid JWT", async () => {
 
   assert(result.isValid);
   assertEquals(result.payload.sub, "example@example.com");
-  assertEquals(result.payload.aud, 'api');
-  assertEquals(result.payload.iss, 'issuer');
+  assertEquals(result.payload.aud, "api");
+  assertEquals(result.payload.iss, "issuer");
 });
 
 Deno.test("readJwt() reads invalid JWT", async () => {
-  const jwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiYXVkIjoiYXBpIiwiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNzIzMjQ5ODYwLCJleHAiOjE3MjMyNDk4NjEsIm5iZiI6MTcyMzI0OTg2MCwianRpIjoib2ZlTTNMNWtZeVVHV2JmVSJ9.KmpebNZaWmgj6_JZ_7I6dE302FucQtNHYOxBQaeIqzM`
+  const jwt =
+    `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiYXVkIjoiYXBpIiwiaXNzIjoiaXNzdWVyIiwiaWF0IjoxNzIzMjQ5ODYwLCJleHAiOjE3MjMyNDk4NjEsIm5iZiI6MTcyMzI0OTg2MCwianRpIjoib2ZlTTNMNWtZeVVHV2JmVSJ9.KmpebNZaWmgj6_JZ_7I6dE302FucQtNHYOxBQaeIqzM`;
 
   const result = await readJwt(jwt);
 
   assertEquals(result.isValid, false);
   assertEquals(result.payload.sub, "example@example.com");
-  assertEquals(result.payload.aud, 'api');
-  assertEquals(result.payload.iss, 'issuer');
+  assertEquals(result.payload.aud, "api");
+  assertEquals(result.payload.iss, "issuer");
 });

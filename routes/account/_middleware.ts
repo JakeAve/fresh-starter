@@ -8,9 +8,9 @@ export async function handler(
 ) {
   try {
     if (!ctx.state.isAuthenticated) {
-      throw new Error('Not authenticated')
+      throw new Error("Not authenticated");
     }
-    
+
     const email = ctx.state.email as string;
 
     const rawUser = await getUserByEmail(email) as Partial<User>;

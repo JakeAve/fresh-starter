@@ -1,6 +1,9 @@
 import { deleteCookie, getCookies, setCookie } from "$std/http/cookie.ts";
 import { AuthenticationError } from "../Errors/AuthenticationError.ts";
-import { getUserByEmail, incrementRefreshTokenVersion } from "../db/userSchema.ts";
+import {
+  getUserByEmail,
+  incrementRefreshTokenVersion,
+} from "../db/userSchema.ts";
 import { verifyPassword } from "./cryptoHelpers.ts";
 import { JWT, JWTError, signJwt, verifyJwt } from "./jwt.ts";
 import { load } from "$std/dotenv/mod.ts";
@@ -70,7 +73,7 @@ export async function makeAuthHeaders(
     maxAge: 3600,
     domain: url.hostname,
     path: "/",
-    secure: env.APP_ENVIRONMENT === 'production' ? true : false,
+    secure: env.APP_ENVIRONMENT === "production" ? true : false,
   });
 
   if (updateRefreshToken && refreshToken) {
@@ -80,7 +83,7 @@ export async function makeAuthHeaders(
       maxAge: 1000 * 60 * 60 * 24 * 30,
       domain: url.hostname,
       path: "/",
-      secure: env.APP_ENVIRONMENT === 'production' ? true : false,
+      secure: env.APP_ENVIRONMENT === "production" ? true : false,
     });
   }
 

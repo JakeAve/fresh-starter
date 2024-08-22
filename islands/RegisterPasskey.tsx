@@ -9,9 +9,12 @@ export default function RegisterPasskey() {
   if (!IS_BROWSER) return <button disabled>Add New Passkey</button>;
 
   async function register() {
-    const regReq = await fetch(routes.api.user.passkey['generate-registration-options'], {
-      method: "post",
-    });
+    const regReq = await fetch(
+      routes.api.user.passkey["generate-registration-options"],
+      {
+        method: "post",
+      },
+    );
 
     const options = await regReq.json();
 

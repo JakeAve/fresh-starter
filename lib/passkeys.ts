@@ -49,7 +49,7 @@ export function verifyResponse(
     expectedChallenge: challenge,
     expectedOrigin: origin,
     expectedRPID: rpID,
-    requireUserVerification: true
+    requireUserVerification: true,
   });
 }
 
@@ -57,7 +57,7 @@ export function genAuthOptions() {
   return generateAuthenticationOptions({
     rpID,
     allowCredentials: [],
-    userVerification: 'required'
+    userVerification: "required",
   });
 }
 

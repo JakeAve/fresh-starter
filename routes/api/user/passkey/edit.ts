@@ -1,7 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import {
-  getPasskeyByUserIdAndKeyId,
-} from "../../../../db/passkeySchema.ts";
+import { getPasskeyByUserIdAndKeyId } from "../../../../db/passkeySchema.ts";
 import { User } from "../../../../db/userSchema.ts";
 
 export const handler: Handlers = {

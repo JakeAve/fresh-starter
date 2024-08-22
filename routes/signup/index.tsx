@@ -73,8 +73,9 @@ export const handler: Handlers = {
 
     const url = new URL(req.url);
 
-    const link =
-      `${url.protocol}//${url.host}${routes["verify-email"].index}?email=${savedUser.email}&otc=${verification.otc}`;
+    const link = `${url.protocol}//${url.host}${
+      routes["verify-email"].index
+    }?email=${savedUser.email}&otc=${verification.otc}`;
 
     await sendVerifyEmail(verification.userEmail, {
       YEAR: new Date().getFullYear().toString(),

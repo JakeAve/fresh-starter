@@ -13,83 +13,83 @@ export const RESET_PASSWORD_COOKIE_NAME = "reset-password";
 const env = await load();
 
 export const handler: Handlers = {
-    async GET(req: Request, ctx: FreshContext) {
-        const url = new URL(req.url);
+  async GET(req: Request, ctx: FreshContext) {
+    const url = new URL(req.url);
 
-        const email = url.searchParams.get("email") as string;
+    const email = url.searchParams.get("email") as string;
 
-        const resp = await ctx.render({ email });
-        return resp;
-    },
-    async POST(req: Request, ctx: FreshContext) {
-        try {
-            await randomTimeout(1000);
+    const resp = await ctx.render({ email });
+    return resp;
+  },
+  async POST(req: Request, ctx: FreshContext) {
+    try {
+      await randomTimeout(1000);
 
-            const url = new URL(req.url);
-            const email = url.searchParams.get("email");
+      const url = new URL(req.url);
+      const email = url.searchParams.get("email");
 
-            if (!email) {
-                throw new PasswordResetError("No user email specified");
-            }
+      if (!email) {
+        throw new PasswordResetError("No user email specified");
+      }
 
-            const form = await req.formData();
-            const resetCode = form.get("reset-code")?.toString() as string;
+      const form = await req.formData();
+      const resetCode = form.get("reset-code")?.toString() as string;
 
-            if (!resetCode || resetCode.length !== 6) {
-                throw new PasswordResetError("Could not verify OTP");
-            }
+      if (!resetCode || resetCode.length !== 6) {
+        throw new PasswordResetError("Could not verify OTP");
+      }
 
-            const user = await getUserByEmail(email);
-            if (!user) {
-                throw new Error("No user");
-            }
+      const user = await getUserByEmail(email);
+      if (!user) {
+        throw new Error("No user");
+      }
 
-            const headers = new Headers();
-            headers.set(
-                "location",
-                routes["reset-password"].index + `?email=${email}`,
-            );
+      const headers = new Headers();
+      headers.set(
+        "location",
+        routes["reset-password"].index + `?email=${email}`,
+      );
 
-            const resetRequest = await verifyOTP(user.id, resetCode);
+      const resetRequest = await verifyOTP(user.id, resetCode);
 
-            setCookie(headers, {
-                name: RESET_PASSWORD_COOKIE_NAME,
-                value: resetRequest.otc as string,
-                maxAge: 900,
-                domain: url.hostname,
-                path: "/",
-                secure: env.APP_ENVIRONMENT === "production" ? true : false,
-            });
+      setCookie(headers, {
+        name: RESET_PASSWORD_COOKIE_NAME,
+        value: resetRequest.otc as string,
+        maxAge: 900,
+        domain: url.hostname,
+        path: "/",
+        secure: env.APP_ENVIRONMENT === "production" ? true : false,
+      });
 
-            const redirect = new Response(null, {
-                status: 303,
-                headers,
-            });
+      const redirect = new Response(null, {
+        status: 303,
+        headers,
+      });
 
-            return redirect;
-        } catch (err) {
-            if (err instanceof PasswordResetError) {
-                return ctx.render({ message: err.message });
-            }
-            return internalServerErrorResponse(err);
-        }
-    },
+      return redirect;
+    } catch (err) {
+      if (err instanceof PasswordResetError) {
+        return ctx.render({ message: err.message });
+      }
+      return internalServerErrorResponse(err);
+    }
+  },
 };
 
 interface Props {
-    message?: string;
-    email?: string;
+  message?: string;
+  email?: string;
 }
 
 export default function Home(props: PageProps<Props>) {
-    const message = props.data?.message;
-    const email = props.data?.email;
-    return (
-        <div class="grid place-items-center h-screen relative">
-            <div>
-                <p>{message}</p>
-                <VerifyPasswordResetForm email={email} />
-            </div>
-        </div>
-    );
+  const message = props.data?.message;
+  const email = props.data?.email;
+  return (
+    <div class="grid place-items-center h-screen relative">
+      <div>
+        <p>{message}</p>
+        <VerifyPasswordResetForm email={email} />
+      </div>
+    </div>
+  );
 }

@@ -17,7 +17,10 @@ export interface User {
 
 export type SanitizedUser = Omit<User, "password" | "id">;
 
-export type UserBody = Omit<User, "id" | "refreshTokenVersion" | "isEmailVerified">;
+export type UserBody = Omit<
+  User,
+  "id" | "refreshTokenVersion" | "isEmailVerified"
+>;
 
 export class DuplicateError extends Error {
   constructor(message: string) {
@@ -36,7 +39,12 @@ export async function addUser(userBody: UserBody) {
   userBody.handle = userBody.handle.toLocaleLowerCase();
   userBody.password = await hashPassword(userBody.password);
 
-  const user: User = { ...userBody, id, refreshTokenVersion: 1, isEmailVerified: false };
+  const user: User = {
+    ...userBody,
+    id,
+    refreshTokenVersion: 1,
+    isEmailVerified: false,
+  };
   const primaryKey = [...USERS_BY_ID, user.id];
   const byEmailKey = [...USERS_BY_EMAIL, user.email];
   const byHandleKey = [...USERS_BY_HANDLE, user.handle];
@@ -106,10 +114,10 @@ export async function updateUserByEmail(
     "handle",
     "password",
     "refreshTokenVersion",
-    "isEmailVerified"
+    "isEmailVerified",
   ] as Array<keyof User>;
 
-  const oldUser = {...user}
+  const oldUser = { ...user };
 
   for (const key in updatedUser) {
     const k = key as keyof Partial<User>;
@@ -134,10 +142,16 @@ export async function updateUserByEmail(
 
   let deleteTransaction = kv.atomic();
   if (oldUser.email !== user.email) {
-    deleteTransaction = deleteTransaction.delete([...USERS_BY_EMAIL, oldUser.email])
+    deleteTransaction = deleteTransaction.delete([
+      ...USERS_BY_EMAIL,
+      oldUser.email,
+    ]);
   }
   if (oldUser.handle !== user.handle) {
-    deleteTransaction = deleteTransaction.delete([...USERS_BY_HANDLE, oldUser.handle])
+    deleteTransaction = deleteTransaction.delete([
+      ...USERS_BY_HANDLE,
+      oldUser.handle,
+    ]);
   }
 
   await deleteTransaction.commit();
