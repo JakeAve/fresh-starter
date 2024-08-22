@@ -8,7 +8,7 @@ export const handler: Handlers = {
     try {
       await randomTimeout(750);
 
-      const email = ctx.state.email as string;
+      const email = ctx.state.updatedEmail as string;
 
       validateEmail(email);
 

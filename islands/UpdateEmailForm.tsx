@@ -21,7 +21,7 @@ export default function UpdateEmailForm(props: Props) {
         const data = new FormData(form);
         const email = data.get('email');
 
-        const resp = await fetch(routes.api.user.email, {method: 'post', body: JSON.stringify({email})})
+        const resp = await fetch(routes.api.user.email, {method: 'put', body: JSON.stringify({email})})
         const json = await resp.json();
         if (!resp.ok) {
             displayMessage.value = json.message;

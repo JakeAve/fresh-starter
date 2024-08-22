@@ -108,7 +108,7 @@ export async function verifyOTP(userId: string, otp: string) {
 export async function verifyOTC(
     userId: string,
     otc: string,
-    { resetPassword = false } = {},
+    { willInvalidateOTC = false } = {},
 ) {
     const key = [...PASSWORD_RESET_REQUEST, userId];
     try {
@@ -134,7 +134,7 @@ export async function verifyOTC(
             throw new Error("Incorrect OTC");
         }
 
-        if (resetPassword) {
+        if (willInvalidateOTC) {
             resetRequest.isPasswordReset = true;
             await kv.set(key, resetRequest, { expireIn: TTL });
         }

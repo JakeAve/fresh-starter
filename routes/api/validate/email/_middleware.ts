@@ -9,7 +9,7 @@ export async function handler(
   try {
     const json = await req.json();
     const { token } = json;
-    ctx.state.email = json.email;
+    ctx.state.updatedEmail = json.email;
     const key = await getAESKey();
     await verifyTimeBasedKey(key, token);
     return ctx.next();

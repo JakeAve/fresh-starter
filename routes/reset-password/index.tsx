@@ -40,10 +40,10 @@ export const handler: Handlers = {
             const hashedPassword = await hashPassword(password);
 
             await updateUserByEmail(rawUser.email, {
-                password: hashedPassword,
+                password: hashedPassword, isEmailVerified: true // just in case the email was never validated
             });
 
-            await verifyOTC(rawUser.id, otc, { resetPassword: true });
+            await verifyOTC(rawUser.id, otc, { willInvalidateOTC: true });
 
             const headers = new Headers();
 
