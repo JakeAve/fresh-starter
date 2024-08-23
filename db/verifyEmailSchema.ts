@@ -3,6 +3,8 @@ import { bytesToBase64Url, genRandomBytes } from "../lib/cryptoHelpers.ts";
 
 const EMAIL_VERIFICATION: Deno.KvKey = ["email_verification"];
 
+const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
+
 export interface EmailVerification {
   userEmail: string;
   userId: string;
@@ -32,7 +34,7 @@ export async function addEmailVerification(
 
   const key = [...EMAIL_VERIFICATION, emailVerificationBody.userEmail];
 
-  const res = await kv.set(key, emailVerification);
+  const res = await kv.set(key, emailVerification, {expireIn: THIRTY_DAYS});
 
   if (!res.ok) {
     throw new Error("Cannot save email verification");
@@ -75,7 +77,7 @@ export async function verifyEmail(
 
   record.isVerified = true;
 
-  await kv.set(key, record);
+  await kv.set(key, record, {expireIn: THIRTY_DAYS});
 
   return record;
 }

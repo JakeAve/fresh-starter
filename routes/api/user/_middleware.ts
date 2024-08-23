@@ -1,5 +1,8 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getUserByEmail, SanitizedUser, User } from "../../../db/userSchema.ts";
+import { AccessDeniedError } from "../../../Errors/AccessDeniedError.ts";
+import { accessDeniedErrorResponse } from "../../../lib/utils/accessDeniedErrorResponse.ts";
+import { internalServerErrorResponse } from "../../../lib/utils/internalServerErrorResponse.ts";
 
 export async function handler(
   _req: Request,
@@ -7,12 +10,16 @@ export async function handler(
 ) {
   try {
     if (!ctx.state.isAuthenticated) {
-      throw new Error("Not authenticated");
+      throw new AccessDeniedError(new Error('Is not authenticated'));
     }
 
     const email = ctx.state.email as string;
 
     const rawUser = await getUserByEmail(email) as Partial<User>;
+
+    if (!rawUser) {
+      throw new AccessDeniedError(new Error(`No user with email ${email}`));
+    }
 
     ctx.state.rawUser = { ...rawUser };
 
@@ -25,10 +32,9 @@ export async function handler(
 
     return ctx.next();
   } catch (err) {
-    console.error(err);
-    return new Response(
-      JSON.stringify({ message: "Access Denied." }),
-      { status: 401 },
-    );
+    if (err instanceof AccessDeniedError) {
+      return accessDeniedErrorResponse(err);
+    }
+    return internalServerErrorResponse(err);
   }
 }

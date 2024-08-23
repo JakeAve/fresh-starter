@@ -9,6 +9,8 @@ import UpdateEmailForm from "../../islands/UpdateEmailForm.tsx";
 import UpdateHandleForm from "../../islands/UpdateHandleForm.tsx";
 import UpdatePasswordForm from "../../islands/UpdatePasswordForm.tsx";
 import UpdateNameForm from "../../islands/UpdateNameForm.tsx";
+import { getEmailVerification } from "../../db/verifyEmailSchema.ts";
+import ResendEmailVerificationForm from "../../islands/ResendEmailVerificationForm.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -20,7 +22,16 @@ export const handler: Handlers = {
     const key = await getAESKey();
     const timeBasedKey = await createTimeBasedKey(key, 300);
 
-    return ctx.render({ user, passkeys, timeBasedKey });
+    const isEmailVerified = user.isEmailVerified;
+    const isEmailVerificationSent = await getEmailVerification(user.email);
+
+    return ctx.render({
+      user,
+      passkeys,
+      timeBasedKey,
+      isEmailVerified,
+      isEmailVerificationSent,
+    });
   },
 };
 
@@ -28,15 +39,23 @@ interface Props {
   user: SanitizedUser;
   passkeys: Passkey[];
   timeBasedKey: string;
+  isEmailVerified: boolean;
+  isEmailVerificationSent: boolean;
 }
 
 export default function Home(props: PageProps<Props>) {
-  const { user, passkeys, timeBasedKey } = props.data;
+  const {
+    user,
+    passkeys,
+    timeBasedKey,
+    isEmailVerified,
+    isEmailVerificationSent,
+  } = props.data;
 
   return (
     <div class="h-screen">
       <h1 class="text-2xl p-8">Account</h1>
-      <div class="grid grid-cols-4 gap-4 py-4 px-8">
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 py-4 px-8">
         <div class="shadow-md rounded px-8 py-6">
           <h2>Update Name</h2>
           <UpdateNameForm user={user} />
@@ -63,6 +82,18 @@ export default function Home(props: PageProps<Props>) {
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Update Email</h2>
           <UpdateEmailForm user={user} timeBasedKey={timeBasedKey} />
+        </div>
+        <div class="shadow-md rounded px-8 py-6">
+          <h2 class="text-lg">Email Verification</h2>
+          <p class="mt-2">
+            Your email {user.email} is {isEmailVerified ? "" : "not"} verified
+          </p>
+          {!isEmailVerified && (
+            <p class="mt-2">
+              Check your email for a link to verify your email address.
+            </p>
+          )}
+          {!isEmailVerificationSent && <ResendEmailVerificationForm />}
         </div>
       </div>
     </div>

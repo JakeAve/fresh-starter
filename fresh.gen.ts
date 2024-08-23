@@ -49,6 +49,7 @@ import * as $PasswordPairInputs from "./islands/PasswordPairInputs.tsx";
 import * as $PasswordStrengthIndicator from "./islands/PasswordStrengthIndicator.tsx";
 import * as $Redirect from "./islands/Redirect.tsx";
 import * as $RegisterPasskey from "./islands/RegisterPasskey.tsx";
+import * as $ResendEmailVerificationForm from "./islands/ResendEmailVerificationForm.tsx";
 import * as $ResetPasswordForm from "./islands/ResetPasswordForm.tsx";
 import * as $UpdateEmailForm from "./islands/UpdateEmailForm.tsx";
 import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
@@ -115,6 +116,7 @@ const manifest = {
     "./islands/PasswordStrengthIndicator.tsx": $PasswordStrengthIndicator,
     "./islands/Redirect.tsx": $Redirect,
     "./islands/RegisterPasskey.tsx": $RegisterPasskey,
+    "./islands/ResendEmailVerificationForm.tsx": $ResendEmailVerificationForm,
     "./islands/ResetPasswordForm.tsx": $ResetPasswordForm,
     "./islands/UpdateEmailForm.tsx": $UpdateEmailForm,
     "./islands/UpdateHandleForm.tsx": $UpdateHandleForm,
