@@ -57,8 +57,28 @@ export default function Home(props: PageProps<Props>) {
       <h1 class="text-2xl p-8">Account</h1>
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 py-4 px-8">
         <div class="shadow-md rounded px-8 py-6">
+          <h2 class="text-lg">Email Verification</h2>
+          <p class="mt-2">
+            Your email {user.email} is {isEmailVerified ? "" : "not"} verified
+          </p>
+          {!isEmailVerified && (
+            <p class="mt-2">
+              Check your email for a link to verify your email address.
+            </p>
+          )}
+          {!isEmailVerificationSent && <ResendEmailVerificationForm />}
+        </div>
+        <div class="shadow-md rounded px-8 py-6">
           <h2>Update Name</h2>
           <UpdateNameForm user={user} />
+        </div>
+        <div class="shadow-md rounded px-8 py-6">
+          <h2 class="text-lg">Update Handle</h2>
+          <UpdateHandleForm user={user} />
+        </div>
+        <div class="shadow-md rounded px-8 py-6">
+          <h2 class="text-lg">Update Email</h2>
+          <UpdateEmailForm user={user} timeBasedKey={timeBasedKey} />
         </div>
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Passkeys</h2>
@@ -74,26 +94,6 @@ export default function Home(props: PageProps<Props>) {
         <div class="shadow-md rounded px-8 py-6">
           <h2 class="text-lg">Update Password</h2>
           <UpdatePasswordForm />
-        </div>
-        <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Update Handle</h2>
-          <UpdateHandleForm user={user} />
-        </div>
-        <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Update Email</h2>
-          <UpdateEmailForm user={user} timeBasedKey={timeBasedKey} />
-        </div>
-        <div class="shadow-md rounded px-8 py-6">
-          <h2 class="text-lg">Email Verification</h2>
-          <p class="mt-2">
-            Your email {user.email} is {isEmailVerified ? "" : "not"} verified
-          </p>
-          {!isEmailVerified && (
-            <p class="mt-2">
-              Check your email for a link to verify your email address.
-            </p>
-          )}
-          {!isEmailVerificationSent && <ResendEmailVerificationForm />}
         </div>
       </div>
     </div>
