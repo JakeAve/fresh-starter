@@ -55,7 +55,7 @@ import * as $UpdateEmailForm from "./islands/UpdateEmailForm.tsx";
 import * as $UpdateHandleForm from "./islands/UpdateHandleForm.tsx";
 import * as $UpdateNameForm from "./islands/UpdateNameForm.tsx";
 import * as $UpdatePasswordForm from "./islands/UpdatePasswordForm.tsx";
-import * as $UserButton from "./islands/UserButton.tsx";
+import * as $UserDropDown from "./islands/UserDropDown.tsx";
 import * as $VerifyEmailForm from "./islands/VerifyEmailForm.tsx";
 import * as $VerifyPasswordResetCodeForm from "./islands/VerifyPasswordResetCodeForm.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -122,7 +122,7 @@ const manifest = {
     "./islands/UpdateHandleForm.tsx": $UpdateHandleForm,
     "./islands/UpdateNameForm.tsx": $UpdateNameForm,
     "./islands/UpdatePasswordForm.tsx": $UpdatePasswordForm,
-    "./islands/UserButton.tsx": $UserButton,
+    "./islands/UserDropDown.tsx": $UserDropDown,
     "./islands/VerifyEmailForm.tsx": $VerifyEmailForm,
     "./islands/VerifyPasswordResetCodeForm.tsx": $VerifyPasswordResetCodeForm,
   },

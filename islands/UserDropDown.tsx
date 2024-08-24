@@ -12,7 +12,7 @@ interface Props {
 
 const userName = signal<string | undefined>(undefined);
 
-export default function UserButton(props: Props) {
+export default function UserDropDown(props: Props) {
   const { isAuthenticated, user } = props;
 
   const isAuthenticatedSignal = signal<boolean>(isAuthenticated);
@@ -61,7 +61,7 @@ export default function UserButton(props: Props) {
 
   return (
     <div class="user-button relative" onPointerOver={loadUser}>
-      <label for="user-menu" class="text-white cursor-pointer">
+      <label for="user-menu" class="text-white cursor-pointer select-none">
         {userName}
       </label>
       <input
@@ -69,14 +69,22 @@ export default function UserButton(props: Props) {
         type="checkbox"
         class="user-button-checkbox opacity-0"
       />
-      <ul class="user-menu absolute top-full end-0 bg-blue-500 py-1 px-2">
-        <li class="py-1">
-          <a class="text-white" href={routes.account.index}>
+      <ul class="user-menu bg-blue-500 absolute w-screen md:w-auto md:right-2 -right-4 top-8 md:end-2 md:min-w-48">
+        <li class="py-2 px-4 focus:bg-blue-600 hover:bg-blue-600">
+          <a
+            class="text-white inline-block w-full text-center"
+            href={routes.account.index}
+          >
             Account
           </a>
         </li>
-        <li class="py-1">
-          <button class="text-white" onClick={logout}>Logout</button>
+        <li class="py-2 px-4 focus:bg-blue-600 hover:bg-blue-600">
+          <button
+            class="text-white inline-block w-full text-center"
+            onClick={logout}
+          >
+            Logout
+          </button>
         </li>
       </ul>
     </div>
