@@ -1,5 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import { makeAuthHeaders, validateAuthHeaders } from "../lib/authentication.ts";
+import { getIPAddress } from "../lib/utils/getIPAddress.ts";
 
 export async function handler(
   req: Request,
@@ -16,6 +17,8 @@ export async function handler(
   } catch {
     ctx.state.isAuthenticated = false;
   }
+
+  ctx.state.ip = getIPAddress(req, ctx);
 
   const resp = await ctx.next();
 
