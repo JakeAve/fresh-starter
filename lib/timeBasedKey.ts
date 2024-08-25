@@ -14,13 +14,13 @@ export function createTimeBasedKey(
   return encryptSeconds(key, d);
 }
 
-class ExpiredTimeBasedKey extends Error {
+export class ExpiredTimeBasedKey extends Error {
   constructor(message: string) {
     super(message);
   }
 }
 
-class InvalidTimeBasedKey extends Error {
+export class InvalidTimeBasedKey extends Error {
   constructor(message: string) {
     super(message);
   }

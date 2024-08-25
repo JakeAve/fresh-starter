@@ -1,6 +1,12 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getAESKey } from "../../../../lib/getKey.ts";
-import { verifyTimeBasedKey } from "../../../../lib/timeBasedKey.ts";
+import {
+  ExpiredTimeBasedKey,
+  InvalidTimeBasedKey,
+  verifyTimeBasedKey,
+} from "../../../../lib/timeBasedKey.ts";
+import { accessDeniedErrorResponse } from "../../../../lib/utils/accessDeniedErrorResponse.ts";
+import { internalServerErrorResponse } from "../../../../lib/utils/internalServerErrorResponse.ts";
 
 export async function handler(
   req: Request,
@@ -14,10 +20,11 @@ export async function handler(
     await verifyTimeBasedKey(key, token);
     return ctx.next();
   } catch (err) {
-    if (err) {
-      return new Response(JSON.stringify({ message: err.message }), {
-        status: 400,
-      });
+    if (
+      err instanceof ExpiredTimeBasedKey || err instanceof InvalidTimeBasedKey
+    ) {
+      return accessDeniedErrorResponse(err);
     }
+    return internalServerErrorResponse(err);
   }
 }
