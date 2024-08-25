@@ -13,13 +13,19 @@ export interface User {
   id: string;
   refreshTokenVersion: number;
   isEmailVerified: boolean;
+  createdAt: Date;
+  emailLastUpdated: Date | null;
 }
 
 export type SanitizedUser = Omit<User, "password" | "id">;
 
 export type UserBody = Omit<
   User,
-  "id" | "refreshTokenVersion" | "isEmailVerified"
+  | "id"
+  | "refreshTokenVersion"
+  | "isEmailVerified"
+  | "createdAt"
+  | "emailLastUpdated"
 >;
 
 export class DuplicateError extends Error {
@@ -44,6 +50,8 @@ export async function addUser(userBody: UserBody) {
     id,
     refreshTokenVersion: 1,
     isEmailVerified: false,
+    createdAt: new Date(),
+    emailLastUpdated: null,
   };
   const primaryKey = [...USERS_BY_ID, user.id];
   const byEmailKey = [...USERS_BY_EMAIL, user.email];
@@ -124,6 +132,9 @@ export async function updateUserByEmail(
     if (keys.includes(k)) {
       // @ts-ignore I'm sure there's a way to fix this
       user[k] = updatedUser[k];
+    }
+    if (key === "email") {
+      user.emailLastUpdated = new Date();
     }
   }
 

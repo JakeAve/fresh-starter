@@ -64,6 +64,7 @@ export default function UpdateEmailForm(props: Props) {
         type="email"
       />
       <Button type="submit">Update</Button>
+      <p class="text-red-500">{displayMessage}</p>
     </form>
   );
 }

@@ -16,7 +16,23 @@ export const handler: Handlers = {
     const json = await req.json();
 
     ctx.state.updatedEmail = json.email;
+    
     const newEmail = json.email as string;
+
+    const user = ctx.state.user as SanitizedUser;
+
+    if (
+      user.emailLastUpdated &&
+      new Date().getTime() - user.emailLastUpdated.getTime() <
+        1000 * 60 * 60 * 24 * 90
+    ) {
+      return new Response(
+        JSON.stringify({
+          message: "Cannot update email more than once every 90 days",
+        }),
+        { status: 400 },
+      );
+    }
 
     const validation = await validateEmailHandler.POST?.(
       req,
@@ -26,7 +42,7 @@ export const handler: Handlers = {
     if (!validation.ok) return validation;
 
     const updatedUser = await updateUserByEmail(
-      (ctx.state.user as SanitizedUser).email,
+      user.email,
       {
         email: newEmail,
         isEmailVerified: false,
