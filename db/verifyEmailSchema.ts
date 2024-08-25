@@ -34,7 +34,7 @@ export async function addEmailVerification(
 
   const key = [...EMAIL_VERIFICATION, emailVerificationBody.userEmail];
 
-  const res = await kv.set(key, emailVerification, {expireIn: THIRTY_DAYS});
+  const res = await kv.set(key, emailVerification, { expireIn: THIRTY_DAYS });
 
   if (!res.ok) {
     throw new Error("Cannot save email verification");
@@ -77,7 +77,7 @@ export async function verifyEmail(
 
   record.isVerified = true;
 
-  await kv.set(key, record, {expireIn: THIRTY_DAYS});
+  await kv.set(key, record, { expireIn: THIRTY_DAYS });
 
   return record;
 }

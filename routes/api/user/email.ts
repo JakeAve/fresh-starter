@@ -16,7 +16,7 @@ export const handler: Handlers = {
     const json = await req.json();
 
     ctx.state.updatedEmail = json.email;
-    
+
     const newEmail = json.email as string;
 
     const user = ctx.state.user as SanitizedUser;

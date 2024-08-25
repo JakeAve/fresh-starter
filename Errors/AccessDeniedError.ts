@@ -1,6 +1,6 @@
 export class AccessDeniedError extends Error {
-    constructor(error: Error, message = "Access denied") {
-        console.error(error);
-        super(message);
-    }
+  constructor(error: Error, message = "Access denied") {
+    console.error(error);
+    super(message);
+  }
 }

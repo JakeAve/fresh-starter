@@ -1,5 +1,9 @@
 import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
-import { getUserByEmail, getUserById, updateUserByEmail } from "../../db/userSchema.ts";
+import {
+  getUserByEmail,
+  getUserById,
+  updateUserByEmail,
+} from "../../db/userSchema.ts";
 import {
   addEmailVerification,
   EmailVerificationError,
@@ -74,8 +78,7 @@ export const handler: Handlers = {
       if (rawUser.isEmailVerified) {
         return new Response(
           JSON.stringify({
-            message:
-              `Already verified ${ctx.state.email}`,
+            message: `Already verified ${ctx.state.email}`,
           }),
           { status: 403 },
         );
@@ -111,7 +114,12 @@ export const handler: Handlers = {
         LINK: link,
       });
 
-      return new Response(JSON.stringify({ response: "ok", message: `Email request sent to ${email}` }));
+      return new Response(
+        JSON.stringify({
+          response: "ok",
+          message: `Email request sent to ${email}`,
+        }),
+      );
     } catch (err) {
       if (err instanceof AccessDeniedError) {
         return accessDeniedErrorResponse(err);

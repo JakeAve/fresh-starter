@@ -1,8 +1,11 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
+import { updateRateLimit } from "../../../../db/rateLimitSchema.ts";
 import { getUserByEmail } from "../../../../db/userSchema.ts";
+import { RateLimitError } from "../../../../Errors/RateLimitError.ts";
 import { ValidationError } from "../../../../Errors/ValidationError.ts";
 import { internalServerErrorResponse } from "../../../../lib/utils/internalServerErrorResponse.ts";
 import { randomTimeout } from "../../../../lib/utils/randomTimeout.ts";
+import { rateLimitErrorResponse } from "../../../../lib/utils/rateLimitErrorResponse.ts";
 import { validateEmail } from "../../../../lib/validators/validateEmail.ts";
 
 export const handler: Handlers = {
@@ -16,6 +19,13 @@ export const handler: Handlers = {
 
       const user = await getUserByEmail(email.toLocaleLowerCase());
       if (user) {
+        await updateRateLimit({
+          label: "email_lookup",
+          ip: ctx.state.ip as string,
+          max: 3,
+          interval: 300_000,
+        });
+
         return new Response(
           JSON.stringify({ message: `${email} is already taken.` }),
           { status: 409 },
@@ -32,6 +42,9 @@ export const handler: Handlers = {
             status: 400,
           },
         );
+      }
+      if (err instanceof RateLimitError) {
+        return rateLimitErrorResponse(err);
       }
       return internalServerErrorResponse(err);
     }

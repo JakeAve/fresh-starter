@@ -1,6 +1,10 @@
 import { FreshContext } from "$fresh/server.ts";
+import { updateRateLimit } from "../db/rateLimitSchema.ts";
+import { RateLimitError } from "../Errors/RateLimitError.ts";
 import { makeAuthHeaders, validateAuthHeaders } from "../lib/authentication.ts";
 import { getIPAddress } from "../lib/utils/getIPAddress.ts";
+import { internalServerErrorResponse } from "../lib/utils/internalServerErrorResponse.ts";
+import { rateLimitErrorResponse } from "../lib/utils/rateLimitErrorResponse.ts";
 
 export async function handler(
   req: Request,
@@ -11,20 +15,34 @@ export async function handler(
   }
 
   try {
-    const { sub } = await validateAuthHeaders(req);
-    ctx.state.isAuthenticated = true;
-    ctx.state.email = sub;
-  } catch {
-    ctx.state.isAuthenticated = false;
+    try {
+      const { sub } = await validateAuthHeaders(req);
+      ctx.state.isAuthenticated = true;
+      ctx.state.email = sub;
+    } catch {
+      ctx.state.isAuthenticated = false;
+    }
+
+    ctx.state.ip = getIPAddress(req, ctx);
+
+    await updateRateLimit({
+      label: "main",
+      ip: ctx.state.ip as string,
+      max: 50,
+      interval: 6000,
+    });
+
+    const resp = await ctx.next();
+
+    if (ctx.state.isAuthenticated && ctx.state.email) {
+      await makeAuthHeaders(req, resp.headers, ctx.state.email as string);
+    }
+
+    return resp;
+  } catch (err) {
+    if (err instanceof RateLimitError) {
+      return rateLimitErrorResponse(err);
+    }
+    return internalServerErrorResponse(err);
   }
-
-  ctx.state.ip = getIPAddress(req, ctx);
-
-  const resp = await ctx.next();
-
-  if (ctx.state.isAuthenticated && ctx.state.email) {
-    await makeAuthHeaders(req, resp.headers, ctx.state.email as string);
-  }
-
-  return resp;
 }

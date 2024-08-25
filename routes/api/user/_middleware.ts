@@ -10,7 +10,7 @@ export async function handler(
 ) {
   try {
     if (!ctx.state.isAuthenticated) {
-      throw new AccessDeniedError(new Error('Is not authenticated'));
+      throw new AccessDeniedError(new Error("Is not authenticated"));
     }
 
     const email = ctx.state.email as string;
