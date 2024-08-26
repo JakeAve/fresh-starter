@@ -24,5 +24,6 @@
     "tailwindcss",
     "versionstamp",
     "webauthn"
-  ]
+  ],
+  "editor.formatOnSave": true
 }

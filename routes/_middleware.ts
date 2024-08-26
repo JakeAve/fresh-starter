@@ -1,7 +1,10 @@
 import { FreshContext } from "$fresh/server.ts";
+import { verifyIP } from "../db/ipBanSchema.ts";
 import { updateRateLimit } from "../db/rateLimitSchema.ts";
+import { AccessDeniedError } from "../Errors/AccessDeniedError.ts";
 import { RateLimitError } from "../Errors/RateLimitError.ts";
 import { makeAuthHeaders, validateAuthHeaders } from "../lib/authentication.ts";
+import { accessDeniedErrorResponse } from "../lib/utils/accessDeniedErrorResponse.ts";
 import { getIPAddress } from "../lib/utils/getIPAddress.ts";
 import { internalServerErrorResponse } from "../lib/utils/internalServerErrorResponse.ts";
 import { rateLimitErrorResponse } from "../lib/utils/rateLimitErrorResponse.ts";
@@ -25,6 +28,8 @@ export async function handler(
 
     ctx.state.ip = getIPAddress(req, ctx);
 
+    await verifyIP(ctx.state.ip as string, ctx.state.email as string);
+
     await updateRateLimit({
       label: "main",
       ip: ctx.state.ip as string,
@@ -40,8 +45,11 @@ export async function handler(
 
     return resp;
   } catch (err) {
+    if (err instanceof AccessDeniedError) {
+      return accessDeniedErrorResponse(err);
+    }
     if (err instanceof RateLimitError) {
-      return rateLimitErrorResponse(err);
+      return rateLimitErrorResponse(err, ctx);
     }
     return internalServerErrorResponse(err);
   }

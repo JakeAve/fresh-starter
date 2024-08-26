@@ -44,7 +44,7 @@ export const handler: Handlers = {
         );
       }
       if (err instanceof RateLimitError) {
-        return rateLimitErrorResponse(err);
+        return rateLimitErrorResponse(err, ctx);
       }
       return internalServerErrorResponse(err);
     }

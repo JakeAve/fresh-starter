@@ -25,7 +25,9 @@ export async function updateRateLimit(
 ): Promise<RateLimitRecord> {
   const { ip, label, max, interval } = rateLimit;
 
-  const intervalKey = Math.floor(new Date().getTime() / interval);
+  const intervalKey = Math.floor(
+    new Date().getTime() / interval,
+  );
 
   const key = [...RATE_LIMIT, ip, label, intervalKey];
 
@@ -35,7 +37,7 @@ export async function updateRateLimit(
     const rateLimitRecord: RateLimitRecord = {
       ip,
       max,
-      count: 0,
+      count: 1,
     };
     await kv.set(key, rateLimitRecord, { expireIn: interval });
     return rateLimitRecord;

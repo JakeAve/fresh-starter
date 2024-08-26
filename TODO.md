@@ -5,3 +5,5 @@
 - [x] Verify email button in account
 - [ ] Encoding and crypto functions separate
 - [x] Can only change email once a month
+- [ ] Regular error handling shouldn't throw second error in the return response
+      function. The error inside of an error pattern should be addressed.
