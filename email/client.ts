@@ -1,4 +1,5 @@
 import { SMTPClient } from "deno-mailer";
+// import { MailSlurp } from "mailslurp";
 import { load } from "$std/dotenv/mod.ts";
 
 const env = await load();
@@ -47,8 +48,8 @@ async function sendEmail({ emailAddress, subject, html }: Email) {
   if (env.EMAILER_STATUS === "on") {
     const client = new SMTPClient({
       connection: {
-        hostname: "mailslurp.mx",
-        port: parseInt(env.SMTP_PASSWORD),
+        hostname: env.SMTP_SERVER_HOST,
+        port: parseInt(env.SMTP_PORT),
         tls: true,
         auth: {
           username: env.SMTP_USERNAME,
