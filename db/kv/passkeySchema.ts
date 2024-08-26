@@ -4,7 +4,7 @@ import {
   CredentialDeviceType,
 } from "@simplewebauthn/types";
 import { load } from "$std/dotenv/mod.ts";
-import { DataError } from "../Errors/DataError.ts";
+import { DataError } from "../../Errors/DataError.ts";
 
 const env = await load();
 

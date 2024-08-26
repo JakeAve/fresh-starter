@@ -8,8 +8,8 @@ import {
   AuthenticationResponseJSON,
   RegistrationResponseJSON,
 } from "@simplewebauthn/types";
-import { Passkey } from "../db/passkeySchema.ts";
-import { Challenge } from "../db/passkeyChallengeSchema.ts";
+import { Passkey } from "$kv/passkeySchema.ts";
+import { Challenge } from "$kv/passkeyChallengeSchema.ts";
 
 const rpName = "DOC-5";
 

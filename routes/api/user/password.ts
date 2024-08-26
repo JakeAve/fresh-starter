@@ -1,5 +1,5 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { updateUserByEmail, User } from "../../../db/userSchema.ts";
+import { updateUserByEmail, User } from "$kv/userSchema.ts";
 import { ValidationError } from "../../../Errors/ValidationError.ts";
 import { hashPassword, verifyPassword } from "../../../lib/cryptoHelpers.ts";
 import {

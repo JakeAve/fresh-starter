@@ -1,6 +1,6 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { updateRateLimit } from "../../../../db/rateLimitSchema.ts";
-import { getUserByEmail } from "../../../../db/userSchema.ts";
+import { updateRateLimit } from "$kv/rateLimitSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { RateLimitError } from "../../../../Errors/RateLimitError.ts";
 import { ValidationError } from "../../../../Errors/ValidationError.ts";
 import { internalServerErrorResponse } from "../../../../lib/utils/internalServerErrorResponse.ts";

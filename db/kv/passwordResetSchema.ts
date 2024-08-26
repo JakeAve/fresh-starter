@@ -5,7 +5,7 @@ import {
   bytesToBase64Str,
   genDigitOTP,
   genRandomBytes,
-} from "../lib/cryptoHelpers.ts";
+} from "../../lib/cryptoHelpers.ts";
 
 const env = await load();
 

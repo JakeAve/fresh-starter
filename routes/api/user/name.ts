@@ -1,5 +1,5 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { SanitizedUser, updateUserByEmail } from "../../../db/userSchema.ts";
+import { SanitizedUser, updateUserByEmail } from "$kv/userSchema.ts";
 import { ValidationError } from "../../../Errors/ValidationError.ts";
 import { internalServerErrorResponse } from "../../../lib/utils/internalServerErrorResponse.ts";
 import { validateName } from "../../../lib/validators/validateName.ts";

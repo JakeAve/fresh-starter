@@ -2,8 +2,8 @@ import { Handlers } from "$fresh/server.ts";
 import {
   deletePassKeyByUserIdAndKeyId,
   getPasskeyByUserIdAndKeyId,
-} from "../../../../db/passkeySchema.ts";
-import { User } from "../../../../db/userSchema.ts";
+} from "../../../../db/kv/passkeySchema.ts";
+import { User } from "$kv/userSchema.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {

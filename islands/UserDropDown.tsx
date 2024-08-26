@@ -1,7 +1,7 @@
 import { Button } from "$components/Button.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { signal } from "@preact/signals";
-import { SanitizedUser } from "../db/userSchema.ts";
+import { SanitizedUser } from "$kv/userSchema.ts";
 import routes from "../routes.ts";
 import { useEffect } from "preact/hooks";
 

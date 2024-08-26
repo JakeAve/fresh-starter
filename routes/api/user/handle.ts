@@ -3,7 +3,7 @@ import {
   getUserByHandle,
   SanitizedUser,
   updateUserByEmail,
-} from "../../../db/userSchema.ts";
+} from "$kv/userSchema.ts";
 import { ConflictError } from "../../../Errors/ConflictError.ts";
 import { validateHandle } from "../../../lib/validators/validateHandle.ts";
 

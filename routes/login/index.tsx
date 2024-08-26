@@ -7,7 +7,7 @@ import {
   validateAuthHeaders,
 } from "../../lib/authentication.ts";
 import Redirect from "../../islands/Redirect.tsx";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx) {

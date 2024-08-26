@@ -1,5 +1,5 @@
 import { Button } from "$components/Button.tsx";
-import { SanitizedUser } from "../db/userSchema.ts";
+import { SanitizedUser } from "$kv/userSchema.ts";
 import routes from "../routes.ts";
 import EmailInput from "./EmailInput.tsx";
 import { signal } from "@preact/signals";

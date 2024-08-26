@@ -1,9 +1,9 @@
 import { Handlers } from "$fresh/server.ts";
-import { getChallengesByUserId } from "../../../db/passkeyChallengeSchema.ts";
+import { getChallengesByUserId } from "$kv/passkeyChallengeSchema.ts";
 import { verifyAuthResponse } from "../../../lib/passkeys.ts";
 import { AuthenticationResponseJSON } from "@simplewebauthn/types";
-import { /* addCount, */ getPasskeyById } from "../../../db/passkeySchema.ts";
-import { getUserById } from "../../../db/userSchema.ts";
+import { /* addCount, */ getPasskeyById } from "$kv/passkeySchema.ts";
+import { getUserById } from "$kv/userSchema.ts";
 import { VerifiedAuthenticationResponse } from "@simplewebauthn/server";
 import { makeAuthHeaders } from "../../../lib/authentication.ts";
 

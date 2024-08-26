@@ -1,9 +1,9 @@
 import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { randomTimeout } from "../../lib/utils/randomTimeout.ts";
 import ForgotPasswordForm from "../../islands/ForgotPasswordForm.tsx";
 import routes from "../../routes.ts";
-import { addResetRequest } from "../../db/passwordResetSchema.ts";
+import { addResetRequest } from "$kv/passwordResetSchema.ts";
 import { sendResetPassword } from "../../email/client.ts";
 
 export const handler: Handlers = {

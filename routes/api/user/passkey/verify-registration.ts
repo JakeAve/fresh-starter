@@ -1,16 +1,16 @@
 import { Handlers } from "$fresh/server.ts";
 import {
   getChallengesByUserId,
-} from "../../../../db/passkeyChallengeSchema.ts";
-import { Passkey } from "../../../../db/passkeySchema.ts";
-import { User } from "../../../../db/userSchema.ts";
+} from "$kv/passkeyChallengeSchema.ts";
+import { Passkey } from "$kv/passkeySchema.ts";
+import { User } from "$kv/userSchema.ts";
 import { verifyResponse } from "../../../../lib/passkeys.ts";
 import {
   Base64URLString,
   CredentialDeviceType,
   PublicKeyCredentialCreationOptionsJSON,
 } from "@simplewebauthn/types";
-import { addPasskey } from "../../../../db/passkeySchema.ts";
+import { addPasskey } from "$kv/passkeySchema.ts";
 import { generateNickname } from "../../../../lib/nicknameGenerator.ts";
 
 export const handler: Handlers = {

@@ -1,10 +1,10 @@
 import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
-import { updateUserByEmail, User } from "../../db/userSchema.ts";
+import { updateUserByEmail, User } from "$kv/userSchema.ts";
 import PasswordPairInputs from "../../islands/PasswordPairInputs.tsx";
 import { Button } from "$components/Button.tsx";
 import routes from "../../routes.ts";
 import Error404 from "../_404.tsx";
-import { verifyOTC } from "../../db/passwordResetSchema.ts";
+import { verifyOTC } from "../../db/kv/passwordResetSchema.ts";
 import { ValidationError } from "../../Errors/ValidationError.ts";
 import { checkPasswordStrength } from "../../lib/passwordStrength.ts";
 import { hashPassword } from "../../lib/cryptoHelpers.ts";

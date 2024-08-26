@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
-import { SanitizedUser, updateUserByEmail } from "../../../db/userSchema.ts";
-import { addEmailVerification } from "../../../db/verifyEmailSchema.ts";
+import { SanitizedUser, updateUserByEmail } from "$kv/userSchema.ts";
+import { addEmailVerification } from "../../..//db/kv/verifyEmailSchema.ts";
 import { sendVerifyEmail } from "../../../email/client.ts";
 import { makeAuthHeaders } from "../../../lib/authentication.ts";
 import routes from "../../../routes.ts";

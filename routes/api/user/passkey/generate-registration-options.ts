@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import { addChallenge } from "../../../../db/passkeyChallengeSchema.ts";
-import { getPasskeysByUserId } from "../../../../db/passkeySchema.ts";
-import { User } from "../../../../db/userSchema.ts";
+import { addChallenge } from "$kv/passkeyChallengeSchema.ts";
+import { getPasskeysByUserId } from "$kv/passkeySchema.ts";
+import { User } from "$kv/userSchema.ts";
 import { genRegistrationOptions } from "../../../../lib/passkeys.ts";
 
 export const handler: Handlers = {

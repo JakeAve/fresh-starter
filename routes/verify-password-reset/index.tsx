@@ -1,9 +1,9 @@
 import { FreshContext, Handlers, PageProps } from "$fresh/server.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { randomTimeout } from "../../lib/utils/randomTimeout.ts";
 import VerifyPasswordResetForm from "../../islands/VerifyPasswordResetCodeForm.tsx";
 import routes from "../../routes.ts";
-import { PasswordResetError, verifyOTP } from "../../db/passwordResetSchema.ts";
+import { PasswordResetError, verifyOTP } from "$kv/passwordResetSchema.ts";
 import { internalServerErrorResponse } from "../../lib/utils/internalServerErrorResponse.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import { load } from "$std/dotenv/mod.ts";

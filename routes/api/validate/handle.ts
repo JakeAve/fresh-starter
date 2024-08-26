@@ -1,5 +1,5 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { getUserByHandle } from "../../../db/userSchema.ts";
+import { getUserByHandle } from "$kv/userSchema.ts";
 import { ConflictError } from "../../../Errors/ConflictError.ts";
 import { validateHandle } from "../../../lib/validators/validateHandle.ts";
 

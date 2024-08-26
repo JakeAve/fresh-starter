@@ -1,5 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getUserByEmail, SanitizedUser, User } from "../../db/userSchema.ts";
+import { getUserByEmail, SanitizedUser, User } from "$kv/userSchema.ts";
 import routes from "../../routes.ts";
 
 export async function handler(

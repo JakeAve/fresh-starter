@@ -1,5 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
-import { SanitizedUser } from "../db/userSchema.ts";
+import { SanitizedUser } from "$kv/userSchema.ts"
 import UserButton from "../islands/UserDropDown.tsx";
 import routes from "../routes.ts";
 

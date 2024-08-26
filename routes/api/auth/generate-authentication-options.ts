@@ -1,5 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import { addChallenge } from "../../../db/passkeyChallengeSchema.ts";
+import { addChallenge } from "$kv/passkeyChallengeSchema.ts";
 import {
   bytesToBase64Url,
   genRandomBytes,

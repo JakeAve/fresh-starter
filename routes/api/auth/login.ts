@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { AuthenticationError } from "../../../Errors/AuthenticationError.ts";
-import { getUserByEmail } from "../../../db/userSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { authenticate, makeAuthHeaders } from "../../../lib/authentication.ts";
 import { verifyJwt } from "../../../lib/jwt.ts";
 

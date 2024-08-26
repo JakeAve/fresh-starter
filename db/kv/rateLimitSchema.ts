@@ -1,5 +1,5 @@
 import { load } from "$std/dotenv/mod.ts";
-import { RateLimitError } from "../Errors/RateLimitError.ts";
+import { RateLimitError } from "../../Errors/RateLimitError.ts";
 
 const env = await load();
 

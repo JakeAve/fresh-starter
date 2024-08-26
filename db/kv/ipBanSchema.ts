@@ -1,5 +1,5 @@
 import { load } from "$std/dotenv/mod.ts";
-import { AccessDeniedError } from "../Errors/AccessDeniedError.ts";
+import { AccessDeniedError } from "../../Errors/AccessDeniedError.ts";
 import { getUserByEmail } from "./userSchema.ts";
 
 const env = await load();

@@ -3,13 +3,13 @@ import {
   getUserByEmail,
   getUserById,
   updateUserByEmail,
-} from "../../db/userSchema.ts";
+} from "$kv/userSchema.ts";
 import {
   addEmailVerification,
   EmailVerificationError,
   getEmailVerification,
   verifyEmail,
-} from "../../db/verifyEmailSchema.ts";
+} from "$kv/verifyEmailSchema.ts";
 import { sendVerifyEmail } from "../../email/client.ts";
 import { AccessDeniedError } from "../../Errors/AccessDeniedError.ts";
 import { accessDeniedErrorResponse } from "../../lib/utils/accessDeniedErrorResponse.ts";

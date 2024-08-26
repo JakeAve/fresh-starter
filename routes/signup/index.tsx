@@ -5,7 +5,7 @@ import {
   DuplicateError,
   getUserByEmail,
   User,
-} from "../../db/userSchema.ts";
+} from "../../db/kv/userSchema.ts";
 import { getAESKey } from "../../lib/getKey.ts";
 import {
   createTimeBasedKey,
@@ -17,7 +17,7 @@ import { validateHandle } from "../../lib/validators/validateHandle.ts";
 import { ValidationError } from "../../Errors/ValidationError.ts";
 import { validateName } from "../../lib/validators/validateName.ts";
 import routes from "../../routes.ts";
-import { addEmailVerification } from "../../db/verifyEmailSchema.ts";
+import { addEmailVerification } from "$kv/verifyEmailSchema.ts";
 import { sendVerifyEmail } from "../../email/client.ts";
 
 export const handler: Handlers = {

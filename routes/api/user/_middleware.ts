@@ -1,5 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getUserByEmail, SanitizedUser, User } from "../../../db/userSchema.ts";
+import { getUserByEmail, SanitizedUser, User } from "$kv/userSchema.ts";
 import { AccessDeniedError } from "../../../Errors/AccessDeniedError.ts";
 import { accessDeniedErrorResponse } from "../../../lib/utils/accessDeniedErrorResponse.ts";
 import { internalServerErrorResponse } from "../../../lib/utils/internalServerErrorResponse.ts";

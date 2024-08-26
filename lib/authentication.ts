@@ -3,7 +3,7 @@ import { AuthenticationError } from "../Errors/AuthenticationError.ts";
 import {
   getUserByEmail,
   incrementRefreshTokenVersion,
-} from "../db/userSchema.ts";
+} from "$kv/userSchema.ts";
 import { verifyPassword } from "./cryptoHelpers.ts";
 import { JWT, JWTError, signJwt, verifyJwt } from "./jwt.ts";
 import { load } from "$std/dotenv/mod.ts";

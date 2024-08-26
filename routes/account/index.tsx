@@ -1,6 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { getPasskeysByUserId, Passkey } from "../../db/passkeySchema.ts";
-import { SanitizedUser, User } from "../../db/userSchema.ts";
+import { getPasskeysByUserId, Passkey } from "../../db/kv/passkeySchema.ts";
+import { SanitizedUser, User } from "../../db/kv/userSchema.ts";
 import RegisterPasskey from "../../islands/RegisterPasskey.tsx";
 import { PasskeyEditDelete } from "../../islands/PasskeyEditDelete.tsx";
 import { getAESKey } from "../../lib/getKey.ts";
@@ -9,7 +9,7 @@ import UpdateEmailForm from "../../islands/UpdateEmailForm.tsx";
 import UpdateHandleForm from "../../islands/UpdateHandleForm.tsx";
 import UpdatePasswordForm from "../../islands/UpdatePasswordForm.tsx";
 import UpdateNameForm from "../../islands/UpdateNameForm.tsx";
-import { getEmailVerification } from "../../db/verifyEmailSchema.ts";
+import { getEmailVerification } from "$kv/verifyEmailSchema.ts";
 import ResendEmailVerificationForm from "../../islands/ResendEmailVerificationForm.tsx";
 
 export const handler: Handlers = {

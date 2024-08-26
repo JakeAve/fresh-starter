@@ -1,7 +1,7 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
-import { verifyOTC } from "../../db/passwordResetSchema.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { verifyOTC } from "$kv/passwordResetSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { randomTimeout } from "../../lib/utils/randomTimeout.ts";
 import { RESET_PASSWORD_COOKIE_NAME } from "../verify-password-reset/index.tsx";
 

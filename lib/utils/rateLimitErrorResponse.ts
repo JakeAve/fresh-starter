@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
-import { addIPInfraction } from "../../db/ipBanSchema.ts";
-import { getUserByEmail } from "../../db/userSchema.ts";
+import { addIPInfraction } from "$kv/ipBanSchema.ts";
+import { getUserByEmail } from "$kv/userSchema.ts";
 import { RateLimitError } from "../../Errors/RateLimitError.ts";
 
 export async function rateLimitErrorResponse(err: Error, ctx: FreshContext) {

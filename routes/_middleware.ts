@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
-import { verifyIP } from "../db/ipBanSchema.ts";
-import { updateRateLimit } from "../db/rateLimitSchema.ts";
+import { verifyIP } from "$kv/ipBanSchema.ts";
+import { updateRateLimit } from "$kv/rateLimitSchema.ts";
 import { AccessDeniedError } from "../Errors/AccessDeniedError.ts";
 import { RateLimitError } from "../Errors/RateLimitError.ts";
 import { makeAuthHeaders, validateAuthHeaders } from "../lib/authentication.ts";
