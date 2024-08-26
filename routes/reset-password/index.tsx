@@ -86,7 +86,7 @@ export default function Home(props: PageProps<Props>) {
     return <Error404 />;
   }
   return (
-    <div class="grid place-items-center h-screen">
+    <div class="grid place-items-center min-h-screen">
       <div class="shadow-md rounded px-8 py-6 max-w-sm">
         <p>
           Enter and confirm a new password. You will be redirected to login with

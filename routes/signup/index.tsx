@@ -103,7 +103,7 @@ export default function Home(props: PageProps<Props>) {
   const timeBasedKey = props?.data.timeBasedKey;
 
   return (
-    <div class="grid place-items-center h-screen">
+    <div class="grid place-items-center min-h-screen">
       {message && <span>{message}</span>}
       <SignUp timeBasedKey={timeBasedKey} />
     </div>

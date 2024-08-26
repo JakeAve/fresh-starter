@@ -53,7 +53,7 @@ export default function Home(props: PageProps<Props>) {
   } = props.data;
 
   return (
-    <div class="h-screen">
+    <div class="min-h-screen">
       <h1 class="text-2xl p-8">Account</h1>
       <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 py-4 px-8">
         <div class="shadow-md rounded px-8 py-6">

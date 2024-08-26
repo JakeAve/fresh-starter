@@ -23,7 +23,7 @@ interface Props {
 
 export default function Home(_props: PageProps<Props>) {
   return (
-    <div class="grid place-items-center h-screen">
+    <div class="grid place-items-center min-h-screen">
       <h1>Home</h1>
       <a href={routes.account.index}>Go to account</a>
       <form method="post" action={routes.api.auth.logout}>

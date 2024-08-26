@@ -141,7 +141,7 @@ export default function Home(props: PageProps<Props>) {
     return <Error500 />;
   }
   return (
-    <div class="grid place-items-center h-screen relative">
+    <div class="grid place-items-center min-h-screen relative">
       <div>
         <h1 class="text-center text-xl">Email Verification</h1>
         <p class="text-center text-lg">{message}</p>

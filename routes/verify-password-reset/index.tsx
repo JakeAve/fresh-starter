@@ -85,7 +85,7 @@ export default function Home(props: PageProps<Props>) {
   const message = props.data?.message;
   const email = props.data?.email;
   return (
-    <div class="grid place-items-center h-screen relative">
+    <div class="grid place-items-center min-h-screen relative">
       <div>
         <p>{message}</p>
         <VerifyPasswordResetForm email={email} />
