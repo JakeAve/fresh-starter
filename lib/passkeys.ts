@@ -10,12 +10,15 @@ import {
 } from "@simplewebauthn/types";
 import { Passkey } from "$kv/passkeySchema.ts";
 import { Challenge } from "$kv/passkeyChallengeSchema.ts";
+import { load } from "$std/dotenv/mod.ts";
 
-const rpName = "DOC-5";
+const env = await load();
 
-const rpID = "localhost";
+const rpName = env.PASSKEY_RP_NAME;
 
-const origin = `http://${rpID}:8000`;
+const rpID = env.PASSKEY_RP_ID;
+
+const origin = env.PASSKEY_ORIGIN;
 
 export function genRegistrationOptions(
   userName: string,
