@@ -11,7 +11,6 @@ export function getAESKey() {
 }
 
 export function getAccessTokenKey() {
-  console.log("debug ", Deno.env.get("ACCESS_TOKEN_KEY"));
   const base64Str = Deno.env.get("ACCESS_TOKEN_KEY") as string;
   const raw = base64ToUint8(base64Str);
   return crypto.subtle.importKey(
