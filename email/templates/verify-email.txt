@@ -1,0 +1,11 @@
+Hi, {{USER}},
+
+Thank you for creating an account with {{COMPANY}}. We're excited to have you on board!
+
+Verify your email address using this link: {{LINK}}
+
+If you have any questions or need assistance, feel free to reach out to our support team.
+
+Best regards,<br />The {{COMPANY}} Team
+
+© {{YEAR}} {{COMPANY}}. All rights reserved.
