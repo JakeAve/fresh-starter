@@ -1,5 +1,6 @@
 import { load } from "$std/dotenv/mod.ts";
-import { bytesToBase64Url, genRandomBytes } from "../../lib/cryptoHelpers.ts";
+import { genRandomBytes } from "$lib/cryptoHelpers.ts";
+import { bytesToBase64Url } from "$lib/encoding.ts";
 
 const EMAIL_VERIFICATION: Deno.KvKey = ["email_verification"];
 

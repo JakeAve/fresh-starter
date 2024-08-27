@@ -1,9 +1,9 @@
 import { Handlers } from "$fresh/server.ts";
 import { addChallenge } from "$kv/passkeyChallengeSchema.ts";
 import {
-  bytesToBase64Url,
   genRandomBytes,
-} from "../../../lib/cryptoHelpers.ts";
+} from "$lib/cryptoHelpers.ts";
+import { bytesToBase64Url } from "$lib/encoding.ts";
 import { genAuthOptions } from "../../../lib/passkeys.ts";
 
 export const handler: Handlers = {

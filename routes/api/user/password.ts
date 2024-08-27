@@ -1,11 +1,11 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
 import { updateUserByEmail, User } from "$kv/userSchema.ts";
 import { ValidationError } from "../../../Errors/ValidationError.ts";
-import { hashPassword, verifyPassword } from "../../../lib/cryptoHelpers.ts";
 import {
   checkPasswordStrength,
   WeakPasswordError,
-} from "../../../lib/passwordStrength.ts";
+} from "$lib/passwordStrength.ts";
+import { hashPassword, verifyPassword } from "$lib/passwordHashing.ts";
 
 export const handler: Handlers = {
   async PUT(req: Request, ctx: FreshContext) {

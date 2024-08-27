@@ -1,13 +1,7 @@
-import { genRandomBytes } from "./cryptoHelpers.ts";
-import { bytesToBase64Str } from "./cryptoHelpers.ts";
-import {
-  base64UrlToUint8,
-  bytesToBase64Url,
-  signWithHMAC,
-  verifyWithHMAC,
-} from "./cryptoHelpers.ts";
-import { getAccessTokenKey } from "./getKey.ts";
-import { dateToSeconds } from "./secondsTimeStamp.ts";
+import { genRandomBytes, signWithHMAC, verifyWithHMAC } from "$lib/cryptoHelpers.ts";
+import { getAccessTokenKey } from "$lib/getKey.ts";
+import { dateToSeconds } from "$lib/secondsTimeStamp.ts";
+import { base64UrlToUint8, bytesToBase64Str, bytesToBase64Url } from "$lib/encoding.ts";
 
 const key = await getAccessTokenKey();
 

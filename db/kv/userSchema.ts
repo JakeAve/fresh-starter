@@ -1,6 +1,6 @@
 import { monotonicUlid } from "$std/ulid/mod.ts";
 import { load } from "$std/dotenv/mod.ts";
-import { hashPassword } from "../../lib/cryptoHelpers.ts";
+import { hashPassword } from "$lib/passwordHashing.ts";
 
 const USERS_BY_ID: Deno.KvKey = ["users"];
 const USERS_BY_EMAIL: Deno.KvKey = ["user_emails"];

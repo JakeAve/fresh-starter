@@ -4,9 +4,9 @@ import {
   getUserByEmail,
   incrementRefreshTokenVersion,
 } from "$kv/userSchema.ts";
-import { verifyPassword } from "./cryptoHelpers.ts";
-import { JWT, JWTError, signJwt, verifyJwt } from "./jwt.ts";
+import { JWT, JWTError, signJwt, verifyJwt } from "$lib/jwt.ts";
 import { load } from "$std/dotenv/mod.ts";
+import { verifyPassword } from "$lib/passwordHashing.ts";
 
 const env = await load();
 

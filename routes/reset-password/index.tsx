@@ -7,9 +7,9 @@ import Error404 from "../_404.tsx";
 import { verifyOTC } from "../../db/kv/passwordResetSchema.ts";
 import { ValidationError } from "../../Errors/ValidationError.ts";
 import { checkPasswordStrength } from "../../lib/passwordStrength.ts";
-import { hashPassword } from "../../lib/cryptoHelpers.ts";
 import { deleteCookie } from "$std/http/cookie.ts";
 import { RESET_PASSWORD_COOKIE_NAME } from "../verify-password-reset/index.tsx";
+import { hashPassword } from "$lib/passwordHashing.ts";
 
 export const handler: Handlers = {
   async GET(req: Request, ctx: FreshContext) {

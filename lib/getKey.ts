@@ -1,6 +1,5 @@
-import { base64ToUint8 } from "./cryptoHelpers.ts";
-
 import "$std/dotenv/load.ts";
+import { base64ToUint8 } from "$lib/encoding.ts";
 
 export function getAESKey() {
   const base64Str = Deno.env.get("AES_256_GCM_KEY") as string;

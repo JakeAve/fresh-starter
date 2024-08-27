@@ -1,11 +1,11 @@
 import { monotonicUlid } from "$std/ulid/mod.ts";
 import { load } from "$std/dotenv/mod.ts";
-import { getUserById } from "./userSchema.ts";
+import { getUserById } from "$kv/userSchema.ts";
 import {
-  bytesToBase64Str,
   genDigitOTP,
   genRandomBytes,
-} from "../../lib/cryptoHelpers.ts";
+} from "$lib/cryptoHelpers.ts";
+import { bytesToBase64Str } from "$lib/encoding.ts";
 
 const env = await load();
 
