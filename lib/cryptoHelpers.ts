@@ -1,4 +1,9 @@
-import { _32BitsToInteger, bytesToHexStr, hexStrToUint8, integerTo32Bits } from "$lib/encoding.ts";
+import {
+  _32BitsToInteger,
+  bytesToHexStr,
+  hexStrToUint8,
+  integerTo32Bits,
+} from "$lib/encoding.ts";
 import { dateToSeconds } from "$lib/secondsTimeStamp.ts";
 
 export function genRandomBytes(byteLength = 32) {

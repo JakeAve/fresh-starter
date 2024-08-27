@@ -66,7 +66,9 @@ export default function Home(props: PageProps<Props>) {
               Check your email for a link to verify your email address.
             </p>
           )}
-          {!isEmailVerificationSent && !isEmailVerified && <ResendEmailVerificationForm />}
+          {!isEmailVerificationSent && !isEmailVerified && (
+            <ResendEmailVerificationForm />
+          )}
         </div>
         <div class="shadow-md rounded px-8 py-6">
           <h2>Update Name</h2>

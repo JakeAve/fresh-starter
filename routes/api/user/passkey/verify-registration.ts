@@ -1,7 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import {
-  getChallengesByUserId,
-} from "$kv/passkeyChallengeSchema.ts";
+import { getChallengesByUserId } from "$kv/passkeyChallengeSchema.ts";
 import { Passkey } from "$kv/passkeySchema.ts";
 import { User } from "$kv/userSchema.ts";
 import { verifyResponse } from "../../../../lib/passkeys.ts";
