@@ -1,5 +1,6 @@
 import { green } from "$std/fmt/colors.ts";
-import { bytesToBase64Str, genHMACKey } from "../lib/cryptoHelpers.ts";
+import { genHMACKey } from "$lib/cryptoHelpers.ts";
+import { bytesToBase64Str } from "$lib/encoding.ts";
 
 const key = await genHMACKey();
 

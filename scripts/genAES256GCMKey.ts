@@ -1,5 +1,6 @@
 import { green } from "$std/fmt/colors.ts";
-import { bytesToBase64Str, genAESGCMKey } from "../lib/cryptoHelpers.ts";
+import { genAESGCMKey } from "$lib/cryptoHelpers.ts";
+import { bytesToBase64Str } from "$lib/encoding.ts";
 
 const key = await genAESGCMKey();
 
