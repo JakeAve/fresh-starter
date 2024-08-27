@@ -20,6 +20,8 @@ const rpID = env.PASSKEY_RP_ID;
 
 const origin = env.PASSKEY_ORIGIN;
 
+console.log({ rpName, rpID, origin });
+
 export function genRegistrationOptions(
   userName: string,
   userDisplayName: string,
