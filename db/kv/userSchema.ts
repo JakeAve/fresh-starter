@@ -123,6 +123,7 @@ export async function updateUserByEmail(
     "password",
     "refreshTokenVersion",
     "isEmailVerified",
+    "emailLastUpdated"
   ] as Array<keyof User>;
 
   const oldUser = { ...user };
